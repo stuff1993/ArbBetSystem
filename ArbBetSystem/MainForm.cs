@@ -102,9 +102,20 @@ namespace ArbBetSystem
                     throw new Exception("Meetings list is null");
                 }
                 meetings = tmp;
+
+                lvwMeetings.Items.Clear();
+
+                foreach(Meeting m in meetings)
+                {
+                    ListViewItem item = new ListViewItem(m.ToString());
+                    item.Tag = m;
+                    lvwMeetings.Items.Add(item);
+                }
+                lvwMeetings.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+                lvwMeetings.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
                 return true;
             } catch (Exception e) {
-                MessageBox.Show("GetMeetingsAll Error" + Environment.NewLine + e.Message, 
+                MessageBox.Show("Error updating meetings:" + Environment.NewLine + e.Message, 
                     "API Error", 
                     MessageBoxButtons.OK, 
                     MessageBoxIcon.Warning);
@@ -145,6 +156,16 @@ namespace ArbBetSystem
             InitDynOdds();
             Login();
             UpdateMeetings();
+        }
+
+        private void lvwMeetings_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lvwMeetings_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        {
+
         }
     }
 }

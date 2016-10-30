@@ -35,12 +35,14 @@
             this.dataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.startToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.updateMeetingListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
-            this.checkedListBox2 = new System.Windows.Forms.CheckedListBox();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.lvwMeetings = new System.Windows.Forms.ListView();
+            this.clmMeeting = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.lvwEvents = new System.Windows.Forms.ListView();
+            this.clmEvent = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -102,26 +104,10 @@
             this.updateMeetingListToolStripMenuItem.Text = "Update Meeting List";
             this.updateMeetingListToolStripMenuItem.Click += new System.EventHandler(this.updateMeetingListToolStripMenuItem_Click);
             // 
-            // checkedListBox1
-            // 
-            this.checkedListBox1.FormattingEnabled = true;
-            this.checkedListBox1.Location = new System.Drawing.Point(12, 52);
-            this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.Size = new System.Drawing.Size(120, 94);
-            this.checkedListBox1.TabIndex = 1;
-            // 
-            // checkedListBox2
-            // 
-            this.checkedListBox2.FormattingEnabled = true;
-            this.checkedListBox2.Location = new System.Drawing.Point(138, 52);
-            this.checkedListBox2.Name = "checkedListBox2";
-            this.checkedListBox2.Size = new System.Drawing.Size(120, 94);
-            this.checkedListBox2.TabIndex = 2;
-            // 
             // listBox1
             // 
             this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(264, 51);
+            this.listBox1.Location = new System.Drawing.Point(424, 43);
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(120, 95);
             this.listBox1.TabIndex = 3;
@@ -138,7 +124,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(135, 27);
+            this.label2.Location = new System.Drawing.Point(218, 27);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(40, 13);
             this.label2.TabIndex = 5;
@@ -147,23 +133,61 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(261, 27);
+            this.label3.Location = new System.Drawing.Point(421, 27);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(47, 13);
             this.label3.TabIndex = 6;
             this.label3.Text = "Runners";
+            // 
+            // lvwMeetings
+            // 
+            this.lvwMeetings.CheckBoxes = true;
+            this.lvwMeetings.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.clmMeeting});
+            this.lvwMeetings.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.lvwMeetings.LabelWrap = false;
+            this.lvwMeetings.Location = new System.Drawing.Point(12, 43);
+            this.lvwMeetings.Name = "lvwMeetings";
+            this.lvwMeetings.Size = new System.Drawing.Size(200, 97);
+            this.lvwMeetings.TabIndex = 7;
+            this.lvwMeetings.UseCompatibleStateImageBehavior = false;
+            this.lvwMeetings.View = System.Windows.Forms.View.Details;
+            this.lvwMeetings.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.lvwMeetings_ItemSelectionChanged);
+            this.lvwMeetings.SelectedIndexChanged += new System.EventHandler(this.lvwMeetings_SelectedIndexChanged);
+            // 
+            // clmMeeting
+            // 
+            this.clmMeeting.Text = "Meeting";
+            // 
+            // lvwEvents
+            // 
+            this.lvwEvents.CheckBoxes = true;
+            this.lvwEvents.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.clmEvent});
+            this.lvwEvents.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.lvwEvents.LabelWrap = false;
+            this.lvwEvents.Location = new System.Drawing.Point(218, 43);
+            this.lvwEvents.Name = "lvwEvents";
+            this.lvwEvents.Size = new System.Drawing.Size(200, 97);
+            this.lvwEvents.TabIndex = 8;
+            this.lvwEvents.UseCompatibleStateImageBehavior = false;
+            this.lvwEvents.View = System.Windows.Forms.View.Details;
+            // 
+            // clmEvent
+            // 
+            this.clmEvent.Text = "Event";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(750, 500);
+            this.Controls.Add(this.lvwEvents);
+            this.Controls.Add(this.lvwMeetings);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.listBox1);
-            this.Controls.Add(this.checkedListBox2);
-            this.Controls.Add(this.checkedListBox1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
@@ -185,13 +209,15 @@
         private System.Windows.Forms.ToolStripMenuItem dataToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem updateMeetingListToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem forceLoginToolStripMenuItem;
-        private System.Windows.Forms.CheckedListBox checkedListBox1;
-        private System.Windows.Forms.CheckedListBox checkedListBox2;
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.ToolStripMenuItem startToolStripMenuItem;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ListView lvwMeetings;
+        private System.Windows.Forms.ColumnHeader clmMeeting;
+        private System.Windows.Forms.ListView lvwEvents;
+        private System.Windows.Forms.ColumnHeader clmEvent;
     }
 }
 

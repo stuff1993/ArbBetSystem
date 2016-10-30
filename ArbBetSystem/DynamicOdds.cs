@@ -65,16 +65,15 @@ namespace ArbBetSystem
                 doc.LoadXml(response.Content.ReadAsStringAsync().Result);
                 if (doc.DocumentElement.SelectSingleNode("/Login/SessionID").Equals(""))
                 {
-                    logger.Error("Login failed: " + doc.DocumentElement.SelectSingleNode("/Login/Message").InnerText);
                     _sessionId = null;
-                    throw new HttpRequestException(doc.DocumentElement.SelectSingleNode("/Login/Message").InnerText);
+                    LogErrorAndThrowHttp("Login failed: " + doc.DocumentElement.SelectSingleNode("/Login/Message").InnerText);
                 }
                 _sessionId = doc.DocumentElement.SelectSingleNode("/Login/SessionID").InnerText;
                 return true;
             }
-            logger.Error("Login failed: Unsuccessful response");
             _sessionId = null;
-            throw new HttpRequestException("Login failed: Unsuccessful response");
+            LogErrorAndThrowHttp("Login failed: Unsuccessful response");
+            throw new Exception("???");
         }
 
         public List<Meeting> GetMeetingsAll(int meetingType = (int)(Meeting.MeetingTypes.Racing | Meeting.MeetingTypes.Harness | Meeting.MeetingTypes.Greyhound), bool runners = true)
@@ -101,8 +100,7 @@ namespace ArbBetSystem
                 if (!doc.DocumentElement.GetElementsByTagName("Error").Item(0).InnerText.Equals("")
                     || doc.DocumentElement.GetElementsByTagName("GetMeetingsAll").Count == 0)
                 {
-                    logger.Error("Response contains error: \"" + doc.DocumentElement.SelectSingleNode("/Data/Error/ErrorTxt").InnerText + "\"");
-                    throw new HttpRequestException("Response contains error: \"" + doc.DocumentElement.SelectSingleNode("/Data/Error/ErrorTxt").InnerText + "\"");
+                    LogErrorAndThrowHttp("Response contains error: \"" + doc.DocumentElement.SelectSingleNode("/Data/Error/ErrorTxt").InnerText + "\"");
                 }
 
                 List<Meeting> meetings = new List<Meeting>();
@@ -116,8 +114,8 @@ namespace ArbBetSystem
                 
                 return meetings;
             }
-            logger.Error("Request failed: Unsuccessful response");
-            throw new HttpRequestException("Request failed: Unsuccessful response");
+            LogErrorAndThrowHttp("Request failed: Unsuccessful response");
+            throw new Exception("???");
         }
 
         public Meeting GetMeeting(string meetingId, bool runners = true)
@@ -265,9 +263,14 @@ namespace ArbBetSystem
         {
             if (_sessionId == null)
             {
-                logger.Error("Not logged in");
-                throw new HttpRequestException("Not logged in");
+                LogErrorAndThrowHttp("Not logged in");
             }
+        }
+
+        private void LogErrorAndThrowHttp(string Error)
+        {
+            logger.Error(Error);
+            throw new HttpRequestException(Error);
         }
 
         // Query string helpers
