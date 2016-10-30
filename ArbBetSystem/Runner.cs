@@ -108,5 +108,16 @@ namespace ArbBetSystem
                 this.noField = value;
             }
         }
+
+        public void AddOdds(RunnerOdd odds)
+        {
+
+        }
+
+        public bool MatchesOdds(RunnerOdd odds)
+        {
+            return (Name == odds.RName
+                && No == odds.RNo);
+        }
     }
 }

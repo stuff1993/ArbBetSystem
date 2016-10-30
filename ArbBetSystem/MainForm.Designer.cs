@@ -129,7 +129,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(13, 143);
+            this.label3.Location = new System.Drawing.Point(13, 223);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(47, 13);
             this.label3.TabIndex = 6;
@@ -146,7 +146,7 @@
             this.lvwMeetings.Location = new System.Drawing.Point(12, 43);
             this.lvwMeetings.MultiSelect = false;
             this.lvwMeetings.Name = "lvwMeetings";
-            this.lvwMeetings.Size = new System.Drawing.Size(347, 97);
+            this.lvwMeetings.Size = new System.Drawing.Size(347, 177);
             this.lvwMeetings.TabIndex = 7;
             this.lvwMeetings.UseCompatibleStateImageBehavior = false;
             this.lvwMeetings.View = System.Windows.Forms.View.Details;
@@ -167,7 +167,7 @@
             this.lvwEvents.LabelWrap = false;
             this.lvwEvents.Location = new System.Drawing.Point(365, 43);
             this.lvwEvents.Name = "lvwEvents";
-            this.lvwEvents.Size = new System.Drawing.Size(373, 97);
+            this.lvwEvents.Size = new System.Drawing.Size(373, 177);
             this.lvwEvents.TabIndex = 8;
             this.lvwEvents.UseCompatibleStateImageBehavior = false;
             this.lvwEvents.View = System.Windows.Forms.View.Details;
@@ -189,9 +189,9 @@
             this.lvwRunners.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.lvwRunners.HideSelection = false;
             this.lvwRunners.LabelWrap = false;
-            this.lvwRunners.Location = new System.Drawing.Point(12, 159);
+            this.lvwRunners.Location = new System.Drawing.Point(12, 239);
             this.lvwRunners.Name = "lvwRunners";
-            this.lvwRunners.Size = new System.Drawing.Size(726, 124);
+            this.lvwRunners.Size = new System.Drawing.Size(726, 249);
             this.lvwRunners.TabIndex = 9;
             this.lvwRunners.UseCompatibleStateImageBehavior = false;
             this.lvwRunners.View = System.Windows.Forms.View.Details;

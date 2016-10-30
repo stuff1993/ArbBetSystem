@@ -198,16 +198,32 @@ namespace ArbBetSystem
             return new List<Runner>();
         }
 
-        public List<Runner> GetRunnersOdds(string eventId, bool showAll = true)
+        public RunnerOdds GetRunnerOdds(string eventId)
         {
             CheckSession();
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post,
                 getDataRequest(_sessionId)
-                + addQueryParam(PARAM_METHOD, "GetRunnersOdds")
+                + addQueryParam(PARAM_METHOD, "GetRunnerOdds")
                 + addQueryParam(PARAM_EVENTID, eventId));
             HttpResponseMessage response = _client.SendAsync(request).Result;
 
-            return new List<Runner>();
+            if (response.IsSuccessStatusCode)
+            {
+                string result = response.Content.ReadAsStringAsync().Result;
+                XmlDocument doc = new XmlDocument();
+                doc.LoadXml(result);
+                if (!doc.DocumentElement.GetElementsByTagName("Error").Item(0).InnerText.Equals("")
+                    || doc.DocumentElement.GetElementsByTagName("RunnerOdds").Count == 0)
+                {
+                    LogErrorAndThrowHttp("Response contains error: \"" + doc.DocumentElement.SelectSingleNode("/Data/Error/ErrorTxt").InnerText + "\"");
+                }
+
+                XmlReader xmlR = XmlReader.Create(response.Content.ReadAsStreamAsync().Result);
+                xmlR.ReadToFollowing("RunnerOdds");
+                return (RunnerOdds)new XmlSerializer(typeof(RunnerOdds)).Deserialize(xmlR);
+            }
+            LogErrorAndThrowHttp("Request failed: Unsuccessful response");
+            throw new Exception("???");
         }
 
         public List<Runner> GetEventResults(string eventId, bool showAll = true)

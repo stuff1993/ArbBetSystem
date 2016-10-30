@@ -219,7 +219,7 @@ namespace ArbBetSystem
                 if (true)
                 {
                     // poll for odds
-                    List<Runner> tmp = dynOdds.GetRunnersOdds(((Event)e.Item.Tag).ID);
+                    RunnerOdds tmp = dynOdds.GetRunnerOdds(((Event)e.Item.Tag).ID);
                 }
             }
         }
