@@ -35,7 +35,6 @@
             this.dataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.startToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.updateMeetingListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.listBox1 = new System.Windows.Forms.ListBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -43,6 +42,11 @@
             this.clmMeeting = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.lvwEvents = new System.Windows.Forms.ListView();
             this.clmEvent = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.lvwRunners = new System.Windows.Forms.ListView();
+            this.clmName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clmNo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clmJockey = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clmTrainer = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -104,14 +108,6 @@
             this.updateMeetingListToolStripMenuItem.Text = "Update Meeting List";
             this.updateMeetingListToolStripMenuItem.Click += new System.EventHandler(this.updateMeetingListToolStripMenuItem_Click);
             // 
-            // listBox1
-            // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(424, 43);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(120, 95);
-            this.listBox1.TabIndex = 3;
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -124,7 +120,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(218, 27);
+            this.label2.Location = new System.Drawing.Point(362, 27);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(40, 13);
             this.label2.TabIndex = 5;
@@ -133,7 +129,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(421, 27);
+            this.label3.Location = new System.Drawing.Point(13, 143);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(47, 13);
             this.label3.TabIndex = 6;
@@ -145,15 +141,17 @@
             this.lvwMeetings.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.clmMeeting});
             this.lvwMeetings.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.lvwMeetings.HideSelection = false;
             this.lvwMeetings.LabelWrap = false;
             this.lvwMeetings.Location = new System.Drawing.Point(12, 43);
+            this.lvwMeetings.MultiSelect = false;
             this.lvwMeetings.Name = "lvwMeetings";
-            this.lvwMeetings.Size = new System.Drawing.Size(200, 97);
+            this.lvwMeetings.Size = new System.Drawing.Size(347, 97);
             this.lvwMeetings.TabIndex = 7;
             this.lvwMeetings.UseCompatibleStateImageBehavior = false;
             this.lvwMeetings.View = System.Windows.Forms.View.Details;
+            this.lvwMeetings.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvwMeetings_ItemChecked);
             this.lvwMeetings.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.lvwMeetings_ItemSelectionChanged);
-            this.lvwMeetings.SelectedIndexChanged += new System.EventHandler(this.lvwMeetings_SelectedIndexChanged);
             // 
             // clmMeeting
             // 
@@ -165,29 +163,68 @@
             this.lvwEvents.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.clmEvent});
             this.lvwEvents.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.lvwEvents.HideSelection = false;
             this.lvwEvents.LabelWrap = false;
-            this.lvwEvents.Location = new System.Drawing.Point(218, 43);
+            this.lvwEvents.Location = new System.Drawing.Point(365, 43);
             this.lvwEvents.Name = "lvwEvents";
-            this.lvwEvents.Size = new System.Drawing.Size(200, 97);
+            this.lvwEvents.Size = new System.Drawing.Size(373, 97);
             this.lvwEvents.TabIndex = 8;
             this.lvwEvents.UseCompatibleStateImageBehavior = false;
             this.lvwEvents.View = System.Windows.Forms.View.Details;
+            this.lvwEvents.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvwEvents_ItemChecked);
+            this.lvwEvents.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.lvwEvents_ItemSelectionChanged);
             // 
             // clmEvent
             // 
             this.clmEvent.Text = "Event";
+            // 
+            // lvwRunners
+            // 
+            this.lvwRunners.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.clmNo,
+            this.clmName,
+            this.clmJockey,
+            this.clmTrainer});
+            this.lvwRunners.FullRowSelect = true;
+            this.lvwRunners.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.lvwRunners.HideSelection = false;
+            this.lvwRunners.LabelWrap = false;
+            this.lvwRunners.Location = new System.Drawing.Point(12, 159);
+            this.lvwRunners.Name = "lvwRunners";
+            this.lvwRunners.Size = new System.Drawing.Size(726, 124);
+            this.lvwRunners.TabIndex = 9;
+            this.lvwRunners.UseCompatibleStateImageBehavior = false;
+            this.lvwRunners.View = System.Windows.Forms.View.Details;
+            this.lvwRunners.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.lvwRunners_ItemSelectionChanged);
+            // 
+            // clmName
+            // 
+            this.clmName.Text = "Name";
+            // 
+            // clmNo
+            // 
+            this.clmNo.DisplayIndex = 1;
+            this.clmNo.Text = "No";
+            // 
+            // clmJockey
+            // 
+            this.clmJockey.Text = "Jockey";
+            // 
+            // clmTrainer
+            // 
+            this.clmTrainer.Text = "Trainer";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(750, 500);
+            this.Controls.Add(this.lvwRunners);
             this.Controls.Add(this.lvwEvents);
             this.Controls.Add(this.lvwMeetings);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.listBox1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
@@ -209,7 +246,6 @@
         private System.Windows.Forms.ToolStripMenuItem dataToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem updateMeetingListToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem forceLoginToolStripMenuItem;
-        private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.ToolStripMenuItem startToolStripMenuItem;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
@@ -218,6 +254,11 @@
         private System.Windows.Forms.ColumnHeader clmMeeting;
         private System.Windows.Forms.ListView lvwEvents;
         private System.Windows.Forms.ColumnHeader clmEvent;
+        private System.Windows.Forms.ListView lvwRunners;
+        private System.Windows.Forms.ColumnHeader clmName;
+        private System.Windows.Forms.ColumnHeader clmNo;
+        private System.Windows.Forms.ColumnHeader clmJockey;
+        private System.Windows.Forms.ColumnHeader clmTrainer;
     }
 }
 

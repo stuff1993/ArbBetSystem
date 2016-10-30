@@ -23,6 +23,21 @@ namespace ArbBetSystem
         private Weather weatherCondtionsField;
         private string railField;
         private string idField;
+        private Runner[] runnerField;
+
+        private bool checkField;
+
+        public bool Check
+        {
+            get
+            {
+                return this.checkField;
+            }
+            set
+            {
+                this.checkField = value;
+            }
+        }
 
         /// <remarks/>
         public uint EventNo
@@ -195,6 +210,20 @@ namespace ArbBetSystem
         }
 
         /// <remarks/>
+        [XmlElementAttribute("Runner")]
+        public Runner[] Runners
+        {
+            get
+            {
+                return this.runnerField;
+            }
+            set
+            {
+                this.runnerField = value;
+            }
+        }
+
+        /// <remarks/>
         [XmlAttributeAttribute()]
         public string ID
         {
@@ -206,6 +235,16 @@ namespace ArbBetSystem
             {
                 this.idField = value;
             }
+        }
+
+        public override string ToString()
+        {
+            return Name + " @ " + StartTime.ToShortTimeString();
+        }
+
+        public Event()
+        {
+            checkField = false;
         }
     }
 }

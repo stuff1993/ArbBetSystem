@@ -89,7 +89,7 @@ namespace ArbBetSystem
                 + addQueryParam(PARAM_METHOD, "GetMeetingsAll")
                 + addQueryParam(PARAM_DATE, date.ToString("yyyy-M-d"))
                 + addQueryParam(PARAM_TYPES, Meeting.getMeetingTypesString(meetingType))
-                + addQueryParam(PARAM_RUNNERS, runners.ToString()));
+                + addQueryParam(PARAM_RUNNERS, runners.ToString().ToLower()));
             HttpResponseMessage response = _client.SendAsync(request).Result;
 
             if (response.IsSuccessStatusCode)
@@ -125,7 +125,7 @@ namespace ArbBetSystem
                 getDataRequest(_sessionId)
                 + addQueryParam(PARAM_METHOD, "GetMeetings")
                 + addQueryParam(PARAM_MEETINGID, meetingId)
-                + addQueryParam(PARAM_RUNNERS, runners.ToString()));
+                + addQueryParam(PARAM_RUNNERS, runners.ToString().ToLower()));
             HttpResponseMessage response = _client.SendAsync(request).Result;
 
             return new Meeting();
@@ -138,7 +138,7 @@ namespace ArbBetSystem
                 getDataRequest(_sessionId)
                 + addQueryParam(PARAM_METHOD, "GetEvent")
                 + addQueryParam(PARAM_EVENTID, eventId)
-                + addQueryParam(PARAM_RUNNERS, runners.ToString()));
+                + addQueryParam(PARAM_RUNNERS, runners.ToString().ToLower()));
             HttpResponseMessage response = _client.SendAsync(request).Result;
 
             return new Meeting();
@@ -166,7 +166,7 @@ namespace ArbBetSystem
                 + addQueryParam(PARAM_METHOD, "GetRunnersAll")
                 + addQueryParam(PARAM_DATE, date.ToString("yyyy-M-d"))
                 + addQueryParam(PARAM_TYPES, Meeting.getMeetingTypesString(meetingType))
-                + addQueryParam(PARAM_SHOWALL, showAll.ToString()));
+                + addQueryParam(PARAM_SHOWALL, showAll.ToString().ToLower()));
             HttpResponseMessage response = _client.SendAsync(request).Result;
 
             return new List<Runner>();
@@ -179,7 +179,7 @@ namespace ArbBetSystem
                 getDataRequest(_sessionId)
                 + addQueryParam(PARAM_METHOD, "GetRunnersMeeting")
                 + addQueryParam(PARAM_MEETINGID, meetingId)
-                + addQueryParam(PARAM_SHOWALL, showAll.ToString()));
+                + addQueryParam(PARAM_SHOWALL, showAll.ToString().ToLower()));
             HttpResponseMessage response = _client.SendAsync(request).Result;
 
             return new List<Runner>();
@@ -192,7 +192,7 @@ namespace ArbBetSystem
                 getDataRequest(_sessionId)
                 + addQueryParam(PARAM_METHOD, "GetRunnersEvent")
                 + addQueryParam(PARAM_EVENTID, eventId)
-                + addQueryParam(PARAM_SHOWALL, showAll.ToString()));
+                + addQueryParam(PARAM_SHOWALL, showAll.ToString().ToLower()));
             HttpResponseMessage response = _client.SendAsync(request).Result;
 
             return new List<Runner>();

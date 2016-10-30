@@ -173,7 +173,7 @@ namespace ArbBetSystem
 
         /// <remarks/>
         [XmlElementAttribute("Event")]
-        public Event[] Event
+        public Event[] Events
         {
             get
             {
@@ -204,6 +204,16 @@ namespace ArbBetSystem
         public override string ToString()
         {
             return Venue + " " + Country;
+        }
+
+        public bool IsChecked()
+        {
+            bool ret = false;
+            foreach (Event evt in Events)
+            {
+                ret = ret || evt.Check;
+            }
+            return ret;
         }
     }
 }
