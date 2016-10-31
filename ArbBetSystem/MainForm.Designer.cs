@@ -43,10 +43,11 @@
             this.lvwEvents = new System.Windows.Forms.ListView();
             this.clmEvent = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.lvwRunners = new System.Windows.Forms.ListView();
-            this.clmName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clmNo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clmName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clmJockey = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clmTrainer = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clmPercent = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -152,6 +153,7 @@
             this.lvwMeetings.View = System.Windows.Forms.View.Details;
             this.lvwMeetings.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvwMeetings_ItemChecked);
             this.lvwMeetings.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.lvwMeetings_ItemSelectionChanged);
+            this.lvwMeetings.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ListViews_MouseDoubleClick);
             // 
             // clmMeeting
             // 
@@ -173,6 +175,7 @@
             this.lvwEvents.View = System.Windows.Forms.View.Details;
             this.lvwEvents.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvwEvents_ItemChecked);
             this.lvwEvents.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.lvwEvents_ItemSelectionChanged);
+            this.lvwEvents.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ListViews_MouseDoubleClick);
             // 
             // clmEvent
             // 
@@ -184,27 +187,29 @@
             this.clmNo,
             this.clmName,
             this.clmJockey,
-            this.clmTrainer});
+            this.clmTrainer,
+            this.clmPercent});
             this.lvwRunners.FullRowSelect = true;
             this.lvwRunners.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.lvwRunners.HideSelection = false;
+            this.lvwRunners.LabelEdit = true;
             this.lvwRunners.LabelWrap = false;
             this.lvwRunners.Location = new System.Drawing.Point(12, 239);
+            this.lvwRunners.MultiSelect = false;
             this.lvwRunners.Name = "lvwRunners";
             this.lvwRunners.Size = new System.Drawing.Size(726, 249);
             this.lvwRunners.TabIndex = 9;
             this.lvwRunners.UseCompatibleStateImageBehavior = false;
             this.lvwRunners.View = System.Windows.Forms.View.Details;
-            this.lvwRunners.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.lvwRunners_ItemSelectionChanged);
+            this.lvwRunners.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ListViews_MouseDoubleClick);
+            // 
+            // clmNo
+            // 
+            this.clmNo.Text = "No";
             // 
             // clmName
             // 
             this.clmName.Text = "Name";
-            // 
-            // clmNo
-            // 
-            this.clmNo.DisplayIndex = 1;
-            this.clmNo.Text = "No";
             // 
             // clmJockey
             // 
@@ -213,6 +218,10 @@
             // clmTrainer
             // 
             this.clmTrainer.Text = "Trainer";
+            // 
+            // clmPercent
+            // 
+            this.clmPercent.Text = "Percent";
             // 
             // MainForm
             // 
@@ -259,6 +268,7 @@
         private System.Windows.Forms.ColumnHeader clmNo;
         private System.Windows.Forms.ColumnHeader clmJockey;
         private System.Windows.Forms.ColumnHeader clmTrainer;
+        private System.Windows.Forms.ColumnHeader clmPercent;
     }
 }
 

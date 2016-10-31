@@ -16,6 +16,7 @@ namespace ArbBetSystem
         private string hcpField;
         private byte scrField;
         private byte noField;
+        private double percentField = 0;
 
         /// <remarks/>
         public string Name
@@ -107,6 +108,24 @@ namespace ArbBetSystem
             {
                 this.noField = value;
             }
+        }
+
+        [XmlIgnore]
+        public double Percent
+        {
+            get
+            {
+                return this.percentField;
+            }
+            set
+            {
+                this.percentField = value;
+            }
+        }
+
+        public string GetPercent()
+        {
+            return Percent.ToString() + "%";
         }
 
         public void AddOdds(RunnerOdd odds)

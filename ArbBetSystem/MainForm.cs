@@ -87,8 +87,8 @@ namespace ArbBetSystem
         private bool Login()
         {
             CheckDynamicOdds();
-            return dynOdds.Login(creds);
-            //return dynOdds.Login("Z2QY9R4UIUU12NOS84Y8N87CK6STBS2I");
+            //return dynOdds.Login(creds);
+            return dynOdds.Login("6C72J91KF17U3861YJX7HEGHQ15Z40EH");
         }
 
         private bool UpdateMeetings()
@@ -210,6 +210,7 @@ namespace ArbBetSystem
                     item.SubItems.Add(r.Name);
                     item.SubItems.Add(r.Jockey);
                     item.SubItems.Add(r.Trainer);
+                    item.SubItems.Add(r.GetPercent());
                     lvwRunners.Items.Add(item);
                 }
                 lvwRunners.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
@@ -219,14 +220,29 @@ namespace ArbBetSystem
                 if (true)
                 {
                     // poll for odds
-                    RunnerOdds tmp = dynOdds.GetRunnerOdds(((Event)e.Item.Tag).ID);
+                    try
+                    {
+                        RunnerOdds tmp = dynOdds.GetRunnerOdds(((Event)e.Item.Tag).ID);
+                    } catch (Exception ex) {
+                        MessageBox.Show("Error getting odds:" + Environment.NewLine + ex.Message,
+                            "API Error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
+                    }
                 }
             }
         }
 
-        private void lvwRunners_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        private void ListViews_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            
+            if (sender.GetType() != typeof(ListView)) { throw new ArgumentException("Sender is not a ListView"); }
+            ListViewHitTestInfo info = ((ListView)sender).HitTest(e.X, e.Y);
+            ListViewItem item = info.Item;
+
+            if (item != null)
+            {
+                new PercentEntryForm(lvwRunners, item).ShowDialog();
+            }
         }
     }
 }
