@@ -167,7 +167,7 @@ namespace ArbBetSystem
             }
             else
             {
-                logger.Debug("William Hill Odds not parsed" + No + " - " + Name + " : " + odds.OddsWB);
+                logger.Debug("William Hill Odds not parsed: " + No + " - " + Name + " : " + odds.OddsWB);
             }
 
             if (double.TryParse(odds.OddsCR, out d)) // no data here???
@@ -176,7 +176,7 @@ namespace ArbBetSystem
             }
             else
             {
-                logger.Debug("Crown Bet Odds not parsed" + No + " - " + Name + " : " + odds.OddsCR);
+                logger.Debug("Crown Bet Odds not parsed: " + No + " - " + Name + " : " + odds.OddsCR);
             }
 
             if (double.TryParse(odds.OddsSB, out d)) // seems to be WH?????
@@ -185,7 +185,7 @@ namespace ArbBetSystem
             }
             else
             {
-                logger.Debug("SportsBet Odds not parsed" + No + " - " + Name + " : " + odds.OddsSB);
+                logger.Debug("SportsBet Odds not parsed: " + No + " - " + Name + " : " + odds.OddsSB);
             }
         }
 
