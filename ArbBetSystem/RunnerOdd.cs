@@ -3,88 +3,89 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace ArbBetSystem
 {
     /// <remarks/>
-    [System.SerializableAttribute()]
+    [SerializableAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+    [XmlTypeAttribute(AnonymousType = true)]
     public partial class RunnerOdd
     {
 
         private byte rNoField;
         private string rNameField;
         private string scrField;
-        private string oddsVField;
-        private string oddsV_PField;
-        private string oddsNField;
-        private string oddsN_PField;
-        private string oddsQField;
-        private string oddsQ_PField;
+        private string amtBF_B1_pField;     // Betfair Back Amount 1 Place
+        private string amtBF_B1Field;       // Betfair Back Amount 1 Win
+        private string amtBF_B2_pField;     // Betfair Back Amount 2 Place
+        private string amtBF_B2Field;       // Betfair Back Amount 2 Win
+        private string amtBF_B3_pField;     // Betfair Back Amount 3 Place
+        private string amtBF_B3Field;       // Betfair Back Amount 3 Win
+        private string amtBF_L1_pField;     // Betfair Lay Amount 1 Place
+        private string amtBF_L1Field;       // Betfair Lay Amount 1 Win
+        private string amtBF_L2_pField;     // Betfair Lay Amount 2 Place
+        private string amtBF_L2Field;       // Betfair Lay Amount 2 Win
+        private string amtBF_L3_pField;     // Betfair Lay Amount 3 Place
+        private string amtBF_L3Field;       // Betfair Lay Amount 3 Win
+        private string lastBF_pField;       // Betfair Last Matched Price Place
+        private string lastBFField;         // Betfair Last Matched Price Win
+        private string matchBF_pField;      // Betfair Total Matched Amount Place
+        private string matchBFField;        // Betfair Total Matched Amount Win
         private string oddsATField;
-        private string oddsNZField;
+        private string oddsBB2Field;
+        private string oddsBCField;
+        private string oddsBE_FXField;
         private string oddsBEField;
-        private string oddsIASField;
+        private string oddsBF_B1_pField;    // Betfair Back Odds 1 Place
+        private string oddsBF_B1Field;      // Betfair Back Odds 1 Win
+        private string oddsBF_B2_pField;    // Betfair Back Odds 2 Place
+        private string oddsBF_B2Field;      // Betfair Back Odds 2 Win
+        private string oddsBF_B3_pField;    // Betfair Back Odds 3 Place
+        private string oddsBF_B3Field;      // Betfair Back Odds 3 Win
+        private string oddsBF_L1_pField;    // Betfair Lay Odds 1 Place
+        private string oddsBF_L1Field;      // Betfair Lay Odds 1 Win
+        private string oddsBF_L2_pField;    // Betfair Lay Odds 2 Place
+        private string oddsBF_L2Field;      // Betfair Lay Odds 2 Win
+        private string oddsBF_L3_pField;    // Betfair Lay Odds 3 Place
+        private string oddsBF_L3Field;      // Betfair Lay Odds 3 Win
+        private string oddsBF_WAPField;     // Betfair Weighted Average Price
+        private string oddsBMField;
+        private string oddsBSField;
+        private string oddsBTField;
+        private string oddsCB_pField;
+        private string oddsCBField;
+        private string oddsCRField;
         private string oddsIAS_2Field;
-        private string oddsSBField;
+        private string oddsIASField;
+        private string oddsLB_pField;
+        private string oddsLBField;
+        private string oddsN_FXField;
+        private string oddsN_PField;
+        private string oddsNField;
+        private string oddsNZ_FXField;
+        private string oddsNZField;
+        private string oddsPB2Field;
+        private string oddsPBField;
+        private string oddsQ_FX_pField;
+        private string oddsQ_FXField;
+        private string oddsQ_PField;
+        private string oddsQField;
+        private string oddsSAField;
         private string oddsSB_2Field;
         private string oddsSB_3Field;
-        private string oddsCBField;
+        private string oddsSB_pField;
         private string oddsSB2Field;
-        private string oddsSAField;
-        private string oddsCRField;
-        private string oddsBCField;
+        private string oddsSB5Field;
+        private string oddsSBField;
+        private string oddsTS2Field;
+        private string oddsUBField;
+        private string oddsV_FXField;
+        private string oddsV_PField;
+        private string oddsVField;
         private string oddsWBField;
         private string oddsYBBField;
-        private string oddsPBField;
-        private string oddsBSField;
-        private string oddsBF_B3Field;
-        private string amtBF_B3Field;
-        private string oddsBF_B2Field;
-        private string amtBF_B2Field;
-        private string oddsBF_B1Field;
-        private string amtBF_B1Field;
-        private string oddsBF_L1Field;
-        private string amtBF_L1Field;
-        private string oddsBF_L2Field;
-        private string amtBF_L2Field;
-        private string oddsBF_L3Field;
-        private string amtBF_L3Field;
-        private string oddsBF_B3_pField;
-        private string amtBF_B3_pField;
-        private string oddsBF_B2_pField;
-        private string amtBF_B2_pField;
-        private string oddsBF_B1_pField;
-        private string amtBF_B1_pField;
-        private string oddsBF_L1_pField;
-        private string amtBF_L1_pField;
-        private string oddsBF_L2_pField;
-        private string amtBF_L2_pField;
-        private string oddsBF_L3_pField;
-        private string amtBF_L3_pField;
-        private string oddsCB_pField;
-        private string matchBFField;
-        private string matchBF_pField;
-        private string lastBFField;
-        private string lastBF_pField;
-        private string oddsV_FXField;
-        private string oddsN_FXField;
-        private string oddsQ_FXField;
-        private string oddsLBField;
-        private string oddsBF_WAPField;
-        private string oddsBE_FXField;
-        private string oddsTS2Field;
-        private string oddsSB_pField;
-        private string oddsLB_pField;
-        private string oddsQ_FX_pField;
-        private string oddsBMField;
-        private string oddsBTField;
-        private string oddsBB2Field;
-        private string oddsPB2Field;
-        private string oddsSB5Field;
-        private string oddsUBField;
-        private string oddsNZ_FXField;
 
         /// <remarks/>
         public byte RNo

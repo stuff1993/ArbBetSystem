@@ -1,4 +1,5 @@
-﻿using System;
+﻿using log4net;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,8 @@ namespace ArbBetSystem
 {
     public class Runner
     {
+        private static readonly ILog logger = LogManager.GetLogger(typeof(Runner));
+
         private string nameField;
         private string jockeyField;
         private string trainerField;
@@ -17,6 +20,9 @@ namespace ArbBetSystem
         private byte scrField;
         private byte noField;
         private double percentField = 0;
+
+        private Dictionary<string, double> lays = new Dictionary<string, double>();
+        private Dictionary<string, double> backs = new Dictionary<string, double>();
 
         /// <remarks/>
         public string Name
@@ -128,9 +134,59 @@ namespace ArbBetSystem
             return Percent.ToString() + "%";
         }
 
+        public Dictionary<string, double> GetLays()
+        {
+            return new Dictionary<string, double>(lays);
+        }
+
+        public Dictionary<string, double> GetBacks()
+        {
+            return new Dictionary<string, double>(backs);
+        }
+
+        public bool HasOdds()
+        {
+            return lays.Count() > 0 || backs.Count() > 0;
+        }
+
         public void AddOdds(RunnerOdd odds)
         {
+            double d;
+            if (double.TryParse(odds.OddsBF_L1, out d))
+            {
+                lays.Add("BetFair Lay 1", d);
+            }
+            else
+            {
+                logger.Debug("Betfair Lay Odds not parsed: " + No + " - " + Name + " : " + odds.OddsBF_L1);
+            }
+            
+            if (double.TryParse(odds.OddsWB, out d)) // might be oddsSB
+            {
+                backs.Add("William Hill", d);
+            }
+            else
+            {
+                logger.Debug("William Hill Odds not parsed" + No + " - " + Name + " : " + odds.OddsWB);
+            }
 
+            if (double.TryParse(odds.OddsCR, out d)) // no data here???
+            {
+                backs.Add("Crown Bet", d);
+            }
+            else
+            {
+                logger.Debug("Crown Bet Odds not parsed" + No + " - " + Name + " : " + odds.OddsCR);
+            }
+
+            if (double.TryParse(odds.OddsSB, out d)) // seems to be WH?????
+            {
+                backs.Add("SportsBet", d);
+            }
+            else
+            {
+                logger.Debug("SportsBet Odds not parsed" + No + " - " + Name + " : " + odds.OddsSB);
+            }
         }
 
         public bool MatchesOdds(RunnerOdd odds)

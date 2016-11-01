@@ -237,6 +237,11 @@ namespace ArbBetSystem
             }
         }
 
+        public bool HasOdds()
+        {
+            return Runners.Any(r => r.HasOdds());
+        }
+
         public override string ToString()
         {
             return Name + " @ " + StartTime.ToShortTimeString();

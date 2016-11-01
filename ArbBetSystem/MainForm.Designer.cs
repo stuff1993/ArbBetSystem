@@ -48,6 +48,10 @@
             this.clmJockey = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clmTrainer = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clmPercent = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clmBFLays = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clmWB = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clmCR = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clmSB = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -188,7 +192,11 @@
             this.clmName,
             this.clmJockey,
             this.clmTrainer,
-            this.clmPercent});
+            this.clmPercent,
+            this.clmBFLays,
+            this.clmWB,
+            this.clmCR,
+            this.clmSB});
             this.lvwRunners.FullRowSelect = true;
             this.lvwRunners.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.lvwRunners.HideSelection = false;
@@ -222,6 +230,22 @@
             // clmPercent
             // 
             this.clmPercent.Text = "Percent";
+            // 
+            // clmBFLays
+            // 
+            this.clmBFLays.Text = "BetFair Lay";
+            // 
+            // clmWB
+            // 
+            this.clmWB.Text = "William Hill";
+            // 
+            // clmCR
+            // 
+            this.clmCR.Text = "Crown Bet";
+            // 
+            // clmSB
+            // 
+            this.clmSB.Text = "SportsBet";
             // 
             // MainForm
             // 
@@ -269,6 +293,10 @@
         private System.Windows.Forms.ColumnHeader clmJockey;
         private System.Windows.Forms.ColumnHeader clmTrainer;
         private System.Windows.Forms.ColumnHeader clmPercent;
+        private System.Windows.Forms.ColumnHeader clmBFLays;
+        private System.Windows.Forms.ColumnHeader clmWB;
+        private System.Windows.Forms.ColumnHeader clmCR;
+        private System.Windows.Forms.ColumnHeader clmSB;
     }
 }
 

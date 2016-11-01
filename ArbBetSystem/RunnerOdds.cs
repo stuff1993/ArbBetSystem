@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace ArbBetSystem
 {
     /// <remarks/>
-    [System.SerializableAttribute()]
+    [SerializableAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+    [XmlTypeAttribute(AnonymousType = true)]
     public partial class RunnerOdds
     {
 

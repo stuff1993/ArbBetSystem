@@ -48,12 +48,9 @@ namespace ArbBetSystem
             else if (item.Tag.GetType() == typeof(Meeting))
             {
                 double p = double.Parse(txtPercent.Text);
-                foreach (Event evt in ((Meeting)item.Tag).Events)
+                foreach (Runner r in ((Meeting)item.Tag).Events.SelectMany(evt => evt.Runners))
                 {
-                    foreach (Runner r in evt.Runners)
-                    {
-                        r.Percent = p;
-                    }
+                    r.Percent = p;
                 }
                 foreach (ListViewItem i in view.Items)
                 {

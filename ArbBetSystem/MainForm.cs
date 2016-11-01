@@ -87,8 +87,8 @@ namespace ArbBetSystem
         private bool Login()
         {
             CheckDynamicOdds();
-            //return dynOdds.Login(creds);
-            return dynOdds.Login("6C72J91KF17U3861YJX7HEGHQ15Z40EH");
+            return dynOdds.Login(creds);
+            //return dynOdds.Login("6C72J91KF17U3861YJX7HEGHQ15Z40EH");
         }
 
         private bool UpdateMeetings()
@@ -178,6 +178,50 @@ namespace ArbBetSystem
             }
         }
 
+        private void lvwEvents_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        {
+            if (e.IsSelected)
+            {
+                lvwRunners.Items.Clear();
+
+                RunnerOdds odds = null;
+
+                if (!((Event)e.Item.Tag).HasOdds())
+                {
+                    try {
+                        odds = dynOdds.GetRunnerOdds(((Event)e.Item.Tag).ID);
+                    } catch (Exception ex) {
+                        MessageBox.Show("Error getting odds:" + Environment.NewLine + ex.Message,
+                            "API Error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
+                    }
+                }
+
+                foreach (Runner r in ((Event)e.Item.Tag).Runners)
+                {
+                    if (odds != null)
+                    {
+                        r.AddOdds(odds.GetRunner(r.No));
+                    }
+                    ListViewItem item = new ListViewItem(r.No.ToString());
+                    item.Tag = r;
+                    item.SubItems.Add(r.Name);
+                    item.SubItems.Add(r.Jockey);
+                    item.SubItems.Add(r.Trainer);
+                    item.SubItems.Add(r.GetPercent());
+                    item.SubItems.Add(r.GetLays().FirstOrDefault(l => l.Key == "BetFair Lay 1").Value.ToString());
+                    item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "William Hill").Value.ToString());
+                    item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "Crown Bet").Value.ToString());
+                    item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "SportsBet").Value.ToString());
+                    lvwRunners.Items.Add(item);
+                }
+                lvwRunners.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+                lvwRunners.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+                if (lvwRunners.Items.Count > 0) { lvwRunners.Items[0].Selected = true; }
+            }
+        }
+
         private void lvwMeetings_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
             lvwEvents.ItemChecked -= lvwEvents_ItemChecked;
@@ -195,42 +239,6 @@ namespace ArbBetSystem
             ((Event)e.Item.Tag).Check = e.Item.Checked;
             lvwMeetings.SelectedItems[0].Checked = ((Meeting)lvwMeetings.SelectedItems[0].Tag).IsChecked();
             lvwMeetings.ItemChecked += lvwMeetings_ItemChecked;
-        }
-
-        private void lvwEvents_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
-        {
-            if (e.IsSelected)
-            {
-                lvwRunners.Items.Clear();
-
-                foreach (Runner r in ((Event)e.Item.Tag).Runners)
-                {
-                    ListViewItem item = new ListViewItem(r.No.ToString());
-                    item.Tag = r;
-                    item.SubItems.Add(r.Name);
-                    item.SubItems.Add(r.Jockey);
-                    item.SubItems.Add(r.Trainer);
-                    item.SubItems.Add(r.GetPercent());
-                    lvwRunners.Items.Add(item);
-                }
-                lvwRunners.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
-                lvwRunners.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
-                if (lvwRunners.Items.Count > 0) { lvwRunners.Items[0].Selected = true; }
-                // check for existing odds
-                if (true)
-                {
-                    // poll for odds
-                    try
-                    {
-                        RunnerOdds tmp = dynOdds.GetRunnerOdds(((Event)e.Item.Tag).ID);
-                    } catch (Exception ex) {
-                        MessageBox.Show("Error getting odds:" + Environment.NewLine + ex.Message,
-                            "API Error",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Warning);
-                    }
-                }
-            }
         }
 
         private void ListViews_MouseDoubleClick(object sender, MouseEventArgs e)
