@@ -7,8 +7,10 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Media;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -24,11 +26,86 @@ namespace ArbBetSystem
         Creds creds;
         DynamicOdds dynOdds;
         List<Meeting> meetings = new List<Meeting>();
+        BackgroundWorker bw = new BackgroundWorker();
 
         public MainForm()
         {
             logger.Info("Starting...");
             InitializeComponent();
+            bw.WorkerSupportsCancellation = true;
+            bw.DoWork += new DoWorkEventHandler(CheckOdds);
+        }
+
+        private void CheckOdds(object sender, DoWorkEventArgs args)
+        {
+            logger.Info("Checking odds");
+            BackgroundWorker worker = sender as BackgroundWorker;
+            Dictionary<Event, BackgroundWorker> workers = new Dictionary<Event, BackgroundWorker>();
+            List<Event> events = meetings.SelectMany(m => m.Events).Where(e => e.Check).ToList();
+            foreach (Event e in events)
+            {
+                BackgroundWorker getodds = new BackgroundWorker();
+                getodds.WorkerSupportsCancellation = true;
+                getodds.DoWork += new DoWorkEventHandler(GetAndCheckOdds);
+                workers.Add(e, getodds);
+                getodds.RunWorkerAsync(e);
+            }
+
+            while (!worker.CancellationPending)
+            {
+                Thread.Sleep(1000);
+            }
+            foreach(BackgroundWorker work in workers.Values)
+            {
+                work.CancelAsync();
+            }
+            args.Cancel = true;
+        }
+
+        private void GetAndCheckOdds(object sender, DoWorkEventArgs args)
+        {
+            BackgroundWorker worker = sender as BackgroundWorker;
+            Event e = args.Argument as Event;
+            logger.Info("Checking event " + e.ToString());
+            Dictionary<Runner, Dictionary<string, bool>> hasMatched = new Dictionary<Runner, Dictionary<string, bool>>();
+            foreach (Runner r in e.Runners)
+            {
+                Dictionary<string, bool> backMatched = new Dictionary<string, bool>();
+                foreach (KeyValuePair<string, double> pair in r.GetBacks())
+                {
+                    backMatched.Add(pair.Key, false);
+                }
+                hasMatched.Add(r, backMatched);
+            }
+
+            while (!worker.CancellationPending)
+            {
+                RunnerOdds odds = dynOdds.GetRunnerOdds(e.ID);
+                foreach (Runner r in e.Runners)
+                {
+                    r.AddOdds(odds.GetRunner(r.No));
+                    if (r.Percent != 0)
+                    {
+                        double lay = r.GetLays().First().Value;
+                        foreach (KeyValuePair<string, double> pair in r.GetBacks())
+                        {
+                            if (lay * (1 + r.Percent/100.0) < pair.Value && !hasMatched[r][pair.Key])
+                            {
+                                hasMatched[r][pair.Key] = true;
+                                SystemSounds.Exclamation.Play();
+                                MessageBox.Show("Event: " + e.ToString() + Environment.NewLine + "Runner: " + r.No + Environment.NewLine + "Lay: " + lay + Environment.NewLine + "Back: " + pair.Value + Environment.NewLine + "Book: " + pair.Key, "Match found:", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                                logger.Info("Match found: Event: " + e.ToString() + ", Runner: " + r.No + ", Lay: " + lay + ", Back: " + pair.Value + ", Book: " + pair.Key);
+                            }
+                            else if (lay * (1 + r.Percent / 100.0) >= pair.Value)
+                            {
+                                hasMatched[r][pair.Key] = false;
+                            }
+                        }
+                    }
+                }
+                Thread.Sleep(1000);
+            }
+            args.Cancel = true;
         }
 
         private void LoadCredentials()
@@ -94,7 +171,8 @@ namespace ArbBetSystem
         private bool UpdateMeetings()
         {
             CheckDynamicOdds();
-            try {
+            try
+            {
                 List<Meeting> tmp = dynOdds.GetMeetingsAll();
                 if (tmp == null)
                 {
@@ -105,7 +183,7 @@ namespace ArbBetSystem
 
                 lvwMeetings.Items.Clear();
 
-                foreach(Meeting m in meetings)
+                foreach (Meeting m in meetings)
                 {
                     ListViewItem item = new ListViewItem(m.ToString());
                     item.Tag = m;
@@ -116,10 +194,12 @@ namespace ArbBetSystem
                 lvwMeetings.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
                 if (lvwMeetings.Items.Count > 0) { lvwMeetings.Items[0].Selected = true; }
                 return true;
-            } catch (Exception e) {
-                MessageBox.Show("Error updating meetings:" + Environment.NewLine + e.Message, 
-                    "API Error", 
-                    MessageBoxButtons.OK, 
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error updating meetings:" + Environment.NewLine + e.Message,
+                    "API Error",
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
                 return false;
             }
@@ -133,6 +213,12 @@ namespace ArbBetSystem
         private void startToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // start thread
+            if (!bw.IsBusy)
+            {
+                bw.RunWorkerAsync();
+            }
+            startToolStripMenuItem.Enabled = false;
+            stopToolStripMenuItem.Enabled = true;
             // toggle text and functionality
         }
 
@@ -150,6 +236,8 @@ namespace ArbBetSystem
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             // stop thread if running
+            bw.CancelAsync();
+            logger.Info("Checking Stopped on close");
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -188,9 +276,12 @@ namespace ArbBetSystem
 
                 if (!((Event)e.Item.Tag).HasOdds())
                 {
-                    try {
+                    try
+                    {
                         odds = dynOdds.GetRunnerOdds(((Event)e.Item.Tag).ID);
-                    } catch (Exception ex) {
+                    }
+                    catch (Exception ex)
+                    {
                         MessageBox.Show("Error getting odds:" + Environment.NewLine + ex.Message,
                             "API Error",
                             MessageBoxButtons.OK,
@@ -212,8 +303,51 @@ namespace ArbBetSystem
                     item.SubItems.Add(r.GetPercent());
                     item.SubItems.Add(r.GetLays().FirstOrDefault(l => l.Key == "BetFair Lay 1").Value.ToString());
                     item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "William Hill").Value.ToString());
-                    item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "Crown Bet").Value.ToString());
-                    item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "SportsBet").Value.ToString());
+                    item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "Sports Bet").Value.ToString());
+                    //item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "OddsAT").Value.ToString());
+                    //item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "OddsBB2").Value.ToString());
+                    //item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "OddsBC").Value.ToString());
+                    //item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "OddsBE").Value.ToString());
+                    //item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "OddsBE_FX").Value.ToString());
+                    //item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "OddsBF_B1").Value.ToString());
+                    //item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "OddsBF_B1_p").Value.ToString());
+                    //item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "OddsBF_B2").Value.ToString());
+                    //item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "OddsBF_B2_p").Value.ToString());
+                    //item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "OddsBF_B3").Value.ToString());
+                    //item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "OddsBF_B3_p").Value.ToString());
+                    //item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "OddsBM").Value.ToString());
+                    //item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "OddsBS").Value.ToString());
+                    //item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "OddsBT").Value.ToString());
+                    //item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "OddsCB").Value.ToString());
+                    //item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "OddsCB_p").Value.ToString());
+                    //item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "OddsCR").Value.ToString());
+                    //item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "OddsIAS_2").Value.ToString());
+                    //item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "OddsLB").Value.ToString());
+                    //item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "OddsLB_p").Value.ToString());
+                    //item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "OddsN").Value.ToString());
+                    //item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "OddsNZ").Value.ToString());
+                    //item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "OddsNZ_FX").Value.ToString());
+                    //item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "OddsN_FX").Value.ToString());
+                    //item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "OddsN_P").Value.ToString());
+                    //item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "OddsPB").Value.ToString());
+                    //item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "OddsPB2").Value.ToString());
+                    //item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "OddsQ").Value.ToString());
+                    //item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "OddsQ_FX").Value.ToString());
+                    //item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "OddsQ_FX_p").Value.ToString());
+                    //item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "OddsQ_P").Value.ToString());
+                    //item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "OddsSA").Value.ToString());
+                    //item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "OddsSB2").Value.ToString());
+                    //item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "OddsSB5").Value.ToString());
+                    //item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "OddsSB_2").Value.ToString());
+                    //item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "OddsSB_3").Value.ToString());
+                    //item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "OddsSB_p").Value.ToString());
+                    //item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "OddsTS2").Value.ToString());
+                    //item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "OddsUB").Value.ToString());
+                    //item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "OddsV").Value.ToString());
+                    //item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "OddsV_FX").Value.ToString());
+                    //item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "OddsV_P").Value.ToString());
+                    //item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "OddsWB").Value.ToString());
+                    //item.SubItems.Add(r.GetBacks().FirstOrDefault(l => l.Key == "OddsYBB").Value.ToString());
                     lvwRunners.Items.Add(item);
                 }
                 lvwRunners.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
@@ -251,6 +385,14 @@ namespace ArbBetSystem
             {
                 new PercentEntryForm(lvwRunners, item).ShowDialog();
             }
+        }
+
+        private void stopToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            bw.CancelAsync();
+            logger.Info("Checking Stopped");
+            stopToolStripMenuItem.Enabled = false;
+            startToolStripMenuItem.Enabled = true;
         }
     }
 }

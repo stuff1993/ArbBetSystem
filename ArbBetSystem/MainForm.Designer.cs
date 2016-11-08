@@ -49,9 +49,15 @@
             this.clmTrainer = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clmPercent = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clmBFLays = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.clmWB = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.clmCR = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.clmSB = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clmOddsSB = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clmOddsIAS = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.stopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.meetingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.racingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.harnessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.greyhoundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.layBetsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.backBetsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -59,7 +65,10 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.loginToolStripMenuItem,
-            this.dataToolStripMenuItem});
+            this.dataToolStripMenuItem,
+            this.meetingsToolStripMenuItem,
+            this.layBetsToolStripMenuItem,
+            this.backBetsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(750, 24);
@@ -93,6 +102,7 @@
             // 
             this.dataToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.startToolStripMenuItem,
+            this.stopToolStripMenuItem,
             this.updateMeetingListToolStripMenuItem});
             this.dataToolStripMenuItem.Name = "dataToolStripMenuItem";
             this.dataToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
@@ -101,6 +111,7 @@
             // startToolStripMenuItem
             // 
             this.startToolStripMenuItem.Name = "startToolStripMenuItem";
+            this.startToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1;
             this.startToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
             this.startToolStripMenuItem.Text = "Start";
             this.startToolStripMenuItem.Click += new System.EventHandler(this.startToolStripMenuItem_Click);
@@ -194,9 +205,8 @@
             this.clmTrainer,
             this.clmPercent,
             this.clmBFLays,
-            this.clmWB,
-            this.clmCR,
-            this.clmSB});
+            this.clmOddsSB,
+            this.clmOddsIAS});
             this.lvwRunners.FullRowSelect = true;
             this.lvwRunners.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.lvwRunners.HideSelection = false;
@@ -235,17 +245,68 @@
             // 
             this.clmBFLays.Text = "BetFair Lay";
             // 
-            // clmWB
+            // clmOddsSB
             // 
-            this.clmWB.Text = "William Hill";
+            this.clmOddsSB.Text = "William Hill";
             // 
-            // clmCR
+            // clmOddsIAS
             // 
-            this.clmCR.Text = "Crown Bet";
+            this.clmOddsIAS.Text = "Sports Bet";
             // 
-            // clmSB
+            // stopToolStripMenuItem
             // 
-            this.clmSB.Text = "SportsBet";
+            this.stopToolStripMenuItem.Enabled = false;
+            this.stopToolStripMenuItem.Name = "stopToolStripMenuItem";
+            this.stopToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F2;
+            this.stopToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
+            this.stopToolStripMenuItem.Text = "Stop";
+            this.stopToolStripMenuItem.Click += new System.EventHandler(this.stopToolStripMenuItem_Click);
+            // 
+            // meetingsToolStripMenuItem
+            // 
+            this.meetingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.racingToolStripMenuItem,
+            this.harnessToolStripMenuItem,
+            this.greyhoundToolStripMenuItem});
+            this.meetingsToolStripMenuItem.Name = "meetingsToolStripMenuItem";
+            this.meetingsToolStripMenuItem.Size = new System.Drawing.Size(68, 20);
+            this.meetingsToolStripMenuItem.Text = "Meetings";
+            // 
+            // racingToolStripMenuItem
+            // 
+            this.racingToolStripMenuItem.CheckOnClick = true;
+            this.racingToolStripMenuItem.Name = "racingToolStripMenuItem";
+            this.racingToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F9;
+            this.racingToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.racingToolStripMenuItem.Text = "Racing";
+            // 
+            // harnessToolStripMenuItem
+            // 
+            this.harnessToolStripMenuItem.CheckOnClick = true;
+            this.harnessToolStripMenuItem.Name = "harnessToolStripMenuItem";
+            this.harnessToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F10;
+            this.harnessToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.harnessToolStripMenuItem.Text = "Harness";
+            // 
+            // greyhoundToolStripMenuItem
+            // 
+            this.greyhoundToolStripMenuItem.CheckOnClick = true;
+            this.greyhoundToolStripMenuItem.Name = "greyhoundToolStripMenuItem";
+            this.greyhoundToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F11;
+            this.greyhoundToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.greyhoundToolStripMenuItem.Text = "Greyhound";
+            // 
+            // layBetsToolStripMenuItem
+            // 
+            this.layBetsToolStripMenuItem.Name = "layBetsToolStripMenuItem";
+            this.layBetsToolStripMenuItem.Size = new System.Drawing.Size(62, 20);
+            this.layBetsToolStripMenuItem.Text = "Lay Bets";
+            // 
+            // backBetsToolStripMenuItem
+            // 
+            this.backBetsToolStripMenuItem.Name = "backBetsToolStripMenuItem";
+            this.backBetsToolStripMenuItem.Size = new System.Drawing.Size(69, 20);
+            this.backBetsToolStripMenuItem.Text = "Back Bets";
             // 
             // MainForm
             // 
@@ -294,9 +355,15 @@
         private System.Windows.Forms.ColumnHeader clmTrainer;
         private System.Windows.Forms.ColumnHeader clmPercent;
         private System.Windows.Forms.ColumnHeader clmBFLays;
-        private System.Windows.Forms.ColumnHeader clmWB;
-        private System.Windows.Forms.ColumnHeader clmCR;
-        private System.Windows.Forms.ColumnHeader clmSB;
+        private System.Windows.Forms.ColumnHeader clmOddsSB;
+        private System.Windows.Forms.ColumnHeader clmOddsIAS;
+        private System.Windows.Forms.ToolStripMenuItem stopToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem meetingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem racingToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem harnessToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem greyhoundToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem layBetsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem backBetsToolStripMenuItem;
     }
 }
 

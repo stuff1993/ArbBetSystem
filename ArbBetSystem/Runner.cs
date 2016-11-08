@@ -154,38 +154,73 @@ namespace ArbBetSystem
             double d;
             if (double.TryParse(odds.OddsBF_L1, out d))
             {
-                lays.Add("BetFair Lay 1", d);
+                lays["BetFair Lay 1"] = d;
             }
             else
             {
                 logger.Debug("Betfair Lay Odds not parsed: " + No + " - " + Name + " : " + odds.OddsBF_L1);
             }
-            
-            if (double.TryParse(odds.OddsWB, out d)) // might be oddsSB
-            {
-                backs.Add("William Hill", d);
-            }
-            else
-            {
-                logger.Debug("William Hill Odds not parsed: " + No + " - " + Name + " : " + odds.OddsWB);
-            }
 
-            if (double.TryParse(odds.OddsCR, out d)) // no data here???
-            {
-                backs.Add("Crown Bet", d);
-            }
-            else
-            {
-                logger.Debug("Crown Bet Odds not parsed: " + No + " - " + Name + " : " + odds.OddsCR);
-            }
+            //AddBackOdd(odds.OddsAT, "OddsAT");
+            //AddBackOdd(odds.OddsBB2, "OddsBB2");
+            //AddBackOdd(odds.OddsBC, "OddsBC");
+            //AddBackOdd(odds.OddsBE, "OddsBE");
+            //AddBackOdd(odds.OddsBE_FX, "OddsBE_FX");
+            //AddBackOdd(odds.OddsBF_B1, "OddsBF_B1");
+            //AddBackOdd(odds.OddsBF_B1_p, "OddsBF_B1_p");
+            //AddBackOdd(odds.OddsBF_B2, "OddsBF_B2");
+            //AddBackOdd(odds.OddsBF_B2_p, "OddsBF_B2_p");
+            //AddBackOdd(odds.OddsBF_B3, "OddsBF_B3");
+            //AddBackOdd(odds.OddsBF_B3_p, "OddsBF_B3_p");
+            //AddBackOdd(odds.OddsBM, "OddsBM");
+            //AddBackOdd(odds.OddsBS, "OddsBS");
+            //AddBackOdd(odds.OddsBT, "OddsBT");
+            //AddBackOdd(odds.OddsCB, "OddsCB");
+            //AddBackOdd(odds.OddsCB_p, "OddsCB_p");
+            //AddBackOdd(odds.OddsCR, "OddsCR");
+            AddBackOdd(odds.OddsIAS, "Sports Bet");
+            //AddBackOdd(odds.OddsIAS_2, "OddsIAS_2");
+            //AddBackOdd(odds.OddsLB, "OddsLB");
+            //AddBackOdd(odds.OddsLB_p, "OddsLB_p");
+            //AddBackOdd(odds.OddsN, "OddsN");
+            //AddBackOdd(odds.OddsNZ, "OddsNZ");
+            //AddBackOdd(odds.OddsNZ_FX, "OddsNZ_FX");
+            //AddBackOdd(odds.OddsN_FX, "OddsN_FX");
+            //AddBackOdd(odds.OddsN_P, "OddsN_P");
+            //AddBackOdd(odds.OddsPB, "OddsPB");
+            //AddBackOdd(odds.OddsPB2, "OddsPB2");
+            //AddBackOdd(odds.OddsQ, "OddsQ");
+            //AddBackOdd(odds.OddsQ_FX, "OddsQ_FX");
+            //AddBackOdd(odds.OddsQ_FX_p, "OddsQ_FX_p");
+            //AddBackOdd(odds.OddsQ_P, "OddsQ_P");
+            //AddBackOdd(odds.OddsSA, "OddsSA");
+            AddBackOdd(odds.OddsSB, "William Hill");
+            //AddBackOdd(odds.OddsSB2, "OddsSB2");
+            //AddBackOdd(odds.OddsSB5, "OddsSB5");
+            //AddBackOdd(odds.OddsSB_2, "OddsSB_2");
+            //AddBackOdd(odds.OddsSB_3, "OddsSB_3");
+            //AddBackOdd(odds.OddsSB_p, "OddsSB_p");
+            //AddBackOdd(odds.OddsTS2, "OddsTS2");
+            //AddBackOdd(odds.OddsUB, "OddsUB");
+            //AddBackOdd(odds.OddsV, "OddsV");
+            //AddBackOdd(odds.OddsV_FX, "OddsV_FX");
+            //AddBackOdd(odds.OddsV_P, "OddsV_P");
+            //AddBackOdd(odds.OddsWB, "OddsWB");
+            //AddBackOdd(odds.OddsYBB, "OddsYBB");
+        }
 
-            if (double.TryParse(odds.OddsSB, out d)) // seems to be WH?????
+        private bool AddBackOdd(string odd, string name)
+        {
+            double d;
+            if (double.TryParse(odd, out d))
             {
-                backs.Add("SportsBet", d);
+                backs[name] = d;
+                return true;
             }
             else
             {
-                logger.Debug("SportsBet Odds not parsed: " + No + " - " + Name + " : " + odds.OddsSB);
+                logger.Debug(name + " Odds not parsed: " + No + " - " + Name + " : " + odd);
+                return false;
             }
         }
 
