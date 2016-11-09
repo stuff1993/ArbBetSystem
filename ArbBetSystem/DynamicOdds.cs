@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using log4net;
+using System.ComponentModel;
 
 namespace ArbBetSystem
 {
@@ -54,6 +55,8 @@ namespace ArbBetSystem
         public bool Login(Creds creds)
         {
             if (creds == null || creds.Username == null || creds.Password == null) { return false; }
+            DateTime start = DateTime.Now;
+            logger.Debug("Login Request");
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post,
                 "/xml/data/Login.asp?UserName=" + creds.Username
                 + "&Password=" + creds.Password);
@@ -69,6 +72,8 @@ namespace ArbBetSystem
                     LogErrorAndThrowHttp("Login failed: " + doc.DocumentElement.SelectSingleNode("/Login/Message").InnerText);
                 }
                 _sessionId = doc.DocumentElement.SelectSingleNode("/Login/SessionID").InnerText;
+
+                logger.Debug("Login Request Time: " + start.ToLongTimeString() + " Time Elapsed: " + (DateTime.Now - start).TotalSeconds);
                 return true;
             }
             _sessionId = null;
@@ -76,14 +81,16 @@ namespace ArbBetSystem
             throw new Exception("???");
         }
 
-        public List<Meeting> GetMeetingsAll(int meetingType = (int)(Meeting.MeetingTypes.Racing | Meeting.MeetingTypes.Harness | Meeting.MeetingTypes.Greyhound), bool runners = true)
+        public BindingList<Meeting> GetMeetingsAll(int meetingType = (int)(Meeting.MeetingTypes.Racing | Meeting.MeetingTypes.Harness | Meeting.MeetingTypes.Greyhound), bool runners = true)
         {
             return GetMeetingsAll(DateTime.Today, meetingType, runners);
         }
 
-        public List<Meeting> GetMeetingsAll(DateTime date, int meetingType = (int)(Meeting.MeetingTypes.Racing | Meeting.MeetingTypes.Harness | Meeting.MeetingTypes.Greyhound), bool runners = true)
+        public BindingList<Meeting> GetMeetingsAll(DateTime date, int meetingType = (int)(Meeting.MeetingTypes.Racing | Meeting.MeetingTypes.Harness | Meeting.MeetingTypes.Greyhound), bool runners = true)
         {
             CheckSession();
+            DateTime start = DateTime.Now;
+            logger.Debug("GetMeetingsAll Request");
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post,
                 getDataRequest(_sessionId)
                 + addQueryParam(PARAM_METHOD, "GetMeetingsAll")
@@ -103,7 +110,7 @@ namespace ArbBetSystem
                     LogErrorAndThrowHttp("Response contains error: \"" + doc.DocumentElement.SelectSingleNode("/Data/Error/ErrorTxt").InnerText + "\"");
                 }
 
-                List<Meeting> meetings = new List<Meeting>();
+                BindingList<Meeting> meetings = new BindingList<Meeting>();
                 XmlReader xmlR = XmlReader.Create(response.Content.ReadAsStreamAsync().Result);
                 XmlSerializer xmlS = new XmlSerializer(typeof(Meeting));
 
@@ -111,7 +118,8 @@ namespace ArbBetSystem
                 {
                     meetings.Add((Meeting)xmlS.Deserialize(xmlR.ReadSubtree()));
                 }
-                
+
+                logger.Debug("Request Time: " + start.ToLongTimeString() + " Time Elapsed: " + (DateTime.Now - start).TotalSeconds);
                 return meetings;
             }
             LogErrorAndThrowHttp("Request failed: Unsuccessful response");
@@ -201,6 +209,8 @@ namespace ArbBetSystem
         public RunnerOdds GetRunnerOdds(string eventId)
         {
             CheckSession();
+            DateTime start = DateTime.Now;
+            logger.Debug("GetRunnerOdds Request");
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post,
                 getDataRequest(_sessionId)
                 + addQueryParam(PARAM_METHOD, "GetRunnerOdds")
@@ -220,6 +230,8 @@ namespace ArbBetSystem
 
                 XmlReader xmlR = XmlReader.Create(response.Content.ReadAsStreamAsync().Result);
                 xmlR.ReadToFollowing("RunnerOdds");
+
+                logger.Debug("Request Time: " + start.ToLongTimeString() + " Time Elapsed: " + (DateTime.Now - start).TotalSeconds);
                 return (RunnerOdds)new XmlSerializer(typeof(RunnerOdds)).Deserialize(xmlR);
             }
             LogErrorAndThrowHttp("Request failed: Unsuccessful response");
