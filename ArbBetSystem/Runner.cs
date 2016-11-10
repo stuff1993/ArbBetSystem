@@ -1,14 +1,16 @@
 ﻿using log4net;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace ArbBetSystem
 {
-    public class Runner
+    public class Runner : INotifyPropertyChanged
     {
         private static readonly ILog logger = LogManager.GetLogger(typeof(Runner));
 
@@ -20,9 +22,33 @@ namespace ArbBetSystem
         private byte scrField;
         private byte noField;
         private double percentField = 0;
+        [XmlIgnore]
+        private Event parent;
 
         private Dictionary<string, double> lays = new Dictionary<string, double>();
         private Dictionary<string, double> backs = new Dictionary<string, double>();
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        public Event Parent
+        {
+            get
+            {
+                return this.parent;
+            }
+            set
+            {
+                this.parent = value;
+            }
+        }
 
         /// <remarks/>
         public string Name
@@ -126,6 +152,7 @@ namespace ArbBetSystem
             set
             {
                 this.percentField = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -134,14 +161,22 @@ namespace ArbBetSystem
             return Percent.ToString() + "%";
         }
 
-        public Dictionary<string, double> GetLays()
+        [XmlIgnore]
+        public Dictionary<string, double> Lays
         {
-            return new Dictionary<string, double>(lays);
+            get
+            {
+                return lays;
+            }
         }
 
-        public Dictionary<string, double> GetBacks()
+        [XmlIgnore]
+        public Dictionary<string, double> Backs
         {
-            return new Dictionary<string, double>(backs);
+            get
+            {
+                return backs;
+            }
         }
 
         public bool HasOdds()
@@ -207,6 +242,8 @@ namespace ArbBetSystem
             //AddBackOdd(odds.OddsV_P, "OddsV_P");
             //AddBackOdd(odds.OddsWB, "OddsWB");
             //AddBackOdd(odds.OddsYBB, "OddsYBB");
+            NotifyPropertyChanged("Lays");
+            NotifyPropertyChanged("Backs");
         }
 
         private bool AddBackOdd(string odd, string name)

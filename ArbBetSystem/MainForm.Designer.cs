@@ -34,31 +34,39 @@
             this.forceLoginToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.startToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.updateMeetingListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.lvwMeetings = new System.Windows.Forms.ListView();
-            this.clmMeeting = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.lvwEvents = new System.Windows.Forms.ListView();
-            this.clmEvent = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.lvwRunners = new System.Windows.Forms.ListView();
-            this.clmNo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.clmName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.clmJockey = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.clmTrainer = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.clmPercent = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.clmBFLays = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.clmOddsSB = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.clmOddsIAS = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.stopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.updateMeetingListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.meetingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.racingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.harnessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.greyhoundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.layBetsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.backBetsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.dgvMeetings = new System.Windows.Forms.DataGridView();
+            this.dgvEvents = new System.Windows.Forms.DataGridView();
+            this.evtCheck = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.evtName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.evtStartTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgvRunners = new System.Windows.Forms.DataGridView();
+            this.runNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.runName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.runJockey = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.runTrainer = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.runPercent = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.runBFL1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.runWH = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.runIAS = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.meetCheck = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.meetVenue = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.meetCountry = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.meetType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvMeetings)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvEvents)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvRunners)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -71,7 +79,7 @@
             this.backBetsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(750, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(753, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -116,143 +124,6 @@
             this.startToolStripMenuItem.Text = "Start";
             this.startToolStripMenuItem.Click += new System.EventHandler(this.startToolStripMenuItem_Click);
             // 
-            // updateMeetingListToolStripMenuItem
-            // 
-            this.updateMeetingListToolStripMenuItem.Name = "updateMeetingListToolStripMenuItem";
-            this.updateMeetingListToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.updateMeetingListToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
-            this.updateMeetingListToolStripMenuItem.Text = "Update Meeting List";
-            this.updateMeetingListToolStripMenuItem.Click += new System.EventHandler(this.updateMeetingListToolStripMenuItem_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 27);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(50, 13);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "Meetings";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(362, 27);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(40, 13);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "Events";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(13, 223);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(47, 13);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "Runners";
-            // 
-            // lvwMeetings
-            // 
-            this.lvwMeetings.CheckBoxes = true;
-            this.lvwMeetings.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.clmMeeting});
-            this.lvwMeetings.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
-            this.lvwMeetings.HideSelection = false;
-            this.lvwMeetings.LabelWrap = false;
-            this.lvwMeetings.Location = new System.Drawing.Point(12, 43);
-            this.lvwMeetings.MultiSelect = false;
-            this.lvwMeetings.Name = "lvwMeetings";
-            this.lvwMeetings.Size = new System.Drawing.Size(347, 177);
-            this.lvwMeetings.TabIndex = 7;
-            this.lvwMeetings.UseCompatibleStateImageBehavior = false;
-            this.lvwMeetings.View = System.Windows.Forms.View.Details;
-            this.lvwMeetings.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvwMeetings_ItemChecked);
-            this.lvwMeetings.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.lvwMeetings_ItemSelectionChanged);
-            this.lvwMeetings.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ListViews_MouseDoubleClick);
-            // 
-            // clmMeeting
-            // 
-            this.clmMeeting.Text = "Meeting";
-            // 
-            // lvwEvents
-            // 
-            this.lvwEvents.CheckBoxes = true;
-            this.lvwEvents.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.clmEvent});
-            this.lvwEvents.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
-            this.lvwEvents.HideSelection = false;
-            this.lvwEvents.LabelWrap = false;
-            this.lvwEvents.Location = new System.Drawing.Point(365, 43);
-            this.lvwEvents.Name = "lvwEvents";
-            this.lvwEvents.Size = new System.Drawing.Size(373, 177);
-            this.lvwEvents.TabIndex = 8;
-            this.lvwEvents.UseCompatibleStateImageBehavior = false;
-            this.lvwEvents.View = System.Windows.Forms.View.Details;
-            this.lvwEvents.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvwEvents_ItemChecked);
-            this.lvwEvents.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.lvwEvents_ItemSelectionChanged);
-            this.lvwEvents.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ListViews_MouseDoubleClick);
-            // 
-            // clmEvent
-            // 
-            this.clmEvent.Text = "Event";
-            // 
-            // lvwRunners
-            // 
-            this.lvwRunners.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.clmNo,
-            this.clmName,
-            this.clmJockey,
-            this.clmTrainer,
-            this.clmPercent,
-            this.clmBFLays,
-            this.clmOddsSB,
-            this.clmOddsIAS});
-            this.lvwRunners.FullRowSelect = true;
-            this.lvwRunners.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.lvwRunners.HideSelection = false;
-            this.lvwRunners.LabelEdit = true;
-            this.lvwRunners.LabelWrap = false;
-            this.lvwRunners.Location = new System.Drawing.Point(12, 239);
-            this.lvwRunners.MultiSelect = false;
-            this.lvwRunners.Name = "lvwRunners";
-            this.lvwRunners.Size = new System.Drawing.Size(726, 249);
-            this.lvwRunners.TabIndex = 9;
-            this.lvwRunners.UseCompatibleStateImageBehavior = false;
-            this.lvwRunners.View = System.Windows.Forms.View.Details;
-            this.lvwRunners.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ListViews_MouseDoubleClick);
-            // 
-            // clmNo
-            // 
-            this.clmNo.Text = "No";
-            // 
-            // clmName
-            // 
-            this.clmName.Text = "Name";
-            // 
-            // clmJockey
-            // 
-            this.clmJockey.Text = "Jockey";
-            // 
-            // clmTrainer
-            // 
-            this.clmTrainer.Text = "Trainer";
-            // 
-            // clmPercent
-            // 
-            this.clmPercent.Text = "Percent";
-            // 
-            // clmBFLays
-            // 
-            this.clmBFLays.Text = "BetFair Lay";
-            // 
-            // clmOddsSB
-            // 
-            this.clmOddsSB.Text = "William Hill";
-            // 
-            // clmOddsIAS
-            // 
-            this.clmOddsIAS.Text = "Sports Bet";
-            // 
             // stopToolStripMenuItem
             // 
             this.stopToolStripMenuItem.Enabled = false;
@@ -261,6 +132,14 @@
             this.stopToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
             this.stopToolStripMenuItem.Text = "Stop";
             this.stopToolStripMenuItem.Click += new System.EventHandler(this.stopToolStripMenuItem_Click);
+            // 
+            // updateMeetingListToolStripMenuItem
+            // 
+            this.updateMeetingListToolStripMenuItem.Name = "updateMeetingListToolStripMenuItem";
+            this.updateMeetingListToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
+            this.updateMeetingListToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
+            this.updateMeetingListToolStripMenuItem.Text = "Update Meeting List";
+            this.updateMeetingListToolStripMenuItem.Click += new System.EventHandler(this.updateMeetingListToolStripMenuItem_Click);
             // 
             // meetingsToolStripMenuItem
             // 
@@ -279,6 +158,7 @@
             this.racingToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F9;
             this.racingToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.racingToolStripMenuItem.Text = "Racing";
+            this.racingToolStripMenuItem.Click += new System.EventHandler(this.racingToolStripMenuItem_Click);
             // 
             // harnessToolStripMenuItem
             // 
@@ -308,14 +188,238 @@
             this.backBetsToolStripMenuItem.Size = new System.Drawing.Size(69, 20);
             this.backBetsToolStripMenuItem.Text = "Back Bets";
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(13, 27);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(50, 13);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "Meetings";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(362, 27);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(40, 13);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "Events";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(13, 223);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(47, 13);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "Runners";
+            // 
+            // dgvMeetings
+            // 
+            this.dgvMeetings.AllowUserToAddRows = false;
+            this.dgvMeetings.AllowUserToDeleteRows = false;
+            this.dgvMeetings.AllowUserToOrderColumns = true;
+            this.dgvMeetings.AllowUserToResizeRows = false;
+            this.dgvMeetings.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dgvMeetings.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvMeetings.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.meetCheck,
+            this.meetVenue,
+            this.meetCountry,
+            this.meetType});
+            this.dgvMeetings.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dgvMeetings.Location = new System.Drawing.Point(16, 43);
+            this.dgvMeetings.MultiSelect = false;
+            this.dgvMeetings.Name = "dgvMeetings";
+            this.dgvMeetings.RowHeadersVisible = false;
+            this.dgvMeetings.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.dgvMeetings.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvMeetings.Size = new System.Drawing.Size(343, 177);
+            this.dgvMeetings.TabIndex = 10;
+            this.dgvMeetings.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellContentClick);
+            this.dgvMeetings.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellDoubleClick);
+            this.dgvMeetings.SelectionChanged += new System.EventHandler(this.dgvMeetings_SelectionChanged);
+            // 
+            // dgvEvents
+            // 
+            this.dgvEvents.AllowUserToAddRows = false;
+            this.dgvEvents.AllowUserToDeleteRows = false;
+            this.dgvEvents.AllowUserToOrderColumns = true;
+            this.dgvEvents.AllowUserToResizeRows = false;
+            this.dgvEvents.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dgvEvents.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvEvents.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.evtCheck,
+            this.evtName,
+            this.evtStartTime});
+            this.dgvEvents.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dgvEvents.Location = new System.Drawing.Point(365, 43);
+            this.dgvEvents.MultiSelect = false;
+            this.dgvEvents.Name = "dgvEvents";
+            this.dgvEvents.RowHeadersVisible = false;
+            this.dgvEvents.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.dgvEvents.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvEvents.Size = new System.Drawing.Size(373, 177);
+            this.dgvEvents.TabIndex = 11;
+            this.dgvEvents.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellContentClick);
+            this.dgvEvents.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellDoubleClick);
+            this.dgvEvents.SelectionChanged += new System.EventHandler(this.dgvEvents_SelectionChanged);
+            // 
+            // evtCheck
+            // 
+            this.evtCheck.DataPropertyName = "Check";
+            this.evtCheck.HeaderText = "Check";
+            this.evtCheck.Name = "evtCheck";
+            this.evtCheck.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.evtCheck.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.evtCheck.Width = 63;
+            // 
+            // evtName
+            // 
+            this.evtName.DataPropertyName = "Name";
+            this.evtName.HeaderText = "Name";
+            this.evtName.Name = "evtName";
+            this.evtName.ReadOnly = true;
+            this.evtName.Width = 60;
+            // 
+            // evtStartTime
+            // 
+            this.evtStartTime.DataPropertyName = "StartTime";
+            this.evtStartTime.HeaderText = "Start Time";
+            this.evtStartTime.Name = "evtStartTime";
+            this.evtStartTime.ReadOnly = true;
+            this.evtStartTime.Width = 80;
+            // 
+            // dgvRunners
+            // 
+            this.dgvRunners.AllowUserToAddRows = false;
+            this.dgvRunners.AllowUserToDeleteRows = false;
+            this.dgvRunners.AllowUserToOrderColumns = true;
+            this.dgvRunners.AllowUserToResizeRows = false;
+            this.dgvRunners.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dgvRunners.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvRunners.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.runNo,
+            this.runName,
+            this.runJockey,
+            this.runTrainer,
+            this.runPercent,
+            this.runBFL1,
+            this.runWH,
+            this.runIAS});
+            this.dgvRunners.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dgvRunners.Location = new System.Drawing.Point(16, 239);
+            this.dgvRunners.MultiSelect = false;
+            this.dgvRunners.Name = "dgvRunners";
+            this.dgvRunners.RowHeadersVisible = false;
+            this.dgvRunners.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.dgvRunners.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvRunners.Size = new System.Drawing.Size(722, 324);
+            this.dgvRunners.TabIndex = 12;
+            this.dgvRunners.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellDoubleClick);
+            // 
+            // runNo
+            // 
+            this.runNo.DataPropertyName = "No";
+            this.runNo.HeaderText = "No";
+            this.runNo.Name = "runNo";
+            this.runNo.ReadOnly = true;
+            this.runNo.Width = 46;
+            // 
+            // runName
+            // 
+            this.runName.DataPropertyName = "Name";
+            this.runName.HeaderText = "Name";
+            this.runName.Name = "runName";
+            this.runName.ReadOnly = true;
+            this.runName.Width = 60;
+            // 
+            // runJockey
+            // 
+            this.runJockey.DataPropertyName = "Jockey";
+            this.runJockey.HeaderText = "Jockey";
+            this.runJockey.Name = "runJockey";
+            this.runJockey.ReadOnly = true;
+            this.runJockey.Width = 66;
+            // 
+            // runTrainer
+            // 
+            this.runTrainer.DataPropertyName = "Trainer";
+            this.runTrainer.HeaderText = "Trainer";
+            this.runTrainer.Name = "runTrainer";
+            this.runTrainer.ReadOnly = true;
+            this.runTrainer.Width = 65;
+            // 
+            // runPercent
+            // 
+            this.runPercent.DataPropertyName = "Percent";
+            this.runPercent.HeaderText = "Percent";
+            this.runPercent.Name = "runPercent";
+            this.runPercent.ReadOnly = true;
+            this.runPercent.Width = 69;
+            // 
+            // runBFL1
+            // 
+            this.runBFL1.DataPropertyName = "Lays[\"BetFair Lay 1\"]";
+            this.runBFL1.HeaderText = "BetFair Lay";
+            this.runBFL1.Name = "runBFL1";
+            this.runBFL1.ReadOnly = true;
+            this.runBFL1.Width = 85;
+            // 
+            // runWH
+            // 
+            this.runWH.DataPropertyName = "Backs[\"William Hill\"]";
+            this.runWH.HeaderText = "William Hill";
+            this.runWH.Name = "runWH";
+            this.runWH.ReadOnly = true;
+            this.runWH.Width = 82;
+            // 
+            // runIAS
+            // 
+            this.runIAS.DataPropertyName = "Backs[\"Sports Bet\"]";
+            this.runIAS.HeaderText = "SportsBet";
+            this.runIAS.Name = "runIAS";
+            this.runIAS.ReadOnly = true;
+            this.runIAS.Width = 78;
+            // 
+            // meetCheck
+            // 
+            this.meetCheck.DataPropertyName = "IsChecked";
+            this.meetCheck.HeaderText = "Check";
+            this.meetCheck.Name = "meetCheck";
+            this.meetCheck.Width = 44;
+            // 
+            // meetVenue
+            // 
+            this.meetVenue.DataPropertyName = "Venue";
+            this.meetVenue.HeaderText = "Venue";
+            this.meetVenue.Name = "meetVenue";
+            this.meetVenue.Width = 63;
+            // 
+            // meetCountry
+            // 
+            this.meetCountry.DataPropertyName = "Country";
+            this.meetCountry.HeaderText = "Country";
+            this.meetCountry.Name = "meetCountry";
+            this.meetCountry.Width = 68;
+            // 
+            // meetType
+            // 
+            this.meetType.DataPropertyName = "Type";
+            this.meetType.HeaderText = "Type";
+            this.meetType.Name = "meetType";
+            this.meetType.ReadOnly = true;
+            this.meetType.Width = 56;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(750, 500);
-            this.Controls.Add(this.lvwRunners);
-            this.Controls.Add(this.lvwEvents);
-            this.Controls.Add(this.lvwMeetings);
+            this.ClientSize = new System.Drawing.Size(753, 575);
+            this.Controls.Add(this.dgvRunners);
+            this.Controls.Add(this.dgvEvents);
+            this.Controls.Add(this.dgvMeetings);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -327,6 +431,9 @@
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvMeetings)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvEvents)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvRunners)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -344,19 +451,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ListView lvwMeetings;
-        private System.Windows.Forms.ColumnHeader clmMeeting;
-        private System.Windows.Forms.ListView lvwEvents;
-        private System.Windows.Forms.ColumnHeader clmEvent;
-        private System.Windows.Forms.ListView lvwRunners;
-        private System.Windows.Forms.ColumnHeader clmName;
-        private System.Windows.Forms.ColumnHeader clmNo;
-        private System.Windows.Forms.ColumnHeader clmJockey;
-        private System.Windows.Forms.ColumnHeader clmTrainer;
-        private System.Windows.Forms.ColumnHeader clmPercent;
-        private System.Windows.Forms.ColumnHeader clmBFLays;
-        private System.Windows.Forms.ColumnHeader clmOddsSB;
-        private System.Windows.Forms.ColumnHeader clmOddsIAS;
         private System.Windows.Forms.ToolStripMenuItem stopToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem meetingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem racingToolStripMenuItem;
@@ -364,6 +458,24 @@
         private System.Windows.Forms.ToolStripMenuItem greyhoundToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem layBetsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem backBetsToolStripMenuItem;
+        private System.Windows.Forms.DataGridView dgvMeetings;
+        private System.Windows.Forms.DataGridView dgvEvents;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn evtCheck;
+        private System.Windows.Forms.DataGridViewTextBoxColumn evtName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn evtStartTime;
+        private System.Windows.Forms.DataGridView dgvRunners;
+        private System.Windows.Forms.DataGridViewTextBoxColumn runNo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn runName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn runJockey;
+        private System.Windows.Forms.DataGridViewTextBoxColumn runTrainer;
+        private System.Windows.Forms.DataGridViewTextBoxColumn runPercent;
+        private System.Windows.Forms.DataGridViewTextBoxColumn runBFL1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn runWH;
+        private System.Windows.Forms.DataGridViewTextBoxColumn runIAS;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn meetCheck;
+        private System.Windows.Forms.DataGridViewTextBoxColumn meetVenue;
+        private System.Windows.Forms.DataGridViewTextBoxColumn meetCountry;
+        private System.Windows.Forms.DataGridViewTextBoxColumn meetType;
     }
 }
 

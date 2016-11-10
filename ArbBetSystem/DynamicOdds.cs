@@ -117,6 +117,10 @@ namespace ArbBetSystem
                 while(xmlR.ReadToFollowing("Meeting"))
                 {
                     meetings.Add((Meeting)xmlS.Deserialize(xmlR.ReadSubtree()));
+                    foreach (Meeting m in meetings)
+                    {
+                        m.MapChildren();
+                    }
                 }
 
                 logger.Debug("Request Time: " + start.ToLongTimeString() + " Time Elapsed: " + (DateTime.Now - start).TotalSeconds);

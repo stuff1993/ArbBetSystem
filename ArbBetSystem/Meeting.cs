@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
+using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
 namespace ArbBetSystem
 {
-    public class Meeting
+    public class Meeting : INotifyPropertyChanged
     {
         public enum MeetingTypes { Racing = 1, Harness = 2, Greyhound = 4 };
 
@@ -44,6 +44,16 @@ namespace ArbBetSystem
         private string countryField;
         private string codeTCField;
         private string codeQField;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
 
         /// <remarks/>
         public string Venue
@@ -206,14 +216,60 @@ namespace ArbBetSystem
             return Venue + " " + Country;
         }
 
-        public bool IsChecked()
+        public bool IsChecked
         {
-            bool ret = false;
-            foreach (Event evt in Events)
+            get
             {
-                ret = ret || evt.Check;
+                bool ret = false;
+                foreach (Event evt in Events)
+                {
+                    ret = ret || evt.Check;
+                }
+                return ret;
             }
-            return ret;
+            set
+            {
+                foreach (Event e in Events)
+                {
+                    e.Check = value;
+                }
+                NotifyPropertyChanged();
+            }
+        }
+
+        public Meeting MergeWith(Meeting m)
+        {
+            Dictionary<string, bool> oldChecks = Events.ToDictionary(e => e.ID, e=> e.Check);
+            Dictionary<string, Dictionary<byte, double>> oldPercent = Events.ToDictionary(e => e.ID, e => e.Runners.ToDictionary(r => r.No, r => r.Percent));
+
+            foreach (Event e in m.Events)
+            {
+                if (oldChecks.ContainsKey(e.ID))
+                {
+                    e.Check = oldChecks[e.ID];
+                    foreach (Runner r in e.Runners)
+                    {
+                        if (oldPercent.ContainsKey(e.ID) && oldPercent[e.ID].ContainsKey(r.No))
+                        {
+                            r.Percent = oldPercent[e.ID][r.No];
+                        }
+                    }
+                }
+            }
+
+            return m;
+        }
+
+        public void MapChildren()
+        {
+            if (Events != null)
+            {
+                foreach (Event e in Events)
+                {
+                    e.Parent = this;
+                    e.MapChildren();
+                }
+            }
         }
     }
 }

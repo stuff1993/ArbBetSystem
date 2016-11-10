@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace ArbBetSystem
 {
-    public class Event
+    public class Event : INotifyPropertyChanged
     {
         private uint eventNoField;
         private string nameField;
@@ -24,8 +27,31 @@ namespace ArbBetSystem
         private string railField;
         private string idField;
         private Runner[] runnerField;
+        private Meeting parent;
 
         private bool checkField;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        public Meeting Parent
+        {
+            get
+            {
+                return this.parent;
+            }
+            set
+            {
+                this.parent = value;
+            }
+        }
 
         public bool Check
         {
@@ -35,7 +61,13 @@ namespace ArbBetSystem
             }
             set
             {
-                this.checkField = value;
+                if (value != this.checkField)
+                {
+                    this.checkField = value;
+                    NotifyPropertyChanged();
+                    parent.NotifyPropertyChanged("IsChecked");
+                }
+
             }
         }
 
@@ -250,6 +282,17 @@ namespace ArbBetSystem
         public Event()
         {
             checkField = false;
+        }
+
+        public void MapChildren()
+        {
+            if (Runners != null)
+            {
+                foreach (Runner r in Runners)
+                {
+                    r.Parent = this;
+                }
+            }
         }
     }
 }

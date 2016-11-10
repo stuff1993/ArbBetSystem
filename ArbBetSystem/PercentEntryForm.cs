@@ -13,49 +13,37 @@ namespace ArbBetSystem
     public partial class PercentEntryForm : Form
     {
         // TODO: Make this dynamic
-        static private readonly int RUNNERS_PERCENT_INDEX = 4;
-        ListView view;
-        ListViewItem item;
+        object obj;
 
-        public PercentEntryForm(ListView view, ListViewItem lvi)
+        public PercentEntryForm(object o)
         {
             InitializeComponent();
-            this.view = view;
-            item = lvi;
+            this.obj = o;
             btnOk.Enabled = false;
             txtPercent.Focus();
         }
 
         private void btnOk_Click(object sender, EventArgs e)
         {
-            if (item.Tag.GetType() == typeof(Runner))
+            if (obj.GetType() == typeof(Runner))
             {
-                ((Runner)item.Tag).Percent = double.Parse(txtPercent.Text);
-                item.SubItems[RUNNERS_PERCENT_INDEX].Text = txtPercent.Text + "%";
+                ((Runner)obj).Percent = double.Parse(txtPercent.Text);
             }
-            else if (item.Tag.GetType() == typeof(Event))
+            else if (obj.GetType() == typeof(Event))
             {
                 double p = double.Parse(txtPercent.Text);
-                foreach (Runner r in ((Event)item.Tag).Runners)
+                foreach (Runner r in ((Event)obj).Runners)
                 {
                     r.Percent = p;
                 }
-                foreach (ListViewItem i in view.Items)
-                {
-                    i.SubItems[RUNNERS_PERCENT_INDEX].Text = txtPercent.Text + "%";
-                }
             }
-            else if (item.Tag.GetType() == typeof(Meeting))
+            else if (obj.GetType() == typeof(Meeting))
             {
                 double p = double.Parse(txtPercent.Text);
-                foreach (Runner r in ((Meeting)item.Tag).Events.SelectMany(evt => evt.Runners))
+                foreach (Runner r in ((Meeting)obj).Events.SelectMany(evt => evt.Runners))
                 {
                     r.Percent = p;
                 }
-                foreach (ListViewItem i in view.Items)
-                {
-                    i.SubItems[RUNNERS_PERCENT_INDEX].Text = txtPercent.Text + "%";
-                };
             }
             else
             {
