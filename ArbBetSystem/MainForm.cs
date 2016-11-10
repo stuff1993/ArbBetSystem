@@ -189,7 +189,9 @@ namespace ArbBetSystem
             BindingList<Meeting> tmp = null;
             try
             {
-                int type = (racingToolStripMenuItem.Checked ? 1 : 0) + (harnessToolStripMenuItem.Checked ? 2 : 0) + (greyhoundToolStripMenuItem.Checked ? 4 : 0);
+                int type = (racingToolStripMenuItem.Checked ? (int)Meeting.MeetingTypes.Racing : 0)
+                    + (harnessToolStripMenuItem.Checked ? (int)Meeting.MeetingTypes.Harness : 0)
+                    + (greyhoundToolStripMenuItem.Checked ? (int)Meeting.MeetingTypes.Greyhound : 0);
                 tmp = dynOdds.GetMeetingsAll(type);
             }
             catch (Exception e)
@@ -200,6 +202,7 @@ namespace ArbBetSystem
                     MessageBoxIcon.Warning);
                 return false;
             }
+
             if (tmp == null)
             {
                 logger.Error("Meetings list is null");
@@ -345,11 +348,6 @@ namespace ArbBetSystem
             }
 
             dgvRunners.DataSource = new BindingList<Runner>(((Event)((DataGridView)sender).SelectedRows[0].DataBoundItem).Runners);
-        }
-
-        private void racingToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

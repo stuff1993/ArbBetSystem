@@ -158,7 +158,6 @@
             this.racingToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F9;
             this.racingToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.racingToolStripMenuItem.Text = "Racing";
-            this.racingToolStripMenuItem.Click += new System.EventHandler(this.racingToolStripMenuItem_Click);
             // 
             // harnessToolStripMenuItem
             // 
