@@ -16,7 +16,7 @@ namespace ArbBetSystem
 
         private List<RunnerOdd> Odds = new List<RunnerOdd>();
 
-        private void AddOdds(int length)
+        private void AddRunners(int length)
         {
             while (Odds.Count < length)
             {
@@ -33,7 +33,12 @@ namespace ArbBetSystem
             }
             set
             {
-                byte[] tmp = value.Split(',').Select(s => Convert.ToByte(s, 10)).ToArray(); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).RNo = tmp[i]; }
+                byte[] tmp = value.Split(',').Select(s => Convert.ToByte(s, 10)).ToArray();
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    Odds.ElementAt(i).RNo = tmp[i];
+                }
             }
         }
 
@@ -46,7 +51,12 @@ namespace ArbBetSystem
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).RName = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    Odds.ElementAt(i).RName = tmp[i];
+                }
             }
         }
 
@@ -59,7 +69,7 @@ namespace ArbBetSystem
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).Scr = tmp[i]; }
+                string[] tmp = value.Split(','); AddRunners(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).Scr = tmp[i]; }
             }
         }
 
@@ -68,11 +78,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsV));
+                return string.Join(",", this.Odds.Select(o => o.OddsV.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsV = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsV = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsV = -1;
+                    }
+                }
             }
         }
 
@@ -81,11 +104,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsV_P));
+                return string.Join(",", this.Odds.Select(o => o.OddsV_P.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsV_P = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsV_P = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsV_P = -1;
+                    }
+                }
             }
         }
 
@@ -94,11 +130,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsN));
+                return string.Join(",", this.Odds.Select(o => o.OddsN.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsN = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsN = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsN = -1;
+                    }
+                }
             }
         }
 
@@ -107,11 +156,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsN_P));
+                return string.Join(",", this.Odds.Select(o => o.OddsN_P.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsN_P = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsN_P = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsN_P = -1;
+                    }
+                }
             }
         }
 
@@ -120,11 +182,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsQ));
+                return string.Join(",", this.Odds.Select(o => o.OddsQ.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsQ = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsQ = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsQ = -1;
+                    }
+                }
             }
         }
 
@@ -133,11 +208,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsQ_P));
+                return string.Join(",", this.Odds.Select(o => o.OddsQ_P.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsQ_P = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsQ_P = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsQ_P = -1;
+                    }
+                }
             }
         }
 
@@ -146,11 +234,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsAT));
+                return string.Join(",", this.Odds.Select(o => o.OddsAT.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsAT = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsAT = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsAT = -1;
+                    }
+                }
             }
         }
 
@@ -159,11 +260,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsNZ));
+                return string.Join(",", this.Odds.Select(o => o.OddsNZ.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsNZ = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsNZ = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsNZ = -1;
+                    }
+                }
             }
         }
 
@@ -172,11 +286,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsBE));
+                return string.Join(",", this.Odds.Select(o => o.OddsBE.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsBE = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsBE = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsBE = -1;
+                    }
+                }
             }
         }
 
@@ -185,11 +312,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsIAS));
+                return string.Join(",", this.Odds.Select(o => o.OddsIAS.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsIAS = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsIAS = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsIAS = -1;
+                    }
+                }
             }
         }
 
@@ -198,11 +338,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsIAS_2));
+                return string.Join(",", this.Odds.Select(o => o.OddsIAS_2.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsIAS_2 = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsIAS_2 = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsIAS_2 = -1;
+                    }
+                }
             }
         }
 
@@ -211,11 +364,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsSB));
+                return string.Join(",", this.Odds.Select(o => o.OddsSB.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsSB = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsSB = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsSB = -1;
+                    }
+                }
             }
         }
 
@@ -224,11 +390,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsSB_2));
+                return string.Join(",", this.Odds.Select(o => o.OddsSB_2.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsSB_2 = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsSB_2 = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsSB_2 = -1;
+                    }
+                }
             }
         }
 
@@ -237,11 +416,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsSB_3));
+                return string.Join(",", this.Odds.Select(o => o.OddsSB_3.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsSB_3 = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsSB_3 = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsSB_3 = -1;
+                    }
+                }
             }
         }
 
@@ -250,11 +442,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsCB));
+                return string.Join(",", this.Odds.Select(o => o.OddsCB.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsCB = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsCB = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsCB = -1;
+                    }
+                }
             }
         }
 
@@ -263,11 +468,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsSB2));
+                return string.Join(",", this.Odds.Select(o => o.OddsSB2.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsSB2 = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsSB2 = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsSB2 = -1;
+                    }
+                }
             }
         }
 
@@ -276,11 +494,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsSA));
+                return string.Join(",", this.Odds.Select(o => o.OddsSA.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsSA = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsSA = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsSA = -1;
+                    }
+                }
             }
         }
 
@@ -289,11 +520,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsCR));
+                return string.Join(",", this.Odds.Select(o => o.OddsCR.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsCR = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsCR = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsCR = -1;
+                    }
+                }
             }
         }
 
@@ -302,11 +546,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsBC));
+                return string.Join(",", this.Odds.Select(o => o.OddsBC.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsBC = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsBC = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsBC = -1;
+                    }
+                }
             }
         }
 
@@ -315,11 +572,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsWB));
+                return string.Join(",", this.Odds.Select(o => o.OddsWB.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsWB = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsWB = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsWB = -1;
+                    }
+                }
             }
         }
 
@@ -328,11 +598,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsYBB));
+                return string.Join(",", this.Odds.Select(o => o.OddsYBB.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsYBB = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsYBB = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsYBB = -1;
+                    }
+                }
             }
         }
 
@@ -341,11 +624,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsPB));
+                return string.Join(",", this.Odds.Select(o => o.OddsPB.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsPB = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsPB = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsPB = -1;
+                    }
+                }
             }
         }
 
@@ -354,11 +650,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsBS));
+                return string.Join(",", this.Odds.Select(o => o.OddsBS.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsBS = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsBS = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsBS = -1;
+                    }
+                }
             }
         }
 
@@ -367,11 +676,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsBF_B3));
+                return string.Join(",", this.Odds.Select(o => o.OddsBF_B3.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsBF_B3 = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsBF_B3 = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsBF_B3 = -1;
+                    }
+                }
             }
         }
 
@@ -380,11 +702,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.AmtBF_B3));
+                return string.Join(",", this.Odds.Select(o => o.AmtBF_B3.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).AmtBF_B3 = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).AmtBF_B3 = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).AmtBF_B3 = -1;
+                    }
+                }
             }
         }
 
@@ -393,11 +728,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsBF_B2));
+                return string.Join(",", this.Odds.Select(o => o.OddsBF_B2.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsBF_B2 = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsBF_B2 = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsBF_B2 = -1;
+                    }
+                }
             }
         }
 
@@ -406,11 +754,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.AmtBF_B2));
+                return string.Join(",", this.Odds.Select(o => o.AmtBF_B2.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).AmtBF_B2 = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).AmtBF_B2 = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).AmtBF_B2 = -1;
+                    }
+                }
             }
         }
 
@@ -419,11 +780,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsBF_B1));
+                return string.Join(",", this.Odds.Select(o => o.OddsBF_B1.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsBF_B1 = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsBF_B1 = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsBF_B1 = -1;
+                    }
+                }
             }
         }
 
@@ -432,11 +806,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.AmtBF_B1));
+                return string.Join(",", this.Odds.Select(o => o.AmtBF_B1.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).AmtBF_B1 = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).AmtBF_B1 = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).AmtBF_B1 = -1;
+                    }
+                }
             }
         }
 
@@ -445,11 +832,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsBF_L1));
+                return string.Join(",", this.Odds.Select(o => o.OddsBF_L1.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsBF_L1 = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsBF_L1 = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsBF_L1 = -1;
+                    }
+                }
             }
         }
 
@@ -458,11 +858,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.AmtBF_L1));
+                return string.Join(",", this.Odds.Select(o => o.AmtBF_L1.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).AmtBF_L1 = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).AmtBF_L1 = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).AmtBF_L1 = -1;
+                    }
+                }
             }
         }
 
@@ -471,11 +884,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsBF_L2));
+                return string.Join(",", this.Odds.Select(o => o.OddsBF_L2.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsBF_L2 = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsBF_L2 = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsBF_L2 = -1;
+                    }
+                }
             }
         }
 
@@ -484,11 +910,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.AmtBF_L2));
+                return string.Join(",", this.Odds.Select(o => o.AmtBF_L2.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).AmtBF_L2 = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).AmtBF_L2 = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).AmtBF_L2 = -1;
+                    }
+                }
             }
         }
 
@@ -497,11 +936,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsBF_L3));
+                return string.Join(",", this.Odds.Select(o => o.OddsBF_L3.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsBF_L3 = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsBF_L3 = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsBF_L3 = -1;
+                    }
+                }
             }
         }
 
@@ -510,11 +962,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.AmtBF_L3));
+                return string.Join(",", this.Odds.Select(o => o.AmtBF_L3.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).AmtBF_L3 = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).AmtBF_L3 = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).AmtBF_L3 = -1;
+                    }
+                }
             }
         }
 
@@ -523,11 +988,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsBF_B3_p));
+                return string.Join(",", this.Odds.Select(o => o.OddsBF_B3_p.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsBF_B3_p = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsBF_B3_p = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsBF_B3_p = -1;
+                    }
+                }
             }
         }
 
@@ -536,11 +1014,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.AmtBF_B3_p));
+                return string.Join(",", this.Odds.Select(o => o.AmtBF_B3_p.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).AmtBF_B3_p = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).AmtBF_B3_p = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).AmtBF_B3_p = -1;
+                    }
+                }
             }
         }
 
@@ -549,11 +1040,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsBF_B2_p));
+                return string.Join(",", this.Odds.Select(o => o.OddsBF_B2_p.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsBF_B2_p = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsBF_B2_p = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsBF_B2_p = -1;
+                    }
+                }
             }
         }
 
@@ -562,11 +1066,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.AmtBF_B2_p));
+                return string.Join(",", this.Odds.Select(o => o.AmtBF_B2_p.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).AmtBF_B2_p = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).AmtBF_B2_p = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).AmtBF_B2_p = -1;
+                    }
+                }
             }
         }
 
@@ -575,11 +1092,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsBF_B1_p));
+                return string.Join(",", this.Odds.Select(o => o.OddsBF_B1_p.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsBF_B1_p = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsBF_B1_p = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsBF_B1_p = -1;
+                    }
+                }
             }
         }
 
@@ -588,11 +1118,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.AmtBF_B1_p));
+                return string.Join(",", this.Odds.Select(o => o.AmtBF_B1_p.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).AmtBF_B1_p = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).AmtBF_B1_p = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).AmtBF_B1_p = -1;
+                    }
+                }
             }
         }
 
@@ -601,11 +1144,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsBF_L1_p));
+                return string.Join(",", this.Odds.Select(o => o.OddsBF_L1_p.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsBF_L1_p = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsBF_L1_p = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsBF_L1_p = -1;
+                    }
+                }
             }
         }
 
@@ -614,11 +1170,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.AmtBF_L1_p));
+                return string.Join(",", this.Odds.Select(o => o.AmtBF_L1_p.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).AmtBF_L1_p = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).AmtBF_L1_p = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).AmtBF_L1_p = -1;
+                    }
+                }
             }
         }
 
@@ -627,11 +1196,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsBF_L2_p));
+                return string.Join(",", this.Odds.Select(o => o.OddsBF_L2_p.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsBF_L2_p = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsBF_L2_p = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsBF_L2_p = -1;
+                    }
+                }
             }
         }
 
@@ -640,11 +1222,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.AmtBF_L2_p));
+                return string.Join(",", this.Odds.Select(o => o.AmtBF_L2_p.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).AmtBF_L2_p = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).AmtBF_L2_p = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).AmtBF_L2_p = -1;
+                    }
+                }
             }
         }
 
@@ -653,11 +1248,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsBF_L3_p));
+                return string.Join(",", this.Odds.Select(o => o.OddsBF_L3_p.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsBF_L3_p = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsBF_L3_p = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsBF_L3_p = -1;
+                    }
+                }
             }
         }
 
@@ -666,11 +1274,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.AmtBF_L3_p));
+                return string.Join(",", this.Odds.Select(o => o.AmtBF_L3_p.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).AmtBF_L3_p = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).AmtBF_L3_p = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).AmtBF_L3_p = -1;
+                    }
+                }
             }
         }
 
@@ -679,11 +1300,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsCB_p));
+                return string.Join(",", this.Odds.Select(o => o.OddsCB_p.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsCB_p = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsCB_p = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsCB_p = -1;
+                    }
+                }
             }
         }
 
@@ -692,11 +1326,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.MatchBF));
+                return string.Join(",", this.Odds.Select(o => o.MatchBF.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).MatchBF = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).MatchBF = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).MatchBF = -1;
+                    }
+                }
             }
         }
 
@@ -705,11 +1352,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.MatchBF_p));
+                return string.Join(",", this.Odds.Select(o => o.MatchBF_p.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).MatchBF_p = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).MatchBF_p = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).MatchBF_p = -1;
+                    }
+                }
             }
         }
 
@@ -718,11 +1378,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.LastBF));
+                return string.Join(",", this.Odds.Select(o => o.LastBF.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).LastBF = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).LastBF = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).LastBF = -1;
+                    }
+                }
             }
         }
 
@@ -731,11 +1404,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.LastBF_p));
+                return string.Join(",", this.Odds.Select(o => o.LastBF_p.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).LastBF_p = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).LastBF_p = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).LastBF_p = -1;
+                    }
+                }
             }
         }
 
@@ -744,11 +1430,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsV_FX));
+                return string.Join(",", this.Odds.Select(o => o.OddsV_FX.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsV_FX = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsV_FX = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsV_FX = -1;
+                    }
+                }
             }
         }
 
@@ -757,11 +1456,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsN_FX));
+                return string.Join(",", this.Odds.Select(o => o.OddsN_FX.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsN_FX = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsN_FX = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsN_FX = -1;
+                    }
+                }
             }
         }
 
@@ -770,11 +1482,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsQ_FX));
+                return string.Join(",", this.Odds.Select(o => o.OddsQ_FX.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsQ_FX = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsQ_FX = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsQ_FX = -1;
+                    }
+                }
             }
         }
 
@@ -783,11 +1508,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsLB));
+                return string.Join(",", this.Odds.Select(o => o.OddsLB.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsLB = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsLB = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsLB = -1;
+                    }
+                }
             }
         }
 
@@ -796,11 +1534,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsBF_WAP));
+                return string.Join(",", this.Odds.Select(o => o.OddsBF_WAP.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsBF_WAP = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsBF_WAP = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsBF_WAP = -1;
+                    }
+                }
             }
         }
 
@@ -809,11 +1560,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsBE_FX));
+                return string.Join(",", this.Odds.Select(o => o.OddsBE_FX.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsBE_FX = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsBE_FX = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsBE_FX = -1;
+                    }
+                }
             }
         }
 
@@ -822,11 +1586,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsTS2));
+                return string.Join(",", this.Odds.Select(o => o.OddsTS2.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsTS2 = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsTS2 = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsTS2 = -1;
+                    }
+                }
             }
         }
 
@@ -835,11 +1612,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsSB_p));
+                return string.Join(",", this.Odds.Select(o => o.OddsSB_p.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsSB_p = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsSB_p = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsSB_p = -1;
+                    }
+                }
             }
         }
 
@@ -848,11 +1638,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsLB_p));
+                return string.Join(",", this.Odds.Select(o => o.OddsLB_p.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsLB_p = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsLB_p = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsLB_p = -1;
+                    }
+                }
             }
         }
 
@@ -861,11 +1664,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsQ_FX_p));
+                return string.Join(",", this.Odds.Select(o => o.OddsQ_FX_p.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsQ_FX_p = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsQ_FX_p = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsQ_FX_p = -1;
+                    }
+                }
             }
         }
 
@@ -874,11 +1690,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsBM));
+                return string.Join(",", this.Odds.Select(o => o.OddsBM.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsBM = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsBM = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsBM = -1;
+                    }
+                }
             }
         }
 
@@ -887,11 +1716,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsBT));
+                return string.Join(",", this.Odds.Select(o => o.OddsBT.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsBT = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsBT = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsBT = -1;
+                    }
+                }
             }
         }
 
@@ -900,11 +1742,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsBB2));
+                return string.Join(",", this.Odds.Select(o => o.OddsBB2.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsBB2 = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsBB2 = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsBB2 = -1;
+                    }
+                }
             }
         }
 
@@ -913,11 +1768,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsPB2));
+                return string.Join(",", this.Odds.Select(o => o.OddsPB2.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsPB2 = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsPB2 = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsPB2 = -1;
+                    }
+                }
             }
         }
 
@@ -926,11 +1794,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsSB5));
+                return string.Join(",", this.Odds.Select(o => o.OddsSB5.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsSB5 = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsSB5 = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsSB5 = -1;
+                    }
+                }
             }
         }
 
@@ -939,11 +1820,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsUB));
+                return string.Join(",", this.Odds.Select(o => o.OddsUB.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsUB = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsUB = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsUB = -1;
+                    }
+                }
             }
         }
 
@@ -952,11 +1846,24 @@ namespace ArbBetSystem
         {
             get
             {
-                return string.Join(",", this.Odds.Select(o => o.OddsNZ_FX));
+                return string.Join(",", this.Odds.Select(o => o.OddsNZ_FX.ToString()));
             }
             set
             {
-                string[] tmp = value.Split(','); AddOdds(tmp.Length); for (int i = 0; i < tmp.Length; i++) { Odds.ElementAt(i).OddsNZ_FX = tmp[i]; }
+                string[] tmp = value.Split(',');
+                AddRunners(tmp.Length);
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    double d;
+                    if (double.TryParse(tmp[i], out d))
+                    {
+                        Odds.ElementAt(i).OddsNZ_FX = d;
+                    }
+                    else
+                    {
+                        Odds.ElementAt(i).OddsNZ_FX = -1;
+                    }
+                }
             }
         }
 

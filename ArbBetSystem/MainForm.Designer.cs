@@ -46,6 +46,10 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.dgvMeetings = new System.Windows.Forms.DataGridView();
+            this.meetCheck = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.meetVenue = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.meetCountry = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.meetType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvEvents = new System.Windows.Forms.DataGridView();
             this.evtCheck = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.evtName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -59,10 +63,6 @@
             this.runBFL1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.runWH = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.runIAS = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.meetCheck = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.meetVenue = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.meetCountry = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.meetType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMeetings)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEvents)).BeginInit();
@@ -240,6 +240,35 @@
             this.dgvMeetings.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellDoubleClick);
             this.dgvMeetings.SelectionChanged += new System.EventHandler(this.dgvMeetings_SelectionChanged);
             // 
+            // meetCheck
+            // 
+            this.meetCheck.DataPropertyName = "IsChecked";
+            this.meetCheck.HeaderText = "Check";
+            this.meetCheck.Name = "meetCheck";
+            this.meetCheck.Width = 44;
+            // 
+            // meetVenue
+            // 
+            this.meetVenue.DataPropertyName = "Venue";
+            this.meetVenue.HeaderText = "Venue";
+            this.meetVenue.Name = "meetVenue";
+            this.meetVenue.Width = 63;
+            // 
+            // meetCountry
+            // 
+            this.meetCountry.DataPropertyName = "Country";
+            this.meetCountry.HeaderText = "Country";
+            this.meetCountry.Name = "meetCountry";
+            this.meetCountry.Width = 68;
+            // 
+            // meetType
+            // 
+            this.meetType.DataPropertyName = "Type";
+            this.meetType.HeaderText = "Type";
+            this.meetType.Name = "meetType";
+            this.meetType.ReadOnly = true;
+            this.meetType.Width = 56;
+            // 
             // dgvEvents
             // 
             this.dgvEvents.AllowUserToAddRows = false;
@@ -360,7 +389,7 @@
             // 
             // runBFL1
             // 
-            this.runBFL1.DataPropertyName = "Lays[\"BetFair Lay 1\"]";
+            this.runBFL1.DataPropertyName = "OddsBF_L1";
             this.runBFL1.HeaderText = "BetFair Lay";
             this.runBFL1.Name = "runBFL1";
             this.runBFL1.ReadOnly = true;
@@ -368,7 +397,7 @@
             // 
             // runWH
             // 
-            this.runWH.DataPropertyName = "Backs[\"William Hill\"]";
+            this.runWH.DataPropertyName = "OddsSB";
             this.runWH.HeaderText = "William Hill";
             this.runWH.Name = "runWH";
             this.runWH.ReadOnly = true;
@@ -376,40 +405,11 @@
             // 
             // runIAS
             // 
-            this.runIAS.DataPropertyName = "Backs[\"Sports Bet\"]";
+            this.runIAS.DataPropertyName = "OddsIAS";
             this.runIAS.HeaderText = "SportsBet";
             this.runIAS.Name = "runIAS";
             this.runIAS.ReadOnly = true;
             this.runIAS.Width = 78;
-            // 
-            // meetCheck
-            // 
-            this.meetCheck.DataPropertyName = "IsChecked";
-            this.meetCheck.HeaderText = "Check";
-            this.meetCheck.Name = "meetCheck";
-            this.meetCheck.Width = 44;
-            // 
-            // meetVenue
-            // 
-            this.meetVenue.DataPropertyName = "Venue";
-            this.meetVenue.HeaderText = "Venue";
-            this.meetVenue.Name = "meetVenue";
-            this.meetVenue.Width = 63;
-            // 
-            // meetCountry
-            // 
-            this.meetCountry.DataPropertyName = "Country";
-            this.meetCountry.HeaderText = "Country";
-            this.meetCountry.Name = "meetCountry";
-            this.meetCountry.Width = 68;
-            // 
-            // meetType
-            // 
-            this.meetType.DataPropertyName = "Type";
-            this.meetType.HeaderText = "Type";
-            this.meetType.Name = "meetType";
-            this.meetType.ReadOnly = true;
-            this.meetType.Width = 56;
             // 
             // MainForm
             // 
@@ -463,6 +463,10 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn evtName;
         private System.Windows.Forms.DataGridViewTextBoxColumn evtStartTime;
         private System.Windows.Forms.DataGridView dgvRunners;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn meetCheck;
+        private System.Windows.Forms.DataGridViewTextBoxColumn meetVenue;
+        private System.Windows.Forms.DataGridViewTextBoxColumn meetCountry;
+        private System.Windows.Forms.DataGridViewTextBoxColumn meetType;
         private System.Windows.Forms.DataGridViewTextBoxColumn runNo;
         private System.Windows.Forms.DataGridViewTextBoxColumn runName;
         private System.Windows.Forms.DataGridViewTextBoxColumn runJockey;
@@ -471,10 +475,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn runBFL1;
         private System.Windows.Forms.DataGridViewTextBoxColumn runWH;
         private System.Windows.Forms.DataGridViewTextBoxColumn runIAS;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn meetCheck;
-        private System.Windows.Forms.DataGridViewTextBoxColumn meetVenue;
-        private System.Windows.Forms.DataGridViewTextBoxColumn meetCountry;
-        private System.Windows.Forms.DataGridViewTextBoxColumn meetType;
     }
 }
 

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
@@ -11,81 +13,91 @@ namespace ArbBetSystem
     [SerializableAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [XmlTypeAttribute(AnonymousType = true)]
-    public partial class RunnerOdd
+    public partial class RunnerOdd : INotifyPropertyChanged
     {
 
-        private byte rNoField;
-        private string rNameField;
-        private string scrField;
-        private string amtBF_B1_pField;     // Betfair Back Amount 1 Place
-        private string amtBF_B1Field;       // Betfair Back Amount 1 Win
-        private string amtBF_B2_pField;     // Betfair Back Amount 2 Place
-        private string amtBF_B2Field;       // Betfair Back Amount 2 Win
-        private string amtBF_B3_pField;     // Betfair Back Amount 3 Place
-        private string amtBF_B3Field;       // Betfair Back Amount 3 Win
-        private string amtBF_L1_pField;     // Betfair Lay Amount 1 Place
-        private string amtBF_L1Field;       // Betfair Lay Amount 1 Win
-        private string amtBF_L2_pField;     // Betfair Lay Amount 2 Place
-        private string amtBF_L2Field;       // Betfair Lay Amount 2 Win
-        private string amtBF_L3_pField;     // Betfair Lay Amount 3 Place
-        private string amtBF_L3Field;       // Betfair Lay Amount 3 Win
-        private string lastBF_pField;       // Betfair Last Matched Price Place
-        private string lastBFField;         // Betfair Last Matched Price Win
-        private string matchBF_pField;      // Betfair Total Matched Amount Place
-        private string matchBFField;        // Betfair Total Matched Amount Win
-        private string oddsATField;
-        private string oddsBB2Field;
-        private string oddsBCField;
-        private string oddsBE_FXField;
-        private string oddsBEField;
-        private string oddsBF_B1_pField;    // Betfair Back Odds 1 Place
-        private string oddsBF_B1Field;      // Betfair Back Odds 1 Win
-        private string oddsBF_B2_pField;    // Betfair Back Odds 2 Place
-        private string oddsBF_B2Field;      // Betfair Back Odds 2 Win
-        private string oddsBF_B3_pField;    // Betfair Back Odds 3 Place
-        private string oddsBF_B3Field;      // Betfair Back Odds 3 Win
-        private string oddsBF_L1_pField;    // Betfair Lay Odds 1 Place
-        private string oddsBF_L1Field;      // Betfair Lay Odds 1 Win
-        private string oddsBF_L2_pField;    // Betfair Lay Odds 2 Place
-        private string oddsBF_L2Field;      // Betfair Lay Odds 2 Win
-        private string oddsBF_L3_pField;    // Betfair Lay Odds 3 Place
-        private string oddsBF_L3Field;      // Betfair Lay Odds 3 Win
-        private string oddsBF_WAPField;     // Betfair Weighted Average Price
-        private string oddsBMField;
-        private string oddsBSField;
-        private string oddsBTField;
-        private string oddsCB_pField;
-        private string oddsCBField;
-        private string oddsCRField;
-        private string oddsIAS_2Field;
-        private string oddsIASField;
-        private string oddsLB_pField;
-        private string oddsLBField;
-        private string oddsN_FXField;
-        private string oddsN_PField;
-        private string oddsNField;
-        private string oddsNZ_FXField;
-        private string oddsNZField;
-        private string oddsPB2Field;
-        private string oddsPBField;
-        private string oddsQ_FX_pField;
-        private string oddsQ_FXField;
-        private string oddsQ_PField;
-        private string oddsQField;
-        private string oddsSAField;
-        private string oddsSB_2Field;
-        private string oddsSB_3Field;
-        private string oddsSB_pField;
-        private string oddsSB2Field;
-        private string oddsSB5Field;
-        private string oddsSBField;
-        private string oddsTS2Field;
-        private string oddsUBField;
-        private string oddsV_FXField;
-        private string oddsV_PField;
-        private string oddsVField;
-        private string oddsWBField;
-        private string oddsYBBField;
+        protected byte rNoField;
+        protected string rNameField;
+        protected string scrField;
+        protected double amtBF_B1_pField;     // Betfair Back Amount 1 Place
+        protected double amtBF_B1Field;       // Betfair Back Amount 1 Win
+        protected double amtBF_B2_pField;     // Betfair Back Amount 2 Place
+        protected double amtBF_B2Field;       // Betfair Back Amount 2 Win
+        protected double amtBF_B3_pField;     // Betfair Back Amount 3 Place
+        protected double amtBF_B3Field;       // Betfair Back Amount 3 Win
+        protected double amtBF_L1_pField;     // Betfair Lay Amount 1 Place
+        protected double amtBF_L1Field;       // Betfair Lay Amount 1 Win
+        protected double amtBF_L2_pField;     // Betfair Lay Amount 2 Place
+        protected double amtBF_L2Field;       // Betfair Lay Amount 2 Win
+        protected double amtBF_L3_pField;     // Betfair Lay Amount 3 Place
+        protected double amtBF_L3Field;       // Betfair Lay Amount 3 Win
+        protected double lastBF_pField;       // Betfair Last Matched Price Place
+        protected double lastBFField;         // Betfair Last Matched Price Win
+        protected double matchBF_pField;      // Betfair Total Matched Amount Place
+        protected double matchBFField;        // Betfair Total Matched Amount Win
+        protected double oddsATField;
+        protected double oddsBB2Field;
+        protected double oddsBCField;
+        protected double oddsBE_FXField;
+        protected double oddsBEField;
+        protected double oddsBF_B1_pField;    // Betfair Back Odds 1 Place
+        protected double oddsBF_B1Field;      // Betfair Back Odds 1 Win
+        protected double oddsBF_B2_pField;    // Betfair Back Odds 2 Place
+        protected double oddsBF_B2Field;      // Betfair Back Odds 2 Win
+        protected double oddsBF_B3_pField;    // Betfair Back Odds 3 Place
+        protected double oddsBF_B3Field;      // Betfair Back Odds 3 Win
+        protected double oddsBF_L1_pField;    // Betfair Lay Odds 1 Place
+        protected double oddsBF_L1Field;      // Betfair Lay Odds 1 Win
+        protected double oddsBF_L2_pField;    // Betfair Lay Odds 2 Place
+        protected double oddsBF_L2Field;      // Betfair Lay Odds 2 Win
+        protected double oddsBF_L3_pField;    // Betfair Lay Odds 3 Place
+        protected double oddsBF_L3Field;      // Betfair Lay Odds 3 Win
+        protected double oddsBF_WAPField;     // Betfair Weighted Average Price
+        protected double oddsBMField;
+        protected double oddsBSField;
+        protected double oddsBTField;
+        protected double oddsCB_pField;
+        protected double oddsCBField;
+        protected double oddsCRField;
+        protected double oddsIAS_2Field;
+        protected double oddsIASField;        // Sports Bet
+        protected double oddsLB_pField;
+        protected double oddsLBField;
+        protected double oddsN_FXField;
+        protected double oddsN_PField;
+        protected double oddsNField;
+        protected double oddsNZ_FXField;
+        protected double oddsNZField;
+        protected double oddsPB2Field;
+        protected double oddsPBField;
+        protected double oddsQ_FX_pField;
+        protected double oddsQ_FXField;
+        protected double oddsQ_PField;
+        protected double oddsQField;
+        protected double oddsSAField;
+        protected double oddsSB_2Field;
+        protected double oddsSB_3Field;
+        protected double oddsSB_pField;
+        protected double oddsSB2Field;
+        protected double oddsSB5Field;
+        protected double oddsSBField;         // William Hill
+        protected double oddsTS2Field;
+        protected double oddsUBField;
+        protected double oddsV_FXField;
+        protected double oddsV_PField;
+        protected double oddsVField;
+        protected double oddsWBField;
+        protected double oddsYBBField;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
 
         /// <remarks/>
         public byte RNo
@@ -127,7 +139,7 @@ namespace ArbBetSystem
         }
 
         /// <remarks/>
-        public string OddsV
+        public double OddsV
         {
             get
             {
@@ -135,12 +147,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsVField = value;
+                if (this.oddsVField != value)
+                {
+                    this.oddsVField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsV_P
+        public double OddsV_P
         {
             get
             {
@@ -148,12 +164,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsV_PField = value;
+                if (this.oddsV_PField != value)
+                {
+                    this.oddsV_PField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsN
+        public double OddsN
         {
             get
             {
@@ -161,12 +181,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsNField = value;
+                if (this.oddsNField != value)
+                {
+                    this.oddsNField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsN_P
+        public double OddsN_P
         {
             get
             {
@@ -174,12 +198,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsN_PField = value;
+                if (this.oddsN_PField != value)
+                {
+                    this.oddsN_PField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsQ
+        public double OddsQ
         {
             get
             {
@@ -187,12 +215,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsQField = value;
+                if (this.oddsQField != value)
+                {
+                    this.oddsQField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsQ_P
+        public double OddsQ_P
         {
             get
             {
@@ -200,12 +232,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsQ_PField = value;
+                if (this.oddsQ_PField != value)
+                {
+                    this.oddsQ_PField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsAT
+        public double OddsAT
         {
             get
             {
@@ -213,12 +249,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsATField = value;
+                if (this.oddsATField != value)
+                {
+                    this.oddsATField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsNZ
+        public double OddsNZ
         {
             get
             {
@@ -226,12 +266,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsNZField = value;
+                if (this.oddsNZField != value)
+                {
+                    this.oddsNZField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsBE
+        public double OddsBE
         {
             get
             {
@@ -239,12 +283,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsBEField = value;
+                if (this.oddsBEField != value)
+                {
+                    this.oddsBEField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsIAS
+        public double OddsIAS
         {
             get
             {
@@ -252,12 +300,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsIASField = value;
+                if (this.oddsIASField != value)
+                {
+                    this.oddsIASField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsIAS_2
+        public double OddsIAS_2
         {
             get
             {
@@ -265,12 +317,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsIAS_2Field = value;
+                if (this.oddsIAS_2Field != value)
+                {
+                    this.oddsIAS_2Field = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsSB
+        public double OddsSB
         {
             get
             {
@@ -278,12 +334,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsSBField = value;
+                if (this.oddsSBField != value)
+                {
+                    this.oddsSBField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsSB_2
+        public double OddsSB_2
         {
             get
             {
@@ -291,12 +351,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsSB_2Field = value;
+                if (this.oddsSB_2Field != value)
+                {
+                    this.oddsSB_2Field = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsSB_3
+        public double OddsSB_3
         {
             get
             {
@@ -304,12 +368,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsSB_3Field = value;
+                if (this.oddsSB_3Field != value)
+                {
+                    this.oddsSB_3Field = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsCB
+        public double OddsCB
         {
             get
             {
@@ -317,12 +385,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsCBField = value;
+                if (this.oddsCBField != value)
+                {
+                    this.oddsCBField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsSB2
+        public double OddsSB2
         {
             get
             {
@@ -330,12 +402,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsSB2Field = value;
+                if (this.oddsSB2Field != value)
+                {
+                    this.oddsSB2Field = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsSA
+        public double OddsSA
         {
             get
             {
@@ -343,12 +419,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsSAField = value;
+                if (this.oddsSAField != value)
+                {
+                    this.oddsSAField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsCR
+        public double OddsCR
         {
             get
             {
@@ -356,12 +436,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsCRField = value;
+                if (this.oddsCRField != value)
+                {
+                    this.oddsCRField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsBC
+        public double OddsBC
         {
             get
             {
@@ -369,12 +453,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsBCField = value;
+                if (this.oddsBCField != value)
+                {
+                    this.oddsBCField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsWB
+        public double OddsWB
         {
             get
             {
@@ -382,12 +470,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsWBField = value;
+                if (this.oddsWBField != value)
+                {
+                    this.oddsWBField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsYBB
+        public double OddsYBB
         {
             get
             {
@@ -395,12 +487,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsYBBField = value;
+                if (this.oddsYBBField != value)
+                {
+                    this.oddsYBBField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsPB
+        public double OddsPB
         {
             get
             {
@@ -408,12 +504,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsPBField = value;
+                if (this.oddsPBField != value)
+                {
+                    this.oddsPBField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsBS
+        public double OddsBS
         {
             get
             {
@@ -421,12 +521,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsBSField = value;
+                if (this.oddsBSField != value)
+                {
+                    this.oddsBSField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsBF_B3
+        public double OddsBF_B3
         {
             get
             {
@@ -434,12 +538,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsBF_B3Field = value;
+                if (this.oddsBF_B3Field != value)
+                {
+                    this.oddsBF_B3Field = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string AmtBF_B3
+        public double AmtBF_B3
         {
             get
             {
@@ -447,12 +555,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.amtBF_B3Field = value;
+                if (this.amtBF_B3Field != value)
+                {
+                    this.amtBF_B3Field = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsBF_B2
+        public double OddsBF_B2
         {
             get
             {
@@ -460,12 +572,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsBF_B2Field = value;
+                if (this.oddsBF_B2Field != value)
+                {
+                    this.oddsBF_B2Field = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string AmtBF_B2
+        public double AmtBF_B2
         {
             get
             {
@@ -473,12 +589,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.amtBF_B2Field = value;
+                if (this.amtBF_B2Field != value)
+                {
+                    this.amtBF_B2Field = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsBF_B1
+        public double OddsBF_B1
         {
             get
             {
@@ -486,12 +606,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsBF_B1Field = value;
+                if (this.oddsBF_B1Field != value)
+                {
+                    this.oddsBF_B1Field = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string AmtBF_B1
+        public double AmtBF_B1
         {
             get
             {
@@ -499,12 +623,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.amtBF_B1Field = value;
+                if (this.amtBF_B1Field != value)
+                {
+                    this.amtBF_B1Field = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsBF_L1
+        public double OddsBF_L1
         {
             get
             {
@@ -512,12 +640,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsBF_L1Field = value;
+                if (this.oddsBF_L1Field != value)
+                {
+                    this.oddsBF_L1Field = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string AmtBF_L1
+        public double AmtBF_L1
         {
             get
             {
@@ -525,12 +657,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.amtBF_L1Field = value;
+                if (this.amtBF_L1Field != value)
+                {
+                    this.amtBF_L1Field = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsBF_L2
+        public double OddsBF_L2
         {
             get
             {
@@ -538,12 +674,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsBF_L2Field = value;
+                if (this.oddsBF_L2Field != value)
+                {
+                    this.oddsBF_L2Field = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string AmtBF_L2
+        public double AmtBF_L2
         {
             get
             {
@@ -551,12 +691,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.amtBF_L2Field = value;
+                if (this.amtBF_L2Field != value)
+                {
+                    this.amtBF_L2Field = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsBF_L3
+        public double OddsBF_L3
         {
             get
             {
@@ -564,12 +708,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsBF_L3Field = value;
+                if (this.oddsBF_L3Field != value)
+                {
+                    this.oddsBF_L3Field = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string AmtBF_L3
+        public double AmtBF_L3
         {
             get
             {
@@ -577,12 +725,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.amtBF_L3Field = value;
+                if (this.amtBF_L3Field != value)
+                {
+                    this.amtBF_L3Field = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsBF_B3_p
+        public double OddsBF_B3_p
         {
             get
             {
@@ -590,12 +742,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsBF_B3_pField = value;
+                if (this.oddsBF_B3_pField != value)
+                {
+                    this.oddsBF_B3_pField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string AmtBF_B3_p
+        public double AmtBF_B3_p
         {
             get
             {
@@ -603,12 +759,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.amtBF_B3_pField = value;
+                if (this.amtBF_B3_pField != value)
+                {
+                    this.amtBF_B3_pField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsBF_B2_p
+        public double OddsBF_B2_p
         {
             get
             {
@@ -616,12 +776,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsBF_B2_pField = value;
+                if (this.oddsBF_B2_pField != value)
+                {
+                    this.oddsBF_B2_pField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string AmtBF_B2_p
+        public double AmtBF_B2_p
         {
             get
             {
@@ -629,12 +793,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.amtBF_B2_pField = value;
+                if (this.amtBF_B2_pField != value)
+                {
+                    this.amtBF_B2_pField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsBF_B1_p
+        public double OddsBF_B1_p
         {
             get
             {
@@ -642,12 +810,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsBF_B1_pField = value;
+                if (this.oddsBF_B1_pField != value)
+                {
+                    this.oddsBF_B1_pField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string AmtBF_B1_p
+        public double AmtBF_B1_p
         {
             get
             {
@@ -655,12 +827,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.amtBF_B1_pField = value;
+                if (this.amtBF_B1_pField != value)
+                {
+                    this.amtBF_B1_pField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsBF_L1_p
+        public double OddsBF_L1_p
         {
             get
             {
@@ -668,12 +844,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsBF_L1_pField = value;
+                if (this.oddsBF_L1_pField != value)
+                {
+                    this.oddsBF_L1_pField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string AmtBF_L1_p
+        public double AmtBF_L1_p
         {
             get
             {
@@ -681,12 +861,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.amtBF_L1_pField = value;
+                if (this.amtBF_L1_pField != value)
+                {
+                    this.amtBF_L1_pField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsBF_L2_p
+        public double OddsBF_L2_p
         {
             get
             {
@@ -694,12 +878,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsBF_L2_pField = value;
+                if (this.oddsBF_L2_pField != value)
+                {
+                    this.oddsBF_L2_pField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string AmtBF_L2_p
+        public double AmtBF_L2_p
         {
             get
             {
@@ -707,12 +895,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.amtBF_L2_pField = value;
+                if (this.amtBF_L2_pField != value)
+                {
+                    this.amtBF_L2_pField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsBF_L3_p
+        public double OddsBF_L3_p
         {
             get
             {
@@ -720,12 +912,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsBF_L3_pField = value;
+                if (this.oddsBF_L3_pField != value)
+                {
+                    this.oddsBF_L3_pField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string AmtBF_L3_p
+        public double AmtBF_L3_p
         {
             get
             {
@@ -733,12 +929,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.amtBF_L3_pField = value;
+                if (this.amtBF_L3_pField != value)
+                {
+                    this.amtBF_L3_pField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsCB_p
+        public double OddsCB_p
         {
             get
             {
@@ -746,12 +946,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsCB_pField = value;
+                if (this.oddsCB_pField != value)
+                {
+                    this.oddsCB_pField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string MatchBF
+        public double MatchBF
         {
             get
             {
@@ -759,12 +963,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.matchBFField = value;
+                if (this.matchBFField != value)
+                {
+                    this.matchBFField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string MatchBF_p
+        public double MatchBF_p
         {
             get
             {
@@ -772,12 +980,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.matchBF_pField = value;
+                if (this.matchBF_pField != value)
+                {
+                    this.matchBF_pField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string LastBF
+        public double LastBF
         {
             get
             {
@@ -785,12 +997,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.lastBFField = value;
+                if (this.lastBFField != value)
+                {
+                    this.lastBFField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string LastBF_p
+        public double LastBF_p
         {
             get
             {
@@ -798,12 +1014,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.lastBF_pField = value;
+                if (this.lastBF_pField != value)
+                {
+                    this.lastBF_pField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsV_FX
+        public double OddsV_FX
         {
             get
             {
@@ -811,12 +1031,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsV_FXField = value;
+                if (this.oddsV_FXField != value)
+                {
+                    this.oddsV_FXField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsN_FX
+        public double OddsN_FX
         {
             get
             {
@@ -824,12 +1048,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsN_FXField = value;
+                if (this.oddsN_FXField != value)
+                {
+                    this.oddsN_FXField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsQ_FX
+        public double OddsQ_FX
         {
             get
             {
@@ -837,12 +1065,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsQ_FXField = value;
+                if (this.oddsQ_FXField != value)
+                {
+                    this.oddsQ_FXField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsLB
+        public double OddsLB
         {
             get
             {
@@ -850,12 +1082,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsLBField = value;
+                if (this.oddsLBField != value)
+                {
+                    this.oddsLBField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsBF_WAP
+        public double OddsBF_WAP
         {
             get
             {
@@ -863,12 +1099,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsBF_WAPField = value;
+                if (this.oddsBF_WAPField != value)
+                {
+                    this.oddsBF_WAPField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsBE_FX
+        public double OddsBE_FX
         {
             get
             {
@@ -876,12 +1116,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsBE_FXField = value;
+                if (this.oddsBE_FXField != value)
+                {
+                    this.oddsBE_FXField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsTS2
+        public double OddsTS2
         {
             get
             {
@@ -889,12 +1133,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsTS2Field = value;
+                if (this.oddsTS2Field != value)
+                {
+                    this.oddsTS2Field = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsSB_p
+        public double OddsSB_p
         {
             get
             {
@@ -902,12 +1150,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsSB_pField = value;
+                if (this.oddsSB_pField != value)
+                {
+                    this.oddsSB_pField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsLB_p
+        public double OddsLB_p
         {
             get
             {
@@ -915,12 +1167,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsLB_pField = value;
+                if (this.oddsLB_pField != value)
+                {
+                    this.oddsLB_pField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsQ_FX_p
+        public double OddsQ_FX_p
         {
             get
             {
@@ -928,12 +1184,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsQ_FX_pField = value;
+                if (this.oddsQ_FX_pField != value)
+                {
+                    this.oddsQ_FX_pField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsBM
+        public double OddsBM
         {
             get
             {
@@ -941,12 +1201,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsBMField = value;
+                if (this.oddsBMField != value)
+                {
+                    this.oddsBMField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsBT
+        public double OddsBT
         {
             get
             {
@@ -954,12 +1218,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsBTField = value;
+                if (this.oddsBTField != value)
+                {
+                    this.oddsBTField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsBB2
+        public double OddsBB2
         {
             get
             {
@@ -967,12 +1235,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsBB2Field = value;
+                if (this.oddsBB2Field != value)
+                {
+                    this.oddsBB2Field = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsPB2
+        public double OddsPB2
         {
             get
             {
@@ -980,12 +1252,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsPB2Field = value;
+                if (this.oddsPB2Field != value)
+                {
+                    this.oddsPB2Field = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsSB5
+        public double OddsSB5
         {
             get
             {
@@ -993,12 +1269,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsSB5Field = value;
+                if (this.oddsSB5Field != value)
+                {
+                    this.oddsSB5Field = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsUB
+        public double OddsUB
         {
             get
             {
@@ -1006,12 +1286,16 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsUBField = value;
+                if (this.oddsUBField != value)
+                {
+                    this.oddsUBField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
         /// <remarks/>
-        public string OddsNZ_FX
+        public double OddsNZ_FX
         {
             get
             {
@@ -1019,7 +1303,11 @@ namespace ArbBetSystem
             }
             set
             {
-                this.oddsNZ_FXField = value;
+                if (this.oddsNZ_FXField != value)
+                {
+                    this.oddsNZ_FXField = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
     }

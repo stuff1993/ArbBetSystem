@@ -81,6 +81,23 @@ namespace ArbBetSystem
             throw new Exception("???");
         }
 
+        public BindingList<Meeting> GetMeetingsAllSuppressed(BindingList<Meeting> meetings, int meetingType = (int)(Meeting.MeetingTypes.Racing | Meeting.MeetingTypes.Harness | Meeting.MeetingTypes.Greyhound), bool runners = true)
+        {
+            return GetMeetingsAllSuppressed(meetings, DateTime.Today, meetingType, runners);
+        }
+
+        public BindingList<Meeting> GetMeetingsAllSuppressed(BindingList<Meeting> meetings, DateTime date, int meetingType = (int)(Meeting.MeetingTypes.Racing | Meeting.MeetingTypes.Harness | Meeting.MeetingTypes.Greyhound), bool runners = true)
+        {
+            try {
+                return GetMeetingsAll(date, meetingType, runners);
+            }
+            catch (HttpRequestException e)
+            {
+                logger.Error("GetMeetingsAll - Suppressed:", e);
+                return meetings;
+            }
+        }
+
         public BindingList<Meeting> GetMeetingsAll(int meetingType = (int)(Meeting.MeetingTypes.Racing | Meeting.MeetingTypes.Harness | Meeting.MeetingTypes.Greyhound), bool runners = true)
         {
             return GetMeetingsAll(DateTime.Today, meetingType, runners);
@@ -117,10 +134,10 @@ namespace ArbBetSystem
                 while(xmlR.ReadToFollowing("Meeting"))
                 {
                     meetings.Add((Meeting)xmlS.Deserialize(xmlR.ReadSubtree()));
-                    foreach (Meeting m in meetings)
-                    {
-                        m.MapChildren();
-                    }
+                }
+                foreach (Meeting m in meetings)
+                {
+                    m.MapChildren();
                 }
 
                 logger.Debug("Request Time: " + start.ToLongTimeString() + " Time Elapsed: " + (DateTime.Now - start).TotalSeconds);

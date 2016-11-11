@@ -8,6 +8,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Media;
+using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
@@ -79,6 +80,7 @@ namespace ArbBetSystem
 
         private void GetAndCheckOdds(object sender, DoWorkEventArgs args)
         {
+            int PollInterval = int.Parse(ConfigurationManager.AppSettings["PollInterval"]);
             BackgroundWorker worker = sender as BackgroundWorker;
             Event e = args.Argument as Event;
             logger.Info("Checking event " + e.ToString());
@@ -86,39 +88,46 @@ namespace ArbBetSystem
             foreach (Runner r in e.Runners)
             {
                 Dictionary<string, bool> backMatched = new Dictionary<string, bool>();
-                foreach (KeyValuePair<string, double> pair in r.Backs)
+                foreach (KeyValuePair<string, string> back in Runner.Backs)
                 {
-                    backMatched.Add(pair.Key, false);
+                    backMatched.Add(back.Key, false);
                 }
                 hasMatched.Add(r, backMatched);
             }
 
             while (!worker.CancellationPending)
             {
-                RunnerOdds odds = dynOdds.GetRunnerOdds(e.ID);
-                foreach (Runner r in e.Runners)
-                {
-                    r.AddOdds(odds.GetRunner(r.No));
-                    if (r.Percent != 0)
+                try {
+                    RunnerOdds odds = dynOdds.GetRunnerOdds(e.ID);
+                    foreach (Runner r in e.Runners)
                     {
-                        double lay = r.Lays.First().Value;
-                        foreach (KeyValuePair<string, double> pair in r.Backs)
+                        r.UpdateOdds(odds.GetRunner(r.No));
+                        if (r.Percent != 0)
                         {
-                            if (lay * (1 + r.Percent/100.0) < pair.Value && !hasMatched[r][pair.Key])
+                            double lay = r.OddsBF_L1;
+                            foreach (KeyValuePair<string, string> back in Runner.Backs)
                             {
-                                hasMatched[r][pair.Key] = true;
-                                SystemSounds.Exclamation.Play();
-                                MessageBox.Show("Event: " + e.ToString() + Environment.NewLine + "Runner: " + r.No + Environment.NewLine + "Lay: " + lay + Environment.NewLine + "Back: " + pair.Value + Environment.NewLine + "Book: " + pair.Key, "Match found:", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
-                                logger.Info("Match found: Event: " + e.ToString() + ", Runner: " + r.No + ", Lay: " + lay + ", Back: " + pair.Value + ", Book: " + pair.Key);
-                            }
-                            else if (lay * (1 + r.Percent / 100.0) >= pair.Value)
-                            {
-                                hasMatched[r][pair.Key] = false;
+                                double val = (double)typeof(RunnerOdd).GetProperty(back.Key).GetValue(r);
+                                if (val != -1 && lay * (1 + r.Percent / 100.0) < val && !hasMatched[r][back.Key])
+                                {
+                                    hasMatched[r][back.Key] = true;
+                                    SystemSounds.Exclamation.Play();
+                                    MessageBox.Show("Event: " + e.ToString() + Environment.NewLine + "Runner: " + r.No + Environment.NewLine + "Lay: " + lay + Environment.NewLine + "Back: " + val + Environment.NewLine + "Book: " + back.Value, "Match found:", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                                    logger.Info("Match found: Event: " + e.ToString() + ", Runner: " + r.No + ", Lay: " + lay + ", Back: " + val + ", Book: " + back.Value);
+                                }
+                                else if (lay * (1 + r.Percent / 100.0) >= val)
+                                {
+                                    hasMatched[r][back.Key] = false;
+                                }
                             }
                         }
                     }
                 }
-                Thread.Sleep(1000);
+                catch (HttpRequestException ex)
+                {
+                    logger.Error("GetRunnerOdds - Suppressed:", ex);
+                }
+                Thread.Sleep(PollInterval);
             }
             args.Cancel = true;
         }
@@ -234,6 +243,7 @@ namespace ArbBetSystem
                 meetings.Add(m);
             }
             dgvMeetings.SelectionChanged += dgvMeetings_SelectionChanged;
+            dgvMeetings.Rows[0].Selected = true;
             dgvMeetings_SelectionChanged(dgvMeetings, null);
 
             return true;
@@ -291,6 +301,7 @@ namespace ArbBetSystem
             LoadCredentials();
             InitDynOdds();
             Login();
+            Thread.Sleep(1000);
             UpdateMeetings();
         }
 
@@ -343,7 +354,7 @@ namespace ArbBetSystem
             {
                 if (odds != null)
                 {
-                    r.AddOdds(odds.GetRunner(r.No));
+                    r.UpdateOdds(odds.GetRunner(r.No));
                 }
             }
 
