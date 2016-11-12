@@ -42,9 +42,6 @@
             this.greyhoundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.layBetsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.backBetsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.dgvMeetings = new System.Windows.Forms.DataGridView();
             this.meetCheck = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.meetVenue = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -63,10 +60,12 @@
             this.runBFL1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.runWH = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.runIAS = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMeetings)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEvents)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRunners)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -79,7 +78,7 @@
             this.backBetsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(753, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(784, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -187,33 +186,6 @@
             this.backBetsToolStripMenuItem.Size = new System.Drawing.Size(69, 20);
             this.backBetsToolStripMenuItem.Text = "Back Bets";
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 27);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(50, 13);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "Meetings";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(362, 27);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(40, 13);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "Events";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(13, 223);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(47, 13);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "Runners";
-            // 
             // dgvMeetings
             // 
             this.dgvMeetings.AllowUserToAddRows = false;
@@ -227,14 +199,15 @@
             this.meetVenue,
             this.meetCountry,
             this.meetType});
+            this.dgvMeetings.Dock = System.Windows.Forms.DockStyle.Top;
             this.dgvMeetings.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.dgvMeetings.Location = new System.Drawing.Point(16, 43);
+            this.dgvMeetings.Location = new System.Drawing.Point(0, 0);
             this.dgvMeetings.MultiSelect = false;
             this.dgvMeetings.Name = "dgvMeetings";
             this.dgvMeetings.RowHeadersVisible = false;
             this.dgvMeetings.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dgvMeetings.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvMeetings.Size = new System.Drawing.Size(343, 177);
+            this.dgvMeetings.Size = new System.Drawing.Size(760, 177);
             this.dgvMeetings.TabIndex = 10;
             this.dgvMeetings.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellContentClick);
             this.dgvMeetings.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellDoubleClick);
@@ -281,14 +254,15 @@
             this.evtCheck,
             this.evtName,
             this.evtStartTime});
+            this.dgvEvents.Dock = System.Windows.Forms.DockStyle.Top;
             this.dgvEvents.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.dgvEvents.Location = new System.Drawing.Point(365, 43);
+            this.dgvEvents.Location = new System.Drawing.Point(0, 177);
             this.dgvEvents.MultiSelect = false;
             this.dgvEvents.Name = "dgvEvents";
             this.dgvEvents.RowHeadersVisible = false;
             this.dgvEvents.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dgvEvents.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvEvents.Size = new System.Drawing.Size(373, 177);
+            this.dgvEvents.Size = new System.Drawing.Size(760, 177);
             this.dgvEvents.TabIndex = 11;
             this.dgvEvents.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellContentClick);
             this.dgvEvents.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellDoubleClick);
@@ -336,14 +310,15 @@
             this.runBFL1,
             this.runWH,
             this.runIAS});
+            this.dgvRunners.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvRunners.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.dgvRunners.Location = new System.Drawing.Point(16, 239);
+            this.dgvRunners.Location = new System.Drawing.Point(0, 354);
             this.dgvRunners.MultiSelect = false;
             this.dgvRunners.Name = "dgvRunners";
             this.dgvRunners.RowHeadersVisible = false;
             this.dgvRunners.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dgvRunners.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvRunners.Size = new System.Drawing.Size(722, 324);
+            this.dgvRunners.Size = new System.Drawing.Size(760, 238);
             this.dgvRunners.TabIndex = 12;
             this.dgvRunners.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellDoubleClick);
             // 
@@ -411,19 +386,28 @@
             this.runIAS.ReadOnly = true;
             this.runIAS.Width = 78;
             // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Controls.Add(this.dgvRunners);
+            this.panel1.Controls.Add(this.dgvEvents);
+            this.panel1.Controls.Add(this.dgvMeetings);
+            this.panel1.Location = new System.Drawing.Point(12, 27);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(760, 592);
+            this.panel1.TabIndex = 13;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(753, 575);
-            this.Controls.Add(this.dgvRunners);
-            this.Controls.Add(this.dgvEvents);
-            this.Controls.Add(this.dgvMeetings);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.ClientSize = new System.Drawing.Size(784, 631);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
+            this.MinimumSize = new System.Drawing.Size(800, 670);
             this.Name = "MainForm";
             this.Text = "Form1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
@@ -433,6 +417,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvMeetings)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEvents)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRunners)).EndInit();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -447,9 +432,6 @@
         private System.Windows.Forms.ToolStripMenuItem updateMeetingListToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem forceLoginToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem startToolStripMenuItem;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ToolStripMenuItem stopToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem meetingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem racingToolStripMenuItem;
@@ -475,6 +457,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn runBFL1;
         private System.Windows.Forms.DataGridViewTextBoxColumn runWH;
         private System.Windows.Forms.DataGridViewTextBoxColumn runIAS;
+        private System.Windows.Forms.Panel panel1;
     }
 }
 

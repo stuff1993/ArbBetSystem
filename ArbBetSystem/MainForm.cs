@@ -4,15 +4,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
 using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Media;
 using System.Net.Http;
-using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ArbBetSystem
@@ -28,6 +25,9 @@ namespace ArbBetSystem
         DynamicOdds dynOdds;
         BindingList<Meeting> meetings = new BindingList<Meeting>();
         BackgroundWorker bw = new BackgroundWorker();
+        int PollInterval;
+        int PreEventCheck;
+        int PostEventCheck;
 
         public MainForm()
         {
@@ -57,7 +57,7 @@ namespace ArbBetSystem
             logger.Info("Checking odds");
             BackgroundWorker worker = sender as BackgroundWorker;
             Dictionary<Event, BackgroundWorker> workers = new Dictionary<Event, BackgroundWorker>();
-            List<Event> events = meetings.SelectMany(m => m.Events).Where(e => e.Check).ToList();
+            List<Event> events = meetings.SelectMany(m => m.Events).Where(e => e.Check && e.StartTime > DateTime.Now.AddMinutes(-PostEventCheck)).ToList();
             foreach (Event e in events)
             {
                 BackgroundWorker getodds = new BackgroundWorker();
@@ -71,7 +71,7 @@ namespace ArbBetSystem
             {
                 Thread.Sleep(1000);
             }
-            foreach(BackgroundWorker work in workers.Values)
+            foreach(BackgroundWorker work in workers.Values.Where(w => w.IsBusy))
             {
                 work.CancelAsync();
             }
@@ -80,10 +80,10 @@ namespace ArbBetSystem
 
         private void GetAndCheckOdds(object sender, DoWorkEventArgs args)
         {
-            int PollInterval = int.Parse(ConfigurationManager.AppSettings["PollInterval"]);
+            
             BackgroundWorker worker = sender as BackgroundWorker;
             Event e = args.Argument as Event;
-            logger.Info("Checking event " + e.ToString());
+            logger.Info("Checking event: " + e);
             Dictionary<Runner, Dictionary<string, bool>> hasMatched = new Dictionary<Runner, Dictionary<string, bool>>();
             foreach (Runner r in e.Runners)
             {
@@ -97,36 +97,50 @@ namespace ArbBetSystem
 
             while (!worker.CancellationPending)
             {
-                try {
-                    RunnerOdds odds = dynOdds.GetRunnerOdds(e.ID);
-                    foreach (Runner r in e.Runners)
+                if (e.StartTime <= DateTime.Now.AddMinutes(PreEventCheck)
+                    && e.StartTime >= DateTime.Now.AddMinutes(-PostEventCheck))
+                {
+                    try
                     {
-                        r.UpdateOdds(odds.GetRunner(r.No));
-                        if (r.Percent != 0)
+                        RunnerOdds odds = dynOdds.GetRunnerOdds(e.ID);
+                        foreach (Runner r in e.Runners)
                         {
-                            double lay = r.OddsBF_L1;
-                            foreach (KeyValuePair<string, string> back in Runner.Backs)
+                            r.UpdateOdds(odds.GetRunner(r.No));
+                            if (r.Percent != 0 && r.OddsBF_L1 <= 0)
                             {
-                                double val = (double)typeof(RunnerOdd).GetProperty(back.Key).GetValue(r);
-                                if (val != -1 && lay * (1 + r.Percent / 100.0) < val && !hasMatched[r][back.Key])
+                                double lay = r.OddsBF_L1;
+                                foreach (KeyValuePair<string, string> back in Runner.Backs)
                                 {
-                                    hasMatched[r][back.Key] = true;
-                                    SystemSounds.Exclamation.Play();
-                                    MessageBox.Show("Event: " + e.ToString() + Environment.NewLine + "Runner: " + r.No + Environment.NewLine + "Lay: " + lay + Environment.NewLine + "Back: " + val + Environment.NewLine + "Book: " + back.Value, "Match found:", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
-                                    logger.Info("Match found: Event: " + e.ToString() + ", Runner: " + r.No + ", Lay: " + lay + ", Back: " + val + ", Book: " + back.Value);
-                                }
-                                else if (lay * (1 + r.Percent / 100.0) >= val)
-                                {
-                                    hasMatched[r][back.Key] = false;
+                                    double val = (double)typeof(RunnerOdd).GetProperty(back.Key).GetValue(r);
+                                    if (val > 0 && lay * (1 + r.Percent / 100.0) < val && !hasMatched[r][back.Key])
+                                    {
+                                        hasMatched[r][back.Key] = true;
+                                        SystemSounds.Exclamation.Play();
+                                        MessageBox.Show(e + Environment.NewLine + r + Environment.NewLine + "Lay: " + lay + Environment.NewLine + "Back: " + val + Environment.NewLine + "Book: " + back.Value, "Match found:", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                                        logger.Info("Match found: " + e + ", " + r + ", Lay: " + lay + ", Back: " + val + ", Book: " + back.Value);
+                                    }
+                                    else if (lay * (1 + r.Percent / 100.0) >= val)
+                                    {
+                                        hasMatched[r][back.Key] = false;
+                                    }
                                 }
                             }
                         }
                     }
+                    catch (HttpRequestException ex)
+                    {
+                        logger.Error("GetRunnerOdds - Suppressed: " + e, ex);
+                    }
                 }
-                catch (HttpRequestException ex)
+                else if (e.StartTime < DateTime.Now.AddMinutes(-PostEventCheck))
                 {
-                    logger.Error("GetRunnerOdds - Suppressed:", ex);
+                    return;
                 }
+                else
+                {
+                    logger.Debug("Skipped event: " + e + ", Event Time: " + e.StartTime);
+                }
+
                 Thread.Sleep(PollInterval);
             }
             args.Cancel = true;
@@ -203,8 +217,17 @@ namespace ArbBetSystem
                     + (greyhoundToolStripMenuItem.Checked ? (int)Meeting.MeetingTypes.Greyhound : 0);
                 tmp = dynOdds.GetMeetingsAll(type);
             }
+            catch (HttpRequestException e)
+            {
+                MessageBox.Show("Error updating meetings:" + Environment.NewLine + e.Message,
+                    "API Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return false;
+            }
             catch (Exception e)
             {
+                logger.Error("Error updating meetings", e);
                 MessageBox.Show("Error updating meetings:" + Environment.NewLine + e.Message,
                     "API Error",
                     MessageBoxButtons.OK,
@@ -243,8 +266,11 @@ namespace ArbBetSystem
                 meetings.Add(m);
             }
             dgvMeetings.SelectionChanged += dgvMeetings_SelectionChanged;
-            dgvMeetings.Rows[0].Selected = true;
-            dgvMeetings_SelectionChanged(dgvMeetings, null);
+            if (dgvMeetings.Rows.Count > 0)
+            {
+                dgvMeetings.Rows[0].Selected = true;
+                dgvMeetings_SelectionChanged(dgvMeetings, null);
+            }
 
             return true;
 
@@ -298,6 +324,32 @@ namespace ArbBetSystem
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            if (!int.TryParse(ConfigurationManager.AppSettings["PollInterval"], out PollInterval))
+            {
+                MessageBox.Show("PollInterval not an int" + Environment.NewLine + "Defaulting to 1 second",
+                    "Configuration Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                PollInterval = 1000;
+            }
+
+            if (!int.TryParse(ConfigurationManager.AppSettings["PreEventCheck"], out PreEventCheck))
+            {
+                MessageBox.Show("PreEventCheck not an int" + Environment.NewLine + "Defaulting to 60 minutes",
+                    "Configuration Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                PollInterval = 60;
+            }
+
+            if (!int.TryParse(ConfigurationManager.AppSettings["PostEventCheck"], out PostEventCheck))
+            {
+                MessageBox.Show("PostEventCheck not an int" + Environment.NewLine + "Defaulting to 1 minute",
+                    "Configuration Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                PollInterval = 1;
+            }
             LoadCredentials();
             InitDynOdds();
             Login();
