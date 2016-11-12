@@ -276,7 +276,7 @@ namespace ArbBetSystem
 
         public override string ToString()
         {
-            return Name + " @ " + StartTime.ToShortTimeString();
+            return "Meeting: " + Parent + ", Event: " + EventNo + " - " + Name + " @ " + StartTime.ToShortTimeString();
         }
 
         public Event()

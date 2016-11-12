@@ -213,7 +213,7 @@ namespace ArbBetSystem
 
         public override string ToString()
         {
-            return Venue + " " + Country;
+            return Venue + " - " + Country;
         }
 
         public bool IsChecked

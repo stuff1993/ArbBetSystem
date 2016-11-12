@@ -38,6 +38,11 @@ namespace ArbBetSystem
         [XmlIgnore]
         private Event parent;
 
+        public override string ToString()
+        {
+            return "Runner: " + No + " - " + RName;
+        }
+
         [XmlIgnore]
         public Event Parent
         {
