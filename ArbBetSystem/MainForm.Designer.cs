@@ -61,6 +61,8 @@
             this.runWH = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.runIAS = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.pickTimeZoneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMeetings)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEvents)).BeginInit();
@@ -145,7 +147,9 @@
             this.meetingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.racingToolStripMenuItem,
             this.harnessToolStripMenuItem,
-            this.greyhoundToolStripMenuItem});
+            this.greyhoundToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.pickTimeZoneToolStripMenuItem});
             this.meetingsToolStripMenuItem.Name = "meetingsToolStripMenuItem";
             this.meetingsToolStripMenuItem.Size = new System.Drawing.Size(68, 20);
             this.meetingsToolStripMenuItem.Text = "Meetings";
@@ -399,6 +403,18 @@
             this.panel1.Size = new System.Drawing.Size(760, 592);
             this.panel1.TabIndex = 13;
             // 
+            // pickTimeZoneToolStripMenuItem
+            // 
+            this.pickTimeZoneToolStripMenuItem.Name = "pickTimeZoneToolStripMenuItem";
+            this.pickTimeZoneToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.pickTimeZoneToolStripMenuItem.Text = "Pick Time Zone";
+            this.pickTimeZoneToolStripMenuItem.Click += new System.EventHandler(this.pickTimeZoneToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(155, 6);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -458,6 +474,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn runWH;
         private System.Windows.Forms.DataGridViewTextBoxColumn runIAS;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem pickTimeZoneToolStripMenuItem;
     }
 }
 

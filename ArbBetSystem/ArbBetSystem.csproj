@@ -87,6 +87,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TimeZoneSelectorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TimeZoneSelectorForm.Designer.cs">
+      <DependentUpon>TimeZoneSelectorForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="PercentEntryForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -117,6 +123,9 @@
     <Compile Include="RunnerOdd.cs" />
     <Compile Include="RunnerOdds.cs" />
     <Compile Include="Weather.cs" />
+    <EmbeddedResource Include="TimeZoneSelectorForm.resx">
+      <DependentUpon>TimeZoneSelectorForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="PercentEntryForm.resx">
       <DependentUpon>PercentEntryForm.cs</DependentUpon>
     </EmbeddedResource>

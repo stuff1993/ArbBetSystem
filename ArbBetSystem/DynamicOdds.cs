@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Security;
 using System.Net.Http;
 using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Serialization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using log4net;
 using System.ComponentModel;
 
@@ -231,11 +227,43 @@ namespace ArbBetSystem
         {
             CheckSession();
             DateTime start = DateTime.Now;
-            logger.Debug("GetRunnerOdds Request");
+            logger.Debug("GetRunnerOdds Request: " + eventId);
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post,
                 getDataRequest(_sessionId)
                 + addQueryParam(PARAM_METHOD, "GetRunnerOdds")
                 + addQueryParam(PARAM_EVENTID, eventId));
+            HttpResponseMessage response = _client.SendAsync(request).Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                string result = response.Content.ReadAsStringAsync().Result;
+                XmlDocument doc = new XmlDocument();
+                doc.LoadXml(result);
+                if (!doc.DocumentElement.GetElementsByTagName("Error").Item(0).InnerText.Equals("")
+                    || doc.DocumentElement.GetElementsByTagName("RunnerOdds").Count == 0)
+                {
+                    LogErrorAndThrowHttp("Response contains error: \"" + doc.DocumentElement.SelectSingleNode("/Data/Error/ErrorTxt").InnerText + "\"");
+                }
+
+                XmlReader xmlR = XmlReader.Create(response.Content.ReadAsStreamAsync().Result);
+                xmlR.ReadToFollowing("RunnerOdds");
+
+                logger.Debug("Request Time: " + start.ToLongTimeString() + " Time Elapsed: " + (DateTime.Now - start).TotalSeconds);
+                return (RunnerOdds)new XmlSerializer(typeof(RunnerOdds)).Deserialize(xmlR);
+            }
+            LogErrorAndThrowHttp("Request failed: Unsuccessful response");
+            throw new Exception("???");
+        }
+
+        public RunnerOdds GetRunnerOdds(Event evt)
+        {
+            CheckSession();
+            DateTime start = DateTime.Now;
+            logger.Debug("GetRunnerOdds Request: " + evt);
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post,
+                getDataRequest(_sessionId)
+                + addQueryParam(PARAM_METHOD, "GetRunnerOdds")
+                + addQueryParam(PARAM_EVENTID, evt.ID));
             HttpResponseMessage response = _client.SendAsync(request).Result;
 
             if (response.IsSuccessStatusCode)

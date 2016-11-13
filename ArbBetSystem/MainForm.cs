@@ -24,17 +24,16 @@ namespace ArbBetSystem
         Creds creds;
         DynamicOdds dynOdds;
         BindingList<Meeting> meetings = new BindingList<Meeting>();
-        BackgroundWorker bw = new BackgroundWorker();
+        Dictionary<Event, BackgroundWorker> workers = new Dictionary<Event, BackgroundWorker>();
         int PollInterval;
         int PreEventCheck;
         int PostEventCheck;
+        TimeZoneInfo Zone = TimeZoneInfo.Local;
 
         public MainForm()
         {
             logger.Info("Starting...");
             InitializeComponent();
-            bw.WorkerSupportsCancellation = true;
-            bw.DoWork += new DoWorkEventHandler(CheckOdds);
             dgvMeetings.AutoGenerateColumns = false;
             dgvEvents.AutoGenerateColumns = false;
             dgvRunners.AutoGenerateColumns = false;
@@ -52,30 +51,14 @@ namespace ArbBetSystem
             }
         }
 
-        private void CheckOdds(object sender, DoWorkEventArgs args)
+        private void CancelChecks()
         {
-            logger.Info("Checking odds");
-            BackgroundWorker worker = sender as BackgroundWorker;
-            Dictionary<Event, BackgroundWorker> workers = new Dictionary<Event, BackgroundWorker>();
-            List<Event> events = meetings.SelectMany(m => m.Events).Where(e => e.Check && e.StartTime > DateTime.Now.AddMinutes(-PostEventCheck)).ToList();
-            foreach (Event e in events)
+            var currentWorkers = workers.Where(w => w.Value.IsBusy).ToList();
+            foreach (KeyValuePair<Event, BackgroundWorker> pair in currentWorkers)
             {
-                BackgroundWorker getodds = new BackgroundWorker();
-                getodds.WorkerSupportsCancellation = true;
-                getodds.DoWork += new DoWorkEventHandler(GetAndCheckOdds);
-                workers.Add(e, getodds);
-                getodds.RunWorkerAsync(e);
+                pair.Value.CancelAsync();
+                workers.Remove(pair.Key);
             }
-
-            while (!worker.CancellationPending)
-            {
-                Thread.Sleep(1000);
-            }
-            foreach(BackgroundWorker work in workers.Values.Where(w => w.IsBusy))
-            {
-                work.CancelAsync();
-            }
-            args.Cancel = true;
         }
 
         private void GetAndCheckOdds(object sender, DoWorkEventArgs args)
@@ -97,12 +80,12 @@ namespace ArbBetSystem
 
             while (!worker.CancellationPending)
             {
-                if (e.StartTime <= DateTime.Now.AddMinutes(PreEventCheck)
-                    && e.StartTime >= DateTime.Now.AddMinutes(-PostEventCheck))
+                if (e.StartTime.AddMinutes(-PreEventCheck) <= DateTime.Now
+                    && e.StartTime.AddMinutes(PostEventCheck) >= DateTime.Now)
                 {
                     try
                     {
-                        RunnerOdds odds = dynOdds.GetRunnerOdds(e.ID);
+                        RunnerOdds odds = dynOdds.GetRunnerOdds(e);
                         foreach (Runner r in e.Runners)
                         {
                             r.UpdateOdds(odds.GetRunner(r.No));
@@ -132,8 +115,9 @@ namespace ArbBetSystem
                         logger.Error("GetRunnerOdds - Suppressed: " + e, ex);
                     }
                 }
-                else if (e.StartTime < DateTime.Now.AddMinutes(-PostEventCheck))
+                else if (e.StartTime.AddMinutes(PostEventCheck) < DateTime.Now)
                 {
+                    logger.Info(e + " finished");
                     return;
                 }
                 else
@@ -215,7 +199,10 @@ namespace ArbBetSystem
                 int type = (racingToolStripMenuItem.Checked ? (int)Meeting.MeetingTypes.Racing : 0)
                     + (harnessToolStripMenuItem.Checked ? (int)Meeting.MeetingTypes.Harness : 0)
                     + (greyhoundToolStripMenuItem.Checked ? (int)Meeting.MeetingTypes.Greyhound : 0);
-                tmp = dynOdds.GetMeetingsAll(type);
+
+                DateTime date = DateTime.UtcNow.Add(Zone.GetUtcOffset(DateTime.UtcNow));
+
+                tmp = dynOdds.GetMeetingsAll(date, type);
             }
             catch (HttpRequestException e)
             {
@@ -290,9 +277,20 @@ namespace ArbBetSystem
         private void startToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // start thread
-            if (!bw.IsBusy)
+            logger.Info("Checking odds");
+            List<Event> events = meetings
+                .SelectMany(m => m.Events)
+                .Where(evt => evt.Check 
+                && evt.StartTime > DateTime.Now.AddMinutes(-PostEventCheck)
+                && !workers.ContainsKey(evt))
+                .ToList();
+            foreach (Event evt in events)
             {
-                bw.RunWorkerAsync();
+                BackgroundWorker worker = new BackgroundWorker();
+                worker.WorkerSupportsCancellation = true;
+                worker.DoWork += new DoWorkEventHandler(GetAndCheckOdds);
+                workers.Add(evt, worker);
+                worker.RunWorkerAsync(evt);
             }
             startToolStripMenuItem.Enabled = false;
             stopToolStripMenuItem.Enabled = true;
@@ -301,7 +299,7 @@ namespace ArbBetSystem
 
         private void stopToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            bw.CancelAsync();
+            CancelChecks();
             logger.Info("Checking Stopped");
             stopToolStripMenuItem.Enabled = false;
             startToolStripMenuItem.Enabled = true;
@@ -315,9 +313,9 @@ namespace ArbBetSystem
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             // stop thread if running
-            if (bw.IsBusy)
+            if (workers.Count > 0)
             {
-                bw.CancelAsync();
+                CancelChecks();
                 logger.Info("Checking Stopped on close");
             }
         }
@@ -350,6 +348,7 @@ namespace ArbBetSystem
                     MessageBoxIcon.Warning);
                 PollInterval = 1;
             }
+
             LoadCredentials();
             InitDynOdds();
             Login();
@@ -391,7 +390,7 @@ namespace ArbBetSystem
             {
                 try
                 {
-                    odds = dynOdds.GetRunnerOdds(evt.ID);
+                    odds = dynOdds.GetRunnerOdds(evt);
                 }
                 catch (Exception ex)
                 {
@@ -411,6 +410,18 @@ namespace ArbBetSystem
             }
 
             dgvRunners.DataSource = new BindingList<Runner>(((Event)((DataGridView)sender).SelectedRows[0].DataBoundItem).Runners);
+        }
+
+        private void pickTimeZoneToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TimeZoneSelectorForm dialog = new TimeZoneSelectorForm(Zone);
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                Zone = dialog.SelectedTimeZone;
+            }
+
+            return;
         }
     }
 }
