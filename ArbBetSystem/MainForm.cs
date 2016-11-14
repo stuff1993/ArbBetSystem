@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Configuration;
 using System.Data;
 using System.IO;
 using System.Linq;
@@ -132,7 +131,7 @@ namespace ArbBetSystem
 
         private void InitDynOdds()
         {
-            dynOdds = new DynamicOdds(ConfigurationManager.AppSettings["DynamicOddsUrl"]);
+            dynOdds = new DynamicOdds(Properties.Settings.Default.DynamicOddsUrl);
         }
 
         private void CheckDynamicOdds()
@@ -322,32 +321,10 @@ namespace ArbBetSystem
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            if (!int.TryParse(ConfigurationManager.AppSettings["PollInterval"], out PollInterval))
-            {
-                MessageBox.Show("PollInterval not an int" + Environment.NewLine + "Defaulting to 1 second",
-                    "Configuration Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-                PollInterval = 1000;
-            }
 
-            if (!int.TryParse(ConfigurationManager.AppSettings["PreEventCheck"], out PreEventCheck))
-            {
-                MessageBox.Show("PreEventCheck not an int" + Environment.NewLine + "Defaulting to 60 minutes",
-                    "Configuration Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-                PollInterval = 60;
-            }
-
-            if (!int.TryParse(ConfigurationManager.AppSettings["PostEventCheck"], out PostEventCheck))
-            {
-                MessageBox.Show("PostEventCheck not an int" + Environment.NewLine + "Defaulting to 1 minute",
-                    "Configuration Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-                PollInterval = 1;
-            }
+            PollInterval = Properties.Settings.Default.PollInterval;
+            PreEventCheck = Properties.Settings.Default.PreEventCheck;
+            PostEventCheck = Properties.Settings.Default.PostEventCheck;
 
             LoadCredentials();
             InitDynOdds();
