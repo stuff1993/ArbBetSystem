@@ -133,7 +133,7 @@ namespace ArbBetSystem
                 }
                 foreach (Meeting m in meetings)
                 {
-                    m.MapChildren();
+                    m.MapChildren(date);
                 }
 
                 logger.Debug("Request Time: " + start.ToLongTimeString() + " Time Elapsed: " + (DateTime.Now - start).TotalSeconds);

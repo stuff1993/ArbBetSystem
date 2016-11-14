@@ -155,7 +155,8 @@ namespace ArbBetSystem
             }
             set
             {
-                this.startTimeField = value.Add(DateTime.Today - DateTime.Parse("01/01/0001 12:00:00 AM"));
+                this.startTimeField = value;
+                NotifyPropertyChanged();
             }
         }
 

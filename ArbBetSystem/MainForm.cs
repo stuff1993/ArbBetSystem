@@ -333,23 +333,55 @@ namespace ArbBetSystem
             UpdateMeetings();
         }
 
-        private void dgv_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void dgvMeetings_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (sender.GetType() != typeof(DataGridView)) { throw new ArgumentException("Sender is not a DataGridView"); }
-            if (((DataGridView)sender).CurrentCell.GetType() != typeof(DataGridViewCheckBoxCell)) { return; }
-            DataGridViewCheckBoxCell cell = ((DataGridView)sender).CurrentCell as DataGridViewCheckBoxCell;
-
-            if (cell != null && !cell.ReadOnly)
+            switch (e.ColumnIndex)
             {
-                cell.Value = cell.Value == null || !((bool)cell.Value);
-                this.dgvMeetings.RefreshEdit();
+                case 0:
+                    DataGridViewCheckBoxCell cell = ((DataGridView)sender).CurrentCell as DataGridViewCheckBoxCell;
+
+                    if (cell != null && !cell.ReadOnly)
+                    {
+                        cell.Value = cell.Value == null || !((bool)cell.Value);
+                        this.dgvMeetings.RefreshEdit();
+                    }
+                    break;
+            }
+        }
+
+        private void dgvEvents_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (sender.GetType() != typeof(DataGridView)) { throw new ArgumentException("Sender is not a DataGridView"); }
+            switch (e.ColumnIndex)
+            {
+                case 0:
+                    DataGridViewCheckBoxCell cell = ((DataGridView)sender).CurrentCell as DataGridViewCheckBoxCell;
+
+                    if (cell != null && !cell.ReadOnly)
+                    {
+                        cell.Value = cell.Value == null || !((bool)cell.Value);
+                        this.dgvMeetings.RefreshEdit();
+                    }
+                    break;
+                case 3:
+                    ((Event)((DataGridView)sender).Rows[e.RowIndex].DataBoundItem).StartTime = ((Event)((DataGridView)sender).Rows[e.RowIndex].DataBoundItem).StartTime.AddDays(1);
+                    this.dgvMeetings.RefreshEdit();
+                    break;
+                case 4:
+                    ((Event)((DataGridView)sender).Rows[e.RowIndex].DataBoundItem).StartTime = ((Event)((DataGridView)sender).Rows[e.RowIndex].DataBoundItem).StartTime.AddDays(-1);
+                    this.dgvMeetings.RefreshEdit();
+                    break;
             }
         }
 
         private void dgv_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (sender.GetType() != typeof(DataGridView)) { throw new ArgumentException("Sender is not a DataGridView"); }
-            new PercentEntryForm(((DataGridView)sender).CurrentRow.DataBoundItem).ShowDialog();
+            if (((DataGridView)sender).CurrentCell.GetType() != typeof(DataGridViewButtonCell))
+            {
+                new PercentEntryForm(((DataGridView)sender).CurrentRow.DataBoundItem).ShowDialog();
+            }
         }
 
         private void dgvMeetings_SelectionChanged(object sender, EventArgs e)

@@ -40,6 +40,8 @@
             this.racingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.harnessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.greyhoundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.pickTimeZoneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.layBetsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.backBetsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dgvMeetings = new System.Windows.Forms.DataGridView();
@@ -48,9 +50,6 @@
             this.meetCountry = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.meetType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvEvents = new System.Windows.Forms.DataGridView();
-            this.evtCheck = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.evtName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.evtStartTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvRunners = new System.Windows.Forms.DataGridView();
             this.runNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.runName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -61,8 +60,11 @@
             this.runWH = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.runIAS = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.pickTimeZoneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.evtCheck = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.evtName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.evtStartTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.evtAddDay = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.evtSubDay = new System.Windows.Forms.DataGridViewButtonColumn();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMeetings)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEvents)).BeginInit();
@@ -178,6 +180,18 @@
             this.greyhoundToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.greyhoundToolStripMenuItem.Text = "Greyhound";
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(155, 6);
+            // 
+            // pickTimeZoneToolStripMenuItem
+            // 
+            this.pickTimeZoneToolStripMenuItem.Name = "pickTimeZoneToolStripMenuItem";
+            this.pickTimeZoneToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.pickTimeZoneToolStripMenuItem.Text = "Pick Time Zone";
+            this.pickTimeZoneToolStripMenuItem.Click += new System.EventHandler(this.pickTimeZoneToolStripMenuItem_Click);
+            // 
             // layBetsToolStripMenuItem
             // 
             this.layBetsToolStripMenuItem.Name = "layBetsToolStripMenuItem";
@@ -213,7 +227,7 @@
             this.dgvMeetings.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvMeetings.Size = new System.Drawing.Size(760, 177);
             this.dgvMeetings.TabIndex = 10;
-            this.dgvMeetings.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellContentClick);
+            this.dgvMeetings.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvMeetings_CellContentClick);
             this.dgvMeetings.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellDoubleClick);
             this.dgvMeetings.SelectionChanged += new System.EventHandler(this.dgvMeetings_SelectionChanged);
             // 
@@ -257,7 +271,9 @@
             this.dgvEvents.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.evtCheck,
             this.evtName,
-            this.evtStartTime});
+            this.evtStartTime,
+            this.evtAddDay,
+            this.evtSubDay});
             this.dgvEvents.Dock = System.Windows.Forms.DockStyle.Top;
             this.dgvEvents.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dgvEvents.Location = new System.Drawing.Point(0, 177);
@@ -268,34 +284,9 @@
             this.dgvEvents.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvEvents.Size = new System.Drawing.Size(760, 177);
             this.dgvEvents.TabIndex = 11;
-            this.dgvEvents.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellContentClick);
+            this.dgvEvents.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvEvents_CellContentClick);
             this.dgvEvents.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellDoubleClick);
             this.dgvEvents.SelectionChanged += new System.EventHandler(this.dgvEvents_SelectionChanged);
-            // 
-            // evtCheck
-            // 
-            this.evtCheck.DataPropertyName = "Check";
-            this.evtCheck.HeaderText = "Check";
-            this.evtCheck.Name = "evtCheck";
-            this.evtCheck.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.evtCheck.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.evtCheck.Width = 63;
-            // 
-            // evtName
-            // 
-            this.evtName.DataPropertyName = "Name";
-            this.evtName.HeaderText = "Name";
-            this.evtName.Name = "evtName";
-            this.evtName.ReadOnly = true;
-            this.evtName.Width = 60;
-            // 
-            // evtStartTime
-            // 
-            this.evtStartTime.DataPropertyName = "StartTime";
-            this.evtStartTime.HeaderText = "Start Time";
-            this.evtStartTime.Name = "evtStartTime";
-            this.evtStartTime.ReadOnly = true;
-            this.evtStartTime.Width = 80;
             // 
             // dgvRunners
             // 
@@ -403,17 +394,46 @@
             this.panel1.Size = new System.Drawing.Size(760, 592);
             this.panel1.TabIndex = 13;
             // 
-            // pickTimeZoneToolStripMenuItem
+            // evtCheck
             // 
-            this.pickTimeZoneToolStripMenuItem.Name = "pickTimeZoneToolStripMenuItem";
-            this.pickTimeZoneToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
-            this.pickTimeZoneToolStripMenuItem.Text = "Pick Time Zone";
-            this.pickTimeZoneToolStripMenuItem.Click += new System.EventHandler(this.pickTimeZoneToolStripMenuItem_Click);
+            this.evtCheck.DataPropertyName = "Check";
+            this.evtCheck.HeaderText = "Check";
+            this.evtCheck.Name = "evtCheck";
+            this.evtCheck.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.evtCheck.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.evtCheck.Width = 63;
             // 
-            // toolStripSeparator1
+            // evtName
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(155, 6);
+            this.evtName.DataPropertyName = "Name";
+            this.evtName.HeaderText = "Name";
+            this.evtName.Name = "evtName";
+            this.evtName.ReadOnly = true;
+            this.evtName.Width = 60;
+            // 
+            // evtStartTime
+            // 
+            this.evtStartTime.DataPropertyName = "StartTime";
+            this.evtStartTime.HeaderText = "Start Time";
+            this.evtStartTime.Name = "evtStartTime";
+            this.evtStartTime.ReadOnly = true;
+            this.evtStartTime.Width = 80;
+            // 
+            // evtAddDay
+            // 
+            this.evtAddDay.HeaderText = "Add Day";
+            this.evtAddDay.Name = "evtAddDay";
+            this.evtAddDay.ReadOnly = true;
+            this.evtAddDay.Text = "+";
+            this.evtAddDay.Width = 54;
+            // 
+            // evtSubDay
+            // 
+            this.evtSubDay.HeaderText = "Sub Day";
+            this.evtSubDay.Name = "evtSubDay";
+            this.evtSubDay.ReadOnly = true;
+            this.evtSubDay.Text = "-";
+            this.evtSubDay.Width = 54;
             // 
             // MainForm
             // 
@@ -457,9 +477,6 @@
         private System.Windows.Forms.ToolStripMenuItem backBetsToolStripMenuItem;
         private System.Windows.Forms.DataGridView dgvMeetings;
         private System.Windows.Forms.DataGridView dgvEvents;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn evtCheck;
-        private System.Windows.Forms.DataGridViewTextBoxColumn evtName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn evtStartTime;
         private System.Windows.Forms.DataGridView dgvRunners;
         private System.Windows.Forms.DataGridViewCheckBoxColumn meetCheck;
         private System.Windows.Forms.DataGridViewTextBoxColumn meetVenue;
@@ -476,6 +493,11 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem pickTimeZoneToolStripMenuItem;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn evtCheck;
+        private System.Windows.Forms.DataGridViewTextBoxColumn evtName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn evtStartTime;
+        private System.Windows.Forms.DataGridViewButtonColumn evtAddDay;
+        private System.Windows.Forms.DataGridViewButtonColumn evtSubDay;
     }
 }
 

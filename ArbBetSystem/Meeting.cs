@@ -208,13 +208,6 @@ namespace ArbBetSystem
             }
         }
 
-        public Meeting() { }
-
-        public override string ToString()
-        {
-            return Venue + " - " + Country;
-        }
-
         public bool IsChecked
         {
             get
@@ -234,6 +227,11 @@ namespace ArbBetSystem
                 }
                 NotifyPropertyChanged();
             }
+        }
+
+        public override string ToString()
+        {
+            return Venue + " - " + Country;
         }
 
         public Meeting MergeWith(Meeting m)
@@ -259,13 +257,38 @@ namespace ArbBetSystem
             return m;
         }
 
-        public void MapChildren()
+        public void MapChildren(DateTime date)
         {
             if (Events != null)
             {
+                /*
+                // Useless for meetings starting after midnight
+                DateTime previous = date.Date;
                 foreach (Event e in Events)
                 {
                     e.Parent = this;
+                    e.StartTime = e.StartTime.Add(date.Date - DateTime.Parse("01/01/0001 12:00:00 AM"));
+                    if (e.StartTime < previous)
+                    {
+                        e.StartTime = e.StartTime.AddDays(1);
+                    }
+                    previous = e.StartTime;
+                    e.MapChildren();
+                }
+                */
+
+                // Assumes all times before config controlled time are for next day. Unlikely that events in early morning will be for the current day
+                foreach (Event e in Events)
+                {
+                    e.Parent = this;
+                    if (e.StartTime < Properties.Settings.Default.TimeRollover)
+                    {
+                        e.StartTime = e.StartTime.Add(date.Date - DateTime.MinValue).AddDays(1);
+                    }
+                    else
+                    {
+                        e.StartTime = e.StartTime.Add(date.Date - DateTime.MinValue);
+                    }
                     e.MapChildren();
                 }
             }
