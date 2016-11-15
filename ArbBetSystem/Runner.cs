@@ -90,6 +90,30 @@ namespace ArbBetSystem
             }
         }
 
+        public byte Bar
+        {
+            get
+            {
+                return this.barField;
+            }
+            set
+            {
+                this.barField = value;
+            }
+        }
+
+        public string Hcp
+        {
+            get
+            {
+                return this.hcpField;
+            }
+            set
+            {
+                this.hcpField = value;
+            }
+        }
+
         /// <remarks/>
         [XmlAttributeAttribute()]
         public byte No

@@ -8,7 +8,7 @@ using System.ComponentModel;
 
 namespace ArbBetSystem
 {
-    class DynamicOdds
+    class DynamicOdds : IDisposable
     {
         private static readonly ILog logger = LogManager.GetLogger(typeof(DynamicOdds));
 
@@ -353,5 +353,10 @@ namespace ArbBetSystem
         // Query string helpers
         private static string getDataRequest(string sessionId) { return "/xml/data/GetData.asp?SessionID=" + sessionId; }
         private static string addQueryParam(string param, string value) { return "&" + param + "=" + value; }
+
+        public void Dispose()
+        {
+            _client.Dispose();
+        }
     }
 }

@@ -27,13 +27,11 @@ namespace ArbBetSystem
         {
             mainForm.SetCredentials(new Creds(txtUser.Text, txtPass.Text), shouldSave);
             Close();
-            Dispose();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
             Close();
-            Dispose();
         }
     }
 }

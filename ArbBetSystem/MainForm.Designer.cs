@@ -17,6 +17,7 @@
             {
                 components.Dispose();
             }
+            dynOdds.Dispose();
             base.Dispose(disposing);
         }
 
@@ -50,6 +51,11 @@
             this.meetCountry = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.meetType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvEvents = new System.Windows.Forms.DataGridView();
+            this.evtCheck = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.evtName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.evtStartTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.evtAddDay = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.evtSubDay = new System.Windows.Forms.DataGridViewButtonColumn();
             this.dgvRunners = new System.Windows.Forms.DataGridView();
             this.runNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.runName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -60,11 +66,6 @@
             this.runWH = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.runIAS = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.evtCheck = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.evtName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.evtStartTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.evtAddDay = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.evtSubDay = new System.Windows.Forms.DataGridViewButtonColumn();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMeetings)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEvents)).BeginInit();
@@ -288,6 +289,47 @@
             this.dgvEvents.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellDoubleClick);
             this.dgvEvents.SelectionChanged += new System.EventHandler(this.dgvEvents_SelectionChanged);
             // 
+            // evtCheck
+            // 
+            this.evtCheck.DataPropertyName = "Check";
+            this.evtCheck.HeaderText = "Check";
+            this.evtCheck.Name = "evtCheck";
+            this.evtCheck.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.evtCheck.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.evtCheck.Width = 63;
+            // 
+            // evtName
+            // 
+            this.evtName.DataPropertyName = "Name";
+            this.evtName.HeaderText = "Name";
+            this.evtName.Name = "evtName";
+            this.evtName.ReadOnly = true;
+            this.evtName.Width = 60;
+            // 
+            // evtStartTime
+            // 
+            this.evtStartTime.DataPropertyName = "StartTime";
+            this.evtStartTime.HeaderText = "Start Time";
+            this.evtStartTime.Name = "evtStartTime";
+            this.evtStartTime.ReadOnly = true;
+            this.evtStartTime.Width = 80;
+            // 
+            // evtAddDay
+            // 
+            this.evtAddDay.HeaderText = "Add Day";
+            this.evtAddDay.Name = "evtAddDay";
+            this.evtAddDay.ReadOnly = true;
+            this.evtAddDay.Text = "+";
+            this.evtAddDay.Width = 54;
+            // 
+            // evtSubDay
+            // 
+            this.evtSubDay.HeaderText = "Sub Day";
+            this.evtSubDay.Name = "evtSubDay";
+            this.evtSubDay.ReadOnly = true;
+            this.evtSubDay.Text = "-";
+            this.evtSubDay.Width = 54;
+            // 
             // dgvRunners
             // 
             this.dgvRunners.AllowUserToAddRows = false;
@@ -394,47 +436,6 @@
             this.panel1.Size = new System.Drawing.Size(760, 592);
             this.panel1.TabIndex = 13;
             // 
-            // evtCheck
-            // 
-            this.evtCheck.DataPropertyName = "Check";
-            this.evtCheck.HeaderText = "Check";
-            this.evtCheck.Name = "evtCheck";
-            this.evtCheck.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.evtCheck.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.evtCheck.Width = 63;
-            // 
-            // evtName
-            // 
-            this.evtName.DataPropertyName = "Name";
-            this.evtName.HeaderText = "Name";
-            this.evtName.Name = "evtName";
-            this.evtName.ReadOnly = true;
-            this.evtName.Width = 60;
-            // 
-            // evtStartTime
-            // 
-            this.evtStartTime.DataPropertyName = "StartTime";
-            this.evtStartTime.HeaderText = "Start Time";
-            this.evtStartTime.Name = "evtStartTime";
-            this.evtStartTime.ReadOnly = true;
-            this.evtStartTime.Width = 80;
-            // 
-            // evtAddDay
-            // 
-            this.evtAddDay.HeaderText = "Add Day";
-            this.evtAddDay.Name = "evtAddDay";
-            this.evtAddDay.ReadOnly = true;
-            this.evtAddDay.Text = "+";
-            this.evtAddDay.Width = 54;
-            // 
-            // evtSubDay
-            // 
-            this.evtSubDay.HeaderText = "Sub Day";
-            this.evtSubDay.Name = "evtSubDay";
-            this.evtSubDay.ReadOnly = true;
-            this.evtSubDay.Text = "-";
-            this.evtSubDay.Width = 54;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -445,7 +446,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.MinimumSize = new System.Drawing.Size(800, 670);
             this.Name = "MainForm";
-            this.Text = "Form1";
+            this.Text = "ArbBetSystem";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.menuStrip1.ResumeLayout(false);

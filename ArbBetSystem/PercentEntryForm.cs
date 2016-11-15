@@ -50,13 +50,11 @@ namespace ArbBetSystem
                 throw new Exception("Unrecognised type");
             }
             Close();
-            Dispose();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
             Close();
-            Dispose();
         }
 
         private void txtPercent_TextChanged(object sender, EventArgs e)

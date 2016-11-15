@@ -29,7 +29,6 @@ namespace ArbBetSystem
         {
             this.DialogResult = DialogResult.Cancel;
             Close();
-            Dispose();
         }
 
         private void btnReset_Click(object sender, EventArgs e)

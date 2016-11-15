@@ -168,7 +168,7 @@ namespace ArbBetSystem
         {
             CredentialsForm loginForm = new CredentialsForm(this, canCancel, Save);
             loginForm.ShowDialog();
-            loginForm.BringToFront();
+            loginForm.Dispose();
         }
 
         public void SetCredentials(Creds newCreds, bool Save = false)
@@ -380,7 +380,9 @@ namespace ArbBetSystem
             if (sender.GetType() != typeof(DataGridView)) { throw new ArgumentException("Sender is not a DataGridView"); }
             if (((DataGridView)sender).CurrentCell.GetType() != typeof(DataGridViewButtonCell))
             {
-                new PercentEntryForm(((DataGridView)sender).CurrentRow.DataBoundItem).ShowDialog();
+                PercentEntryForm pef = new PercentEntryForm(((DataGridView)sender).CurrentRow.DataBoundItem);
+                pef.ShowDialog();
+                pef.Dispose();
             }
         }
 
@@ -392,7 +394,6 @@ namespace ArbBetSystem
         private void dgvEvents_SelectionChanged(object sender, EventArgs e)
         {
             if (((DataGridView)sender).SelectedRows.Count == 0) { return; }
-            RunnerOdds odds = null;
             Event evt = ((DataGridView)sender).SelectedRows[0].DataBoundItem as Event;
 
             if (!(evt.HasOdds()))
@@ -421,6 +422,7 @@ namespace ArbBetSystem
             {
                 Zone = dialog.SelectedTimeZone;
             }
+            dialog.Dispose();
 
             return;
         }
