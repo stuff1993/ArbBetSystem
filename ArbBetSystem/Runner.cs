@@ -123,12 +123,6 @@ namespace ArbBetSystem
             return Percent.ToString() + "%";
         }
 
-        public bool HasOdds()
-        {
-            //return lays.Count() > 0 || backs.Count() > 0;
-            return false;
-        }
-
         public void UpdateOdds(RunnerOdd odds)
         {
             PropertyInfo[] ps = odds.GetType().GetProperties().Where(p => p.Name.ToLower() != "no" && p.Name.ToLower() != "name" && p.Name.ToLower() != "scr").ToArray();

@@ -24,6 +24,7 @@ namespace ArbBetSystem
         private string idField;
         private Runner[] runnerField;
         private Meeting parent;
+        private bool hasOdds = false;
 
         private bool checkField;
 
@@ -266,9 +267,22 @@ namespace ArbBetSystem
             }
         }
 
+        public void UpdateOdds(RunnerOdds odds)
+        {
+            hasOdds = true;
+
+            foreach (Runner r in Runners)
+            {
+                if (odds != null)
+                {
+                    r.UpdateOdds(odds.GetRunner(r.No));
+                }
+            }
+        }
+
         public bool HasOdds()
         {
-            return Runners.Any(r => r.HasOdds());
+            return hasOdds;
         }
 
         public override string ToString()

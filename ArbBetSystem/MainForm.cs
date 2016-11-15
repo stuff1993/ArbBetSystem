@@ -399,7 +399,7 @@ namespace ArbBetSystem
             {
                 try
                 {
-                    odds = dynOdds.GetRunnerOdds(evt);
+                    evt.UpdateOdds(dynOdds.GetRunnerOdds(evt));
                 }
                 catch (Exception ex)
                 {
@@ -407,14 +407,6 @@ namespace ArbBetSystem
                         "API Error",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Warning);
-                }
-            }
-
-            foreach (Runner r in evt.Runners)
-            {
-                if (odds != null)
-                {
-                    r.UpdateOdds(odds.GetRunner(r.No));
                 }
             }
 
