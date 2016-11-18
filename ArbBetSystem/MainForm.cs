@@ -88,7 +88,7 @@ namespace ArbBetSystem
                         foreach (Runner r in e.Runners)
                         {
                             r.UpdateOdds(odds.GetRunner(r.No));
-                            if (r.Percent != 0 && r.OddsBF_L1 <= 0)
+                            if (r.Percent != 0 && r.OddsBF_L1 > 0)
                             {
                                 double lay = r.OddsBF_L1;
                                 foreach (KeyValuePair<string, string> back in Runner.Backs)
@@ -97,9 +97,12 @@ namespace ArbBetSystem
                                     if (val > 0 && lay * (1 + r.Percent / 100.0) < val && !hasMatched[r][back.Key])
                                     {
                                         hasMatched[r][back.Key] = true;
-                                        SystemSounds.Exclamation.Play();
-                                        MessageBox.Show(e + Environment.NewLine + r + Environment.NewLine + "Lay: " + lay + Environment.NewLine + "Back: " + val + Environment.NewLine + "Book: " + back.Value, "Match found:", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
                                         logger.Info("Match found: " + e + ", " + r + ", Lay: " + lay + ", Back: " + val + ", Book: " + back.Value);
+                                        SystemSounds.Exclamation.Play();
+                                        new Thread(() =>
+                                        {
+                                            MessageBox.Show(e + Environment.NewLine + r + Environment.NewLine + "Lay: " + lay + Environment.NewLine + "Back: " + val + Environment.NewLine + "Book: " + back.Value, "Match found:", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                                        }).Start();
                                     }
                                     else if (lay * (1 + r.Percent / 100.0) >= val)
                                     {
@@ -111,12 +114,17 @@ namespace ArbBetSystem
                     }
                     catch (HttpRequestException ex)
                     {
-                        logger.Error("GetRunnerOdds - Suppressed: " + e, ex);
+                        logger.Warn("GetRunnerOdds - Suppressed: " + e, ex);
+                        if (ex.Message == "Incorrect SessionID Provided")
+                        {
+                            logger.Warn("Attempting Auto Login");
+                            dynOdds.Login(creds);
+                        }
                     }
                 }
                 else if (e.StartTime.AddMinutes(PostEventCheck) < DateTime.Now)
                 {
-                    logger.Info(e + " finished");
+                    logger.Info("Finished " + e);
                     return;
                 }
                 else
@@ -276,7 +284,7 @@ namespace ArbBetSystem
         private void startToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // start thread
-            logger.Info("Checking odds");
+            logger.Info("Checking Odds");
             List<Event> events = meetings
                 .SelectMany(m => m.Events)
                 .Where(evt => evt.Check 

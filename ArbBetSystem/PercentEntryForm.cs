@@ -1,24 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
+﻿using log4net;
+using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ArbBetSystem
 {
     public partial class PercentEntryForm : Form
     {
-        // TODO: Make this dynamic
+        private static readonly ILog logger = LogManager.GetLogger(typeof(PercentEntryForm));
         object obj;
 
         public PercentEntryForm(object o)
         {
             InitializeComponent();
-            this.obj = o;
+            obj = o;
             btnOk.Enabled = false;
             txtPercent.Focus();
         }
@@ -28,6 +23,7 @@ namespace ArbBetSystem
             if (obj.GetType() == typeof(Runner))
             {
                 ((Runner)obj).Percent = double.Parse(txtPercent.Text);
+                logger.Info("Percent changed on " + ((Runner)obj).Parent + ", " + ((Runner)obj) + " to " + txtPercent.Text);
             }
             else if (obj.GetType() == typeof(Event))
             {
@@ -36,6 +32,7 @@ namespace ArbBetSystem
                 {
                     r.Percent = p;
                 }
+                logger.Info("Percent changed on " + ((Event)obj) + " to " + p);
             }
             else if (obj.GetType() == typeof(Meeting))
             {
@@ -44,6 +41,7 @@ namespace ArbBetSystem
                 {
                     r.Percent = p;
                 }
+                logger.Info("Percent changed on " + ((Meeting)obj) + " to " + p);
             }
             else
             {
