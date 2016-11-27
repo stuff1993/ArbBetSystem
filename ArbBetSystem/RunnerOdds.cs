@@ -1870,7 +1870,7 @@ namespace ArbBetSystem
             return Odds.Count;
         }
 
-        public RunnerOdd GetRunner(byte no)
+        public RunnerOdd GetRunner(uint no)
         {
             return Odds.SingleOrDefault(o => o.RNo == no);
         }

@@ -26,9 +26,9 @@ namespace ArbBetSystem
         private string nameField;
         private string jockeyField;
         private string trainerField;
-        private byte barField;
+        private uint? barField;
         private string hcpField;
-        private byte noField;
+        private uint noField;
         private double percentField = 0;
         [XmlIgnore]
         private Event parent;
@@ -90,7 +90,17 @@ namespace ArbBetSystem
             }
         }
 
-        public byte Bar
+        [XmlElement("Bar")]
+        public string BarAsText
+        {
+            set
+            {
+                this.barField = !string.IsNullOrEmpty(value) ? uint.Parse(value) : default(uint?);
+            }
+        }
+
+        [XmlIgnore]
+        public uint? Bar
         {
             get
             {
@@ -116,7 +126,7 @@ namespace ArbBetSystem
 
         /// <remarks/>
         [XmlAttributeAttribute()]
-        public byte No
+        public uint No
         {
             get
             {

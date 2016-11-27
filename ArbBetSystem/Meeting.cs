@@ -237,7 +237,7 @@ namespace ArbBetSystem
         public Meeting MergeWith(Meeting m)
         {
             Dictionary<string, bool> oldChecks = Events.ToDictionary(e => e.ID, e=> e.Check);
-            Dictionary<string, Dictionary<byte, double>> oldPercent = Events.ToDictionary(e => e.ID, e => e.Runners.ToDictionary(r => r.No, r => r.Percent));
+            Dictionary<string, Dictionary<uint, double>> oldPercent = Events.ToDictionary(e => e.ID, e => e.Runners.ToDictionary(r => r.No, r => r.Percent));
 
             foreach (Event e in m.Events)
             {
