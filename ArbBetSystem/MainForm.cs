@@ -28,6 +28,7 @@ namespace ArbBetSystem
         int PreEventCheck;
         int PostEventCheck;
         TimeZoneInfo Zone = TimeZoneInfo.Local;
+        bool CapOdds = false;
 
         public MainForm()
         {
@@ -36,10 +37,19 @@ namespace ArbBetSystem
             dgvMeetings.AutoGenerateColumns = false;
             dgvEvents.AutoGenerateColumns = false;
             dgvRunners.AutoGenerateColumns = false;
+
+            foreach (KeyValuePair<string, string> pair in Runner.WinLayNames.Union(Runner.WinBackNames).Union(Runner.PlaceLayNames).Union(Runner.PlaceBackNames))
+            {
+                DataGridViewTextBoxColumn newCol = new DataGridViewTextBoxColumn();
+                newCol.DataPropertyName = pair.Key;
+                newCol.HeaderText = pair.Value;
+                newCol.ReadOnly = true;
+                newCol.Name = "run" + pair.Key;
+                dgvRunners.Columns.Add(newCol);
+            }
+
             dgvMeetings.DataSource = meetings;
             meetingsToolStripMenuItem.DropDown.Closing += DropDown_Closing;
-            layBetsToolStripMenuItem.DropDown.Closing += DropDown_Closing;
-            backBetsToolStripMenuItem.DropDown.Closing += DropDown_Closing;
         }
 
         private void DropDown_Closing(object sender, ToolStripDropDownClosingEventArgs e)
@@ -62,15 +72,16 @@ namespace ArbBetSystem
 
         private void GetAndCheckOdds(object sender, DoWorkEventArgs args)
         {
-            
             BackgroundWorker worker = sender as BackgroundWorker;
             Event e = args.Argument as Event;
             logger.Info("Checking event: " + e);
+
+            // Runner object, Bet field, Arb found
             Dictionary<Runner, Dictionary<string, bool>> hasMatched = new Dictionary<Runner, Dictionary<string, bool>>();
             foreach (Runner r in e.Runners)
             {
                 Dictionary<string, bool> backMatched = new Dictionary<string, bool>();
-                foreach (KeyValuePair<string, string> back in Runner.Backs)
+                foreach (KeyValuePair<string, string> back in Runner.WinBackNames)
                 {
                     backMatched.Add(back.Key, false);
                 }
@@ -88,25 +99,54 @@ namespace ArbBetSystem
                         foreach (Runner r in e.Runners)
                         {
                             r.UpdateOdds(odds.GetRunner(r.No));
-                            if (r.Percent != 0 && r.OddsBF_L1 > 0)
+                            foreach (string layField in Runner.WinLayNames.Keys)
                             {
-                                double lay = r.OddsBF_L1;
-                                foreach (KeyValuePair<string, string> back in Runner.Backs)
+                                double lay = (double)typeof(RunnerOdd).GetProperty(layField).GetValue(r);
+                                if (r.WinPercent != 0 && lay > 0)
                                 {
-                                    double val = (double)typeof(RunnerOdd).GetProperty(back.Key).GetValue(r);
-                                    if (val > 0 && lay * (1 + r.Percent / 100.0) < val && !hasMatched[r][back.Key])
+                                    foreach (KeyValuePair<string, string> back in Runner.WinBackNames)
                                     {
-                                        hasMatched[r][back.Key] = true;
-                                        logger.Info("Match found: " + e + ", " + r + ", Lay: " + lay + ", Back: " + val + ", Book: " + back.Value);
-                                        SystemSounds.Exclamation.Play();
-                                        new Thread(() =>
+                                        double val = (double)typeof(RunnerOdd).GetProperty(back.Key).GetValue(r);
+                                        if (val > 0 && lay * (1 + r.WinPercent / 100.0) < val && !hasMatched[r][back.Key] && (val < 10 && lay < 10 || !CapOdds))
                                         {
-                                            MessageBox.Show(e + Environment.NewLine + r + Environment.NewLine + "Lay: " + lay + Environment.NewLine + "Back: " + val + Environment.NewLine + "Book: " + back.Value, "Match found:", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
-                                        }).Start();
+                                            hasMatched[r][back.Key] = true;
+                                            logger.Info("Match found: " + e + ", " + r + ", Lay: " + lay + ", Back: " + val + ", Book: " + back.Value);
+                                            SystemSounds.Exclamation.Play();
+                                            new Thread(() =>
+                                            {
+                                                MessageBox.Show(e + Environment.NewLine + r + Environment.NewLine + "Lay: " + lay + Environment.NewLine + "Back: " + val + Environment.NewLine + "Book: " + back.Value, "Match found:", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                                            }).Start();
+                                        }
+                                        else if (lay * (1 + r.WinPercent / 100.0) >= val)
+                                        {
+                                            hasMatched[r][back.Key] = false;
+                                        }
                                     }
-                                    else if (lay * (1 + r.Percent / 100.0) >= val)
+                                }
+                            }
+
+                            foreach (string layField in Runner.PlaceLayNames.Keys)
+                            {
+                                double lay = (double)typeof(RunnerOdd).GetProperty(layField).GetValue(r);
+                                if (r.PlacePercent != 0 && lay > 0)
+                                {
+                                    foreach (KeyValuePair<string, string> back in Runner.PlaceBackNames)
                                     {
-                                        hasMatched[r][back.Key] = false;
+                                        double val = (double)typeof(RunnerOdd).GetProperty(back.Key).GetValue(r);
+                                        if (val > 0 && lay * (1 + r.PlacePercent / 100.0) < val && !hasMatched[r][back.Key] && (val < 10 && lay < 10 || !CapOdds))
+                                        {
+                                            hasMatched[r][back.Key] = true;
+                                            logger.Info("Match found: " + e + ", " + r + ", Lay: " + lay + ", Back: " + val + ", Book: " + back.Value);
+                                            SystemSounds.Exclamation.Play();
+                                            new Thread(() =>
+                                            {
+                                                MessageBox.Show(e + Environment.NewLine + r + Environment.NewLine + "Lay: " + lay + Environment.NewLine + "Back: " + val + Environment.NewLine + "Book: " + back.Value, "Match found:", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                                            }).Start();
+                                        }
+                                        else if (lay * (1 + r.PlacePercent / 100.0) >= val)
+                                        {
+                                            hasMatched[r][back.Key] = false;
+                                        }
                                     }
                                 }
                             }
@@ -433,6 +473,11 @@ namespace ArbBetSystem
             dialog.Dispose();
 
             return;
+        }
+
+        private void capOddsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CapOdds = capOddsToolStripMenuItem.Checked;
         }
     }
 }

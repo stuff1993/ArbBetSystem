@@ -237,7 +237,7 @@ namespace ArbBetSystem
         public Meeting MergeWith(Meeting m)
         {
             Dictionary<string, bool> oldChecks = Events.ToDictionary(e => e.ID, e=> e.Check);
-            Dictionary<string, Dictionary<uint, double>> oldPercent = Events.ToDictionary(e => e.ID, e => e.Runners.ToDictionary(r => r.No, r => r.Percent));
+            Dictionary<string, Dictionary<uint, KeyValuePair<double, double>>> oldPercent = Events.ToDictionary(e => e.ID, e => e.Runners.ToDictionary(r => r.No, r => new KeyValuePair<double, double>(r.WinPercent, r.PlacePercent)));
 
             foreach (Event e in m.Events)
             {
@@ -248,7 +248,8 @@ namespace ArbBetSystem
                     {
                         if (oldPercent.ContainsKey(e.ID) && oldPercent[e.ID].ContainsKey(r.No))
                         {
-                            r.Percent = oldPercent[e.ID][r.No];
+                            r.WinPercent = oldPercent[e.ID][r.No].Key;
+                            r.PlacePercent = oldPercent[e.ID][r.No].Value;
                         }
                     }
                 }

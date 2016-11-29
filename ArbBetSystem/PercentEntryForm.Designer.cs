@@ -28,33 +28,36 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.txtPercent = new System.Windows.Forms.TextBox();
+            this.txtWinPercent = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.btnOk = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txtPlacePercent = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
-            // txtPercent
+            // txtWinPercent
             // 
-            this.txtPercent.Location = new System.Drawing.Point(80, 12);
-            this.txtPercent.Name = "txtPercent";
-            this.txtPercent.Size = new System.Drawing.Size(100, 20);
-            this.txtPercent.TabIndex = 0;
-            this.txtPercent.TextChanged += new System.EventHandler(this.txtPercent_TextChanged);
+            this.txtWinPercent.Location = new System.Drawing.Point(80, 12);
+            this.txtWinPercent.Name = "txtWinPercent";
+            this.txtWinPercent.Size = new System.Drawing.Size(100, 20);
+            this.txtWinPercent.TabIndex = 0;
+            this.txtWinPercent.TextChanged += new System.EventHandler(this.txtPercent_TextChanged);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(12, 15);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(62, 13);
+            this.label1.Size = new System.Drawing.Size(26, 13);
             this.label1.TabIndex = 2;
-            this.label1.Text = "Percentage";
+            this.label1.Text = "Win";
             // 
             // btnOk
             // 
-            this.btnOk.Location = new System.Drawing.Point(15, 38);
+            this.btnOk.Location = new System.Drawing.Point(12, 75);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 4;
@@ -65,7 +68,7 @@
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(126, 38);
+            this.btnCancel.Location = new System.Drawing.Point(118, 75);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 5;
@@ -82,19 +85,48 @@
             this.label2.TabIndex = 6;
             this.label2.Text = "%";
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(186, 41);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(15, 13);
+            this.label3.TabIndex = 9;
+            this.label3.Text = "%";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(12, 41);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(34, 13);
+            this.label4.TabIndex = 8;
+            this.label4.Text = "Place";
+            // 
+            // txtPlacePercent
+            // 
+            this.txtPlacePercent.Location = new System.Drawing.Point(80, 38);
+            this.txtPlacePercent.Name = "txtPlacePercent";
+            this.txtPlacePercent.Size = new System.Drawing.Size(100, 20);
+            this.txtPlacePercent.TabIndex = 1;
+            this.txtPlacePercent.TextChanged += new System.EventHandler(this.txtPercent_TextChanged);
+            // 
             // PercentEntryForm
             // 
             this.AcceptButton = this.btnOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(209, 69);
+            this.ClientSize = new System.Drawing.Size(205, 110);
             this.ControlBox = false;
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.txtPlacePercent);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.txtPercent);
+            this.Controls.Add(this.txtWinPercent);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -109,10 +141,13 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox txtPercent;
+        private System.Windows.Forms.TextBox txtWinPercent;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox txtPlacePercent;
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace ArbBetSystem
+﻿using System.Collections.Generic;
+
+namespace ArbBetSystem
 {
     partial class MainForm
     {
@@ -43,8 +45,6 @@
             this.greyhoundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.pickTimeZoneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.layBetsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.backBetsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dgvMeetings = new System.Windows.Forms.DataGridView();
             this.meetCheck = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.meetVenue = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -57,15 +57,14 @@
             this.evtAddDay = new System.Windows.Forms.DataGridViewButtonColumn();
             this.evtSubDay = new System.Windows.Forms.DataGridViewButtonColumn();
             this.dgvRunners = new System.Windows.Forms.DataGridView();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.runNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.runName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.runJockey = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.runTrainer = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.runPercent = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.runBFL1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.runWH = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.runIAS = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.runWinPercent = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.runPlacePercent = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.capOddsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMeetings)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEvents)).BeginInit();
@@ -78,12 +77,10 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.loginToolStripMenuItem,
             this.dataToolStripMenuItem,
-            this.meetingsToolStripMenuItem,
-            this.layBetsToolStripMenuItem,
-            this.backBetsToolStripMenuItem});
+            this.meetingsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(784, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(990, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -115,7 +112,8 @@
             this.dataToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.startToolStripMenuItem,
             this.stopToolStripMenuItem,
-            this.updateMeetingListToolStripMenuItem});
+            this.updateMeetingListToolStripMenuItem,
+            this.capOddsToolStripMenuItem});
             this.dataToolStripMenuItem.Name = "dataToolStripMenuItem";
             this.dataToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.dataToolStripMenuItem.Text = "Data";
@@ -193,18 +191,6 @@
             this.pickTimeZoneToolStripMenuItem.Text = "Pick Time Zone";
             this.pickTimeZoneToolStripMenuItem.Click += new System.EventHandler(this.pickTimeZoneToolStripMenuItem_Click);
             // 
-            // layBetsToolStripMenuItem
-            // 
-            this.layBetsToolStripMenuItem.Name = "layBetsToolStripMenuItem";
-            this.layBetsToolStripMenuItem.Size = new System.Drawing.Size(62, 20);
-            this.layBetsToolStripMenuItem.Text = "Lay Bets";
-            // 
-            // backBetsToolStripMenuItem
-            // 
-            this.backBetsToolStripMenuItem.Name = "backBetsToolStripMenuItem";
-            this.backBetsToolStripMenuItem.Size = new System.Drawing.Size(69, 20);
-            this.backBetsToolStripMenuItem.Text = "Back Bets";
-            // 
             // dgvMeetings
             // 
             this.dgvMeetings.AllowUserToAddRows = false;
@@ -226,7 +212,7 @@
             this.dgvMeetings.RowHeadersVisible = false;
             this.dgvMeetings.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dgvMeetings.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvMeetings.Size = new System.Drawing.Size(760, 177);
+            this.dgvMeetings.Size = new System.Drawing.Size(966, 177);
             this.dgvMeetings.TabIndex = 10;
             this.dgvMeetings.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvMeetings_CellContentClick);
             this.dgvMeetings.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellDoubleClick);
@@ -283,7 +269,7 @@
             this.dgvEvents.RowHeadersVisible = false;
             this.dgvEvents.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dgvEvents.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvEvents.Size = new System.Drawing.Size(760, 177);
+            this.dgvEvents.Size = new System.Drawing.Size(966, 177);
             this.dgvEvents.TabIndex = 11;
             this.dgvEvents.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvEvents_CellContentClick);
             this.dgvEvents.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellDoubleClick);
@@ -343,10 +329,8 @@
             this.runName,
             this.runJockey,
             this.runTrainer,
-            this.runPercent,
-            this.runBFL1,
-            this.runWH,
-            this.runIAS});
+            this.runWinPercent,
+            this.runPlacePercent});
             this.dgvRunners.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvRunners.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dgvRunners.Location = new System.Drawing.Point(0, 354);
@@ -355,9 +339,22 @@
             this.dgvRunners.RowHeadersVisible = false;
             this.dgvRunners.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dgvRunners.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvRunners.Size = new System.Drawing.Size(760, 238);
+            this.dgvRunners.Size = new System.Drawing.Size(966, 238);
             this.dgvRunners.TabIndex = 12;
             this.dgvRunners.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellDoubleClick);
+            // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Controls.Add(this.dgvRunners);
+            this.panel1.Controls.Add(this.dgvEvents);
+            this.panel1.Controls.Add(this.dgvMeetings);
+            this.panel1.Location = new System.Drawing.Point(12, 27);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(966, 592);
+            this.panel1.TabIndex = 13;
             // 
             // runNo
             // 
@@ -391,56 +388,35 @@
             this.runTrainer.ReadOnly = true;
             this.runTrainer.Width = 65;
             // 
-            // runPercent
+            // runWinPercent
             // 
-            this.runPercent.DataPropertyName = "Percent";
-            this.runPercent.HeaderText = "Percent";
-            this.runPercent.Name = "runPercent";
-            this.runPercent.ReadOnly = true;
-            this.runPercent.Width = 69;
+            this.runWinPercent.DataPropertyName = "WinPercent";
+            this.runWinPercent.HeaderText = "Win Percent";
+            this.runWinPercent.Name = "runWinPercent";
+            this.runWinPercent.ReadOnly = true;
+            this.runWinPercent.Width = 91;
             // 
-            // runBFL1
+            // runPlacePercent
             // 
-            this.runBFL1.DataPropertyName = "OddsBF_L1";
-            this.runBFL1.HeaderText = "BetFair Lay";
-            this.runBFL1.Name = "runBFL1";
-            this.runBFL1.ReadOnly = true;
-            this.runBFL1.Width = 85;
+            this.runPlacePercent.DataPropertyName = "PlacePercent";
+            this.runPlacePercent.HeaderText = "Place Percent";
+            this.runPlacePercent.Name = "runPlacePercent";
+            this.runPlacePercent.ReadOnly = true;
+            this.runPlacePercent.Width = 99;
             // 
-            // runWH
+            // capOddsToolStripMenuItem
             // 
-            this.runWH.DataPropertyName = "OddsSB";
-            this.runWH.HeaderText = "William Hill";
-            this.runWH.Name = "runWH";
-            this.runWH.ReadOnly = true;
-            this.runWH.Width = 82;
-            // 
-            // runIAS
-            // 
-            this.runIAS.DataPropertyName = "OddsIAS";
-            this.runIAS.HeaderText = "SportsBet";
-            this.runIAS.Name = "runIAS";
-            this.runIAS.ReadOnly = true;
-            this.runIAS.Width = 78;
-            // 
-            // panel1
-            // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.Controls.Add(this.dgvRunners);
-            this.panel1.Controls.Add(this.dgvEvents);
-            this.panel1.Controls.Add(this.dgvMeetings);
-            this.panel1.Location = new System.Drawing.Point(12, 27);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(760, 592);
-            this.panel1.TabIndex = 13;
+            this.capOddsToolStripMenuItem.CheckOnClick = true;
+            this.capOddsToolStripMenuItem.Name = "capOddsToolStripMenuItem";
+            this.capOddsToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
+            this.capOddsToolStripMenuItem.Text = "Cap Odds";
+            this.capOddsToolStripMenuItem.Click += new System.EventHandler(this.capOddsToolStripMenuItem_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 631);
+            this.ClientSize = new System.Drawing.Size(990, 631);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -474,8 +450,6 @@
         private System.Windows.Forms.ToolStripMenuItem racingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem harnessToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem greyhoundToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem layBetsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem backBetsToolStripMenuItem;
         private System.Windows.Forms.DataGridView dgvMeetings;
         private System.Windows.Forms.DataGridView dgvEvents;
         private System.Windows.Forms.DataGridView dgvRunners;
@@ -483,14 +457,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn meetVenue;
         private System.Windows.Forms.DataGridViewTextBoxColumn meetCountry;
         private System.Windows.Forms.DataGridViewTextBoxColumn meetType;
-        private System.Windows.Forms.DataGridViewTextBoxColumn runNo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn runName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn runJockey;
-        private System.Windows.Forms.DataGridViewTextBoxColumn runTrainer;
-        private System.Windows.Forms.DataGridViewTextBoxColumn runPercent;
-        private System.Windows.Forms.DataGridViewTextBoxColumn runBFL1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn runWH;
-        private System.Windows.Forms.DataGridViewTextBoxColumn runIAS;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem pickTimeZoneToolStripMenuItem;
@@ -499,6 +465,13 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn evtStartTime;
         private System.Windows.Forms.DataGridViewButtonColumn evtAddDay;
         private System.Windows.Forms.DataGridViewButtonColumn evtSubDay;
+        private System.Windows.Forms.DataGridViewTextBoxColumn runNo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn runName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn runJockey;
+        private System.Windows.Forms.DataGridViewTextBoxColumn runTrainer;
+        private System.Windows.Forms.DataGridViewTextBoxColumn runWinPercent;
+        private System.Windows.Forms.DataGridViewTextBoxColumn runPlacePercent;
+        private System.Windows.Forms.ToolStripMenuItem capOddsToolStripMenuItem;
     }
 }
 

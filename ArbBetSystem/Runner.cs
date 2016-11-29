@@ -10,18 +10,28 @@ namespace ArbBetSystem
     {
         private static readonly ILog logger = LogManager.GetLogger(typeof(Runner));
 
-        // Maps Properties for Back Bet prices to recognisable strings
-        public static readonly Dictionary<string, string> Backs = new Dictionary<string, string>
+        // Maps Properties for Win Back Bet prices to recognisable strings
+        public static readonly Dictionary<string, string> WinBackNames = new Dictionary<string, string>
         {
-            { "OddsSB", "William Hill" },
-            { "OddsIAS", "Sports Bet" }
+            { "OddsSB", "William Hill Win" },
+            { "OddsIAS", "Sports Bet Win" }
         };
-        // Maps Properties for Lay Bet prices to recognisable strings
-        public static Dictionary<string, string> Lays = new Dictionary<string, string>
+        // Maps Properties for Win Lay Bet prices to recognisable strings
+        public static readonly Dictionary<string, string> WinLayNames = new Dictionary<string, string>
         {
-            { "OddsBF_L1", "BetFair Lay" }
+            { "OddsBF_L1", "BetFair Lay Win" }
         };
-    
+        // Maps Properties for Place Back Bet prices to recognisable strings
+        public static readonly Dictionary<string, string> PlaceBackNames = new Dictionary<string, string>
+        {
+            { "OddsSB_p", "William Hill Place" }
+        };
+        // Maps Properties for Place Lay Bet prices to recognisable strings
+        public static readonly Dictionary<string, string> PlaceLayNames = new Dictionary<string, string>
+        {
+            { "OddsBF_L1_p", "BetFair Lay Place" }
+        };
+
 
         private string nameField;
         private string jockeyField;
@@ -29,7 +39,8 @@ namespace ArbBetSystem
         private uint? barField;
         private string hcpField;
         private uint noField;
-        private double percentField = 0;
+        private double winPercentField = 0;
+        private double placePercentField = 0;
         [XmlIgnore]
         private Event parent;
 
@@ -139,22 +150,36 @@ namespace ArbBetSystem
         }
 
         [XmlIgnore]
-        public double Percent
+        public double WinPercent
         {
             get
             {
-                return this.percentField;
+                return this.winPercentField;
             }
             set
             {
-                this.percentField = value;
+                this.winPercentField = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        [XmlIgnore]
+        public double PlacePercent
+        {
+            get
+            {
+                return this.placePercentField;
+            }
+            set
+            {
+                this.placePercentField = value;
                 NotifyPropertyChanged();
             }
         }
 
         public string GetPercent()
         {
-            return Percent.ToString() + "%";
+            return WinPercent.ToString() + "%";
         }
 
         public void UpdateOdds(RunnerOdd odds)
