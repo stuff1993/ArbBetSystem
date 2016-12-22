@@ -45,27 +45,64 @@ namespace ArbBetSystem.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1000")]
-        public int PollInterval {
+        public int DynamicOddsPollInterval {
             get {
-                return ((int)(this["PollInterval"]));
+                return ((int)(this["DynamicOddsPollInterval"]));
             }
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("60")]
-        public int PreEventCheck {
+        public int DynamicOddsPreEventCheck {
             get {
-                return ((int)(this["PreEventCheck"]));
+                return ((int)(this["DynamicOddsPreEventCheck"]));
             }
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1")]
-        public int PostEventCheck {
+        public int DynamicOddsPostEventCheck {
             get {
-                return ((int)(this["PostEventCheck"]));
+                return ((int)(this["DynamicOddsPostEventCheck"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1000")]
+        public int BetFairPollInterval {
+            get {
+                return ((int)(this["BetFairPollInterval"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("60")]
+        public int BetFairPreEventCheck {
+            get {
+                return ((int)(this["BetFairPreEventCheck"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int BetFairPostEventCheck {
+            get {
+                return ((int)(this["BetFairPostEventCheck"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://stream-api.betfair.com:443/api")]
+        public string BetFairUrl {
+            get {
+                return ((string)(this["BetFairUrl"]));
             }
         }
     }

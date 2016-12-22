@@ -28,7 +28,7 @@
     <ProductName>Arb Betting System</ProductName>
     <PublisherName>Stu</PublisherName>
     <AutorunEnabled>true</AutorunEnabled>
-    <ApplicationRevision>4</ApplicationRevision>
+    <ApplicationRevision>5</ApplicationRevision>
     <ApplicationVersion>2.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -74,15 +74,25 @@
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="IO.Swagger">
+      <HintPath>..\..\csharp-client\bin\IO.Swagger.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Downloads\Json90r1\Bin\Net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -94,58 +104,134 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\BetFair.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Json\JsonConvert.cs" />
+    <Compile Include="Json\JsonRequest.cs" />
+    <Compile Include="Json\JsonResponse.cs" />
+    <Compile Include="Models\BetFair\AccountFundsResponse.cs" />
+    <Compile Include="Models\BetFair\APINGException.cs" />
+    <Compile Include="Models\BetFair\BetStatus.cs" />
+    <Compile Include="Models\BetFair\CancelExecutionReport-Mrt.cs" />
+    <Compile Include="Models\BetFair\CancelInstruction.cs" />
+    <Compile Include="Models\BetFair\CancelInstructionReport.cs" />
+    <Compile Include="Models\BetFair\ClearedOrderSummary.cs" />
+    <Compile Include="Models\BetFair\ClearedOrderSummaryReport.cs" />
+    <Compile Include="Models\BetFair\Competition.cs" />
+    <Compile Include="Models\BetFair\CompetitionResult.cs" />
+    <Compile Include="Models\BetFair\CurrentOrderSummary.cs" />
+    <Compile Include="Models\BetFair\CurrentOrderSummaryReport.cs" />
+    <Compile Include="Models\BetFair\Event.cs" />
+    <Compile Include="Models\BetFair\EventResult.cs" />
+    <Compile Include="Models\BetFair\EventType.cs" />
+    <Compile Include="Models\BetFair\EventTypeResult.cs" />
+    <Compile Include="Models\BetFair\ExBestOffersOverrides.cs" />
+    <Compile Include="Models\BetFair\Exception.cs" />
+    <Compile Include="Models\BetFair\ExchangePrices.cs" />
+    <Compile Include="Models\BetFair\ExecutionReportErrorCode.cs" />
+    <Compile Include="Models\BetFair\ExecutionReportStatus.cs" />
+    <Compile Include="Models\BetFair\GroupBy-Mrt.cs" />
+    <Compile Include="Models\BetFair\InstructionReportErrorCode.cs" />
+    <Compile Include="Models\BetFair\InstructionReportStatus.cs" />
+    <Compile Include="Models\BetFair\ItemDescription.cs" />
+    <Compile Include="Models\BetFair\LimitOnCloseOrder.cs" />
+    <Compile Include="Models\BetFair\LimitOrder.cs" />
+    <Compile Include="Models\BetFair\LoginResponse.cs" />
+    <Compile Include="Models\BetFair\MarketBettingType.cs" />
+    <Compile Include="Models\BetFair\MarketBook.cs" />
+    <Compile Include="Models\BetFair\MarketCatalogue.cs" />
+    <Compile Include="Models\BetFair\MarketDescription.cs" />
+    <Compile Include="Models\BetFair\MarketFilter.cs" />
+    <Compile Include="Models\BetFair\MarketOnCloseOrder.cs" />
+    <Compile Include="Models\BetFair\MarketProfitAndLoss.cs" />
+    <Compile Include="Models\BetFair\MarketProjection.cs" />
+    <Compile Include="Models\BetFair\MarketSort.cs" />
+    <Compile Include="Models\BetFair\MarketStatus.cs" />
+    <Compile Include="Models\BetFair\MarketTypeResult.cs" />
+    <Compile Include="Models\BetFair\Match.cs" />
+    <Compile Include="Models\BetFair\MatchProjection.cs" />
+    <Compile Include="Models\BetFair\Order.cs" />
+    <Compile Include="Models\BetFair\OrderBy.cs" />
+    <Compile Include="Models\BetFair\OrderProjection.cs" />
+    <Compile Include="Models\BetFair\OrderStatus.cs" />
+    <Compile Include="Models\BetFair\OrderType.cs" />
+    <Compile Include="Models\BetFair\PersistenceType.cs" />
+    <Compile Include="Models\BetFair\PlaceExecutionReport.cs" />
+    <Compile Include="Models\BetFair\PlaceInstruction.cs" />
+    <Compile Include="Models\BetFair\PlaceInstructionReport.cs" />
+    <Compile Include="Models\BetFair\PriceData.cs" />
+    <Compile Include="Models\BetFair\PriceProjection.cs" />
+    <Compile Include="Models\BetFair\PriceSize.cs" />
+    <Compile Include="Models\BetFair\ReplaceExecutionReport.cs" />
+    <Compile Include="Models\BetFair\ReplaceInstruction.cs" />
+    <Compile Include="Models\BetFair\ReplaceInstructionReport.cs" />
+    <Compile Include="Models\BetFair\RollUpModel.cs" />
+    <Compile Include="Models\BetFair\Runner.cs" />
+    <Compile Include="Models\BetFair\RunnerDescription.cs" />
+    <Compile Include="Models\BetFair\RunnerId-Mrt.cs" />
+    <Compile Include="Models\BetFair\RunnerProfitAndLost.cs" />
+    <Compile Include="Models\BetFair\RunnerStatus.cs" />
+    <Compile Include="Models\BetFair\Side.cs" />
+    <Compile Include="Models\BetFair\SortDir.cs" />
+    <Compile Include="Models\BetFair\StartingPrices.cs" />
+    <Compile Include="Models\BetFair\TimeRange.cs" />
+    <Compile Include="Models\BetFair\UpdateExecutionReport.cs" />
+    <Compile Include="Models\BetFair\UpdateInstruction.cs" />
+    <Compile Include="Models\BetFair\UpdateInstructionReport.cs" />
+    <Compile Include="Models\BetFair\Wallet.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
-    <Compile Include="TimeZoneSelectorForm.cs">
+    <Compile Include="Forms\TimeZoneSelectorForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TimeZoneSelectorForm.Designer.cs">
+    <Compile Include="Forms\TimeZoneSelectorForm.Designer.cs">
       <DependentUpon>TimeZoneSelectorForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="PercentEntryForm.cs">
+    <Compile Include="Forms\PercentEntryForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PercentEntryForm.Designer.cs">
+    <Compile Include="Forms\PercentEntryForm.Designer.cs">
       <DependentUpon>PercentEntryForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="CredentialsForm.cs">
+    <Compile Include="Forms\CredentialsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CredentialsForm.Designer.cs">
+    <Compile Include="Forms\CredentialsForm.Designer.cs">
       <DependentUpon>CredentialsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Creds.cs" />
-    <Compile Include="CryptoUtils.cs" />
-    <Compile Include="DynamicOdds.cs" />
-    <Compile Include="Event.cs" />
-    <Compile Include="FileUtils.cs" />
-    <Compile Include="MainForm.cs">
+    <Compile Include="Models\Creds.cs" />
+    <Compile Include="Utils\CryptoUtils.cs" />
+    <Compile Include="Api\DynamicOdds.cs" />
+    <Compile Include="Models\Event.cs" />
+    <Compile Include="Utils\FileUtils.cs" />
+    <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Designer.cs">
+    <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Meeting.cs" />
+    <Compile Include="Models\Meeting.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Runner.cs" />
-    <Compile Include="RunnerOdd.cs" />
-    <Compile Include="RunnerOdds.cs" />
-    <Compile Include="Weather.cs" />
-    <EmbeddedResource Include="TimeZoneSelectorForm.resx">
+    <Compile Include="Models\Runner.cs" />
+    <Compile Include="Models\RunnerOdd.cs" />
+    <Compile Include="Models\RunnerOdds.cs" />
+    <Compile Include="Models\Weather.cs" />
+    <EmbeddedResource Include="Forms\TimeZoneSelectorForm.resx">
       <DependentUpon>TimeZoneSelectorForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PercentEntryForm.resx">
+    <EmbeddedResource Include="Forms\PercentEntryForm.resx">
       <DependentUpon>PercentEntryForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CredentialsForm.resx">
+    <EmbeddedResource Include="Forms\CredentialsForm.resx">
       <DependentUpon>CredentialsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainForm.resx">
+    <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="ArbBetSystem_TemporaryKey.pfx" />

@@ -1,5 +1,6 @@
 ﻿using log4net;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Reflection;
 using System.Xml.Serialization;
@@ -11,26 +12,26 @@ namespace ArbBetSystem
         private static readonly ILog logger = LogManager.GetLogger(typeof(Runner));
 
         // Maps Properties for Win Back Bet prices to recognisable strings
-        public static readonly Dictionary<string, string> WinBackNames = new Dictionary<string, string>
-        {
-            { "OddsSB", "William Hill Win" },
-            { "OddsIAS", "Sports Bet Win" }
-        };
+        //public static readonly Dictionary<string, string> WinBackNames = new Dictionary<string, string>
+        //{
+        //    { "OddsSB", "William Hill Win" },
+        //    { "OddsSB2", "Sports Bet Win" }
+        //};
         // Maps Properties for Win Lay Bet prices to recognisable strings
-        public static readonly Dictionary<string, string> WinLayNames = new Dictionary<string, string>
-        {
-            { "OddsBF_L1", "BetFair Lay Win" }
-        };
-        // Maps Properties for Place Back Bet prices to recognisable strings
-        public static readonly Dictionary<string, string> PlaceBackNames = new Dictionary<string, string>
-        {
-            { "OddsSB_p", "William Hill Place" }
-        };
-        // Maps Properties for Place Lay Bet prices to recognisable strings
-        public static readonly Dictionary<string, string> PlaceLayNames = new Dictionary<string, string>
-        {
-            { "OddsBF_L1_p", "BetFair Lay Place" }
-        };
+        //public static readonly Dictionary<string, string> WinLayNames = new Dictionary<string, string>
+        //{
+        //    { "OddsBF_L1", "BetFair Lay Win" }
+        //};
+        //// Maps Properties for Place Back Bet prices to recognisable strings
+        //public static readonly Dictionary<string, string> PlaceBackNames = new Dictionary<string, string>
+        //{
+        //    { "OddsSB_p", "William Hill Place" }
+        //};
+        //// Maps Properties for Place Lay Bet prices to recognisable strings
+        //public static readonly Dictionary<string, string> PlaceLayNames = new Dictionary<string, string>
+        //{
+        //    { "OddsBF_L1_p", "BetFair Lay Place" }
+        //};
 
 
         private string nameField;

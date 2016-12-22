@@ -212,3 +212,6 @@ _Pvt_Extensions/
 ModelManifest.xml
 ArbBetSystem/ArbBetSystem/
 ArbBetSystem/ArbBetSystem.zip
+/client-2048.p12
+/client-2048.key
+/client-2048.crt

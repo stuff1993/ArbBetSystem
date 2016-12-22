@@ -39,6 +39,7 @@ namespace ArbBetSystem
             this.startToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.updateMeetingListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.capOddsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.meetingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.racingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.harnessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -58,13 +59,6 @@ namespace ArbBetSystem
             this.evtSubDay = new System.Windows.Forms.DataGridViewButtonColumn();
             this.dgvRunners = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.runNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.runName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.runJockey = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.runTrainer = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.runWinPercent = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.runPlacePercent = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.capOddsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMeetings)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEvents)).BeginInit();
@@ -142,6 +136,14 @@ namespace ArbBetSystem
             this.updateMeetingListToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
             this.updateMeetingListToolStripMenuItem.Text = "Update Meeting List";
             this.updateMeetingListToolStripMenuItem.Click += new System.EventHandler(this.updateMeetingListToolStripMenuItem_Click);
+            // 
+            // capOddsToolStripMenuItem
+            // 
+            this.capOddsToolStripMenuItem.CheckOnClick = true;
+            this.capOddsToolStripMenuItem.Name = "capOddsToolStripMenuItem";
+            this.capOddsToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
+            this.capOddsToolStripMenuItem.Text = "Cap Odds";
+            this.capOddsToolStripMenuItem.Click += new System.EventHandler(this.capOddsToolStripMenuItem_Click);
             // 
             // meetingsToolStripMenuItem
             // 
@@ -324,13 +326,6 @@ namespace ArbBetSystem
             this.dgvRunners.AllowUserToResizeRows = false;
             this.dgvRunners.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dgvRunners.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvRunners.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.runNo,
-            this.runName,
-            this.runJockey,
-            this.runTrainer,
-            this.runWinPercent,
-            this.runPlacePercent});
             this.dgvRunners.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvRunners.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dgvRunners.Location = new System.Drawing.Point(0, 354);
@@ -355,62 +350,6 @@ namespace ArbBetSystem
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(966, 592);
             this.panel1.TabIndex = 13;
-            // 
-            // runNo
-            // 
-            this.runNo.DataPropertyName = "No";
-            this.runNo.HeaderText = "No";
-            this.runNo.Name = "runNo";
-            this.runNo.ReadOnly = true;
-            this.runNo.Width = 46;
-            // 
-            // runName
-            // 
-            this.runName.DataPropertyName = "Name";
-            this.runName.HeaderText = "Name";
-            this.runName.Name = "runName";
-            this.runName.ReadOnly = true;
-            this.runName.Width = 60;
-            // 
-            // runJockey
-            // 
-            this.runJockey.DataPropertyName = "Jockey";
-            this.runJockey.HeaderText = "Jockey";
-            this.runJockey.Name = "runJockey";
-            this.runJockey.ReadOnly = true;
-            this.runJockey.Width = 66;
-            // 
-            // runTrainer
-            // 
-            this.runTrainer.DataPropertyName = "Trainer";
-            this.runTrainer.HeaderText = "Trainer";
-            this.runTrainer.Name = "runTrainer";
-            this.runTrainer.ReadOnly = true;
-            this.runTrainer.Width = 65;
-            // 
-            // runWinPercent
-            // 
-            this.runWinPercent.DataPropertyName = "WinPercent";
-            this.runWinPercent.HeaderText = "Win Percent";
-            this.runWinPercent.Name = "runWinPercent";
-            this.runWinPercent.ReadOnly = true;
-            this.runWinPercent.Width = 91;
-            // 
-            // runPlacePercent
-            // 
-            this.runPlacePercent.DataPropertyName = "PlacePercent";
-            this.runPlacePercent.HeaderText = "Place Percent";
-            this.runPlacePercent.Name = "runPlacePercent";
-            this.runPlacePercent.ReadOnly = true;
-            this.runPlacePercent.Width = 99;
-            // 
-            // capOddsToolStripMenuItem
-            // 
-            this.capOddsToolStripMenuItem.CheckOnClick = true;
-            this.capOddsToolStripMenuItem.Name = "capOddsToolStripMenuItem";
-            this.capOddsToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
-            this.capOddsToolStripMenuItem.Text = "Cap Odds";
-            this.capOddsToolStripMenuItem.Click += new System.EventHandler(this.capOddsToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -465,12 +404,6 @@ namespace ArbBetSystem
         private System.Windows.Forms.DataGridViewTextBoxColumn evtStartTime;
         private System.Windows.Forms.DataGridViewButtonColumn evtAddDay;
         private System.Windows.Forms.DataGridViewButtonColumn evtSubDay;
-        private System.Windows.Forms.DataGridViewTextBoxColumn runNo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn runName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn runJockey;
-        private System.Windows.Forms.DataGridViewTextBoxColumn runTrainer;
-        private System.Windows.Forms.DataGridViewTextBoxColumn runWinPercent;
-        private System.Windows.Forms.DataGridViewTextBoxColumn runPlacePercent;
         private System.Windows.Forms.ToolStripMenuItem capOddsToolStripMenuItem;
     }
 }

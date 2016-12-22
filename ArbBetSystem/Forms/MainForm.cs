@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.IO;
 using System.Linq;
@@ -11,11 +12,25 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+using ArbBetSystem.Api;
+using ArbBetSystem.Models.BetFair;
+using System.Security.Cryptography.X509Certificates;
+
 namespace ArbBetSystem
 {
     public partial class MainForm : Form
     {
         private static readonly ILog logger = LogManager.GetLogger(typeof(MainForm));
+
+        public static Dictionary<string, string> Other;
+        public static Dictionary<string, string> WinBackNames;
+        public static Dictionary<string, string> WinLayNames;
+        public static Dictionary<string, string> PlaceBackNames;
+        public static Dictionary<string, string> PlaceLayNames;
+        public static Dictionary<string, int> Order;
 
         private string credsFileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ArbBetSystem" + Path.DirectorySeparatorChar + "Arbing.dat");
         internal static byte[] additionalEntropy = { 1, 5, 9, 2, 7 };
@@ -38,16 +53,50 @@ namespace ArbBetSystem
             dgvEvents.AutoGenerateColumns = false;
             dgvRunners.AutoGenerateColumns = false;
 
-            foreach (KeyValuePair<string, string> pair in Runner.WinLayNames.Union(Runner.WinBackNames).Union(Runner.PlaceLayNames).Union(Runner.PlaceBackNames))
+            Other = (ConfigurationManager.GetSection("Mappings/Other") as System.Collections.Hashtable)
+                 .Cast<System.Collections.DictionaryEntry>()
+                 .ToDictionary(n => n.Key.ToString(), n => n.Value.ToString());
+
+            WinBackNames = (ConfigurationManager.GetSection("Mappings/WinBack") as System.Collections.Hashtable)
+                 .Cast<System.Collections.DictionaryEntry>()
+                 .ToDictionary(n => n.Key.ToString(), n => n.Value.ToString());
+
+            WinLayNames = (ConfigurationManager.GetSection("Mappings/WinLay") as System.Collections.Hashtable)
+                 .Cast<System.Collections.DictionaryEntry>()
+                 .ToDictionary(n => n.Key.ToString(), n => n.Value.ToString());
+
+            PlaceBackNames = (ConfigurationManager.GetSection("Mappings/PlaceBack") as System.Collections.Hashtable)
+                 .Cast<System.Collections.DictionaryEntry>()
+                 .ToDictionary(n => n.Key.ToString(), n => n.Value.ToString());
+
+            PlaceLayNames = (ConfigurationManager.GetSection("Mappings/PlaceLay") as System.Collections.Hashtable)
+                 .Cast<System.Collections.DictionaryEntry>()
+                 .ToDictionary(n => n.Key.ToString(), n => n.Value.ToString());
+
+            Order = (ConfigurationManager.GetSection("Mappings/Order") as System.Collections.Hashtable)
+                 .Cast<System.Collections.DictionaryEntry>()
+                 .ToDictionary(n => n.Key.ToString(), n => int.Parse(n.Value.ToString()));
+
+            foreach (Dictionary<string, string> dict in new Dictionary<string, string>[] { Other, WinBackNames, WinLayNames, PlaceBackNames, PlaceLayNames })
             {
-                DataGridViewTextBoxColumn newCol = new DataGridViewTextBoxColumn();
-                newCol.DataPropertyName = pair.Key;
-                newCol.HeaderText = pair.Value;
-                newCol.ReadOnly = true;
-                newCol.Name = "run" + pair.Key;
-                dgvRunners.Columns.Add(newCol);
+                foreach (KeyValuePair<string, string> pair in dict)
+                {
+                    DataGridViewTextBoxColumn newCol = new DataGridViewTextBoxColumn();
+                    newCol.DataPropertyName = pair.Key;
+                    newCol.HeaderText = pair.Value;
+                    newCol.ReadOnly = true;
+                    newCol.Name = "run" + pair.Key;
+                    dgvRunners.Columns.Add(newCol);
+                }
             }
 
+            foreach (KeyValuePair<string, int> pair in Order.OrderBy(i => i.Value))
+            {
+                if (dgvRunners.Columns.Contains("run" + pair.Key))
+                    dgvRunners.Columns["run" + pair.Key].DisplayIndex = pair.Value;
+            }
+
+            dgvRunners.AutoResizeColumns();
             dgvMeetings.DataSource = meetings;
             meetingsToolStripMenuItem.DropDown.Closing += DropDown_Closing;
         }
@@ -81,7 +130,7 @@ namespace ArbBetSystem
             foreach (Runner r in e.Runners)
             {
                 Dictionary<string, bool> backMatched = new Dictionary<string, bool>();
-                foreach (KeyValuePair<string, string> back in Runner.WinBackNames)
+                foreach (KeyValuePair<string, string> back in WinBackNames)
                 {
                     backMatched.Add(back.Key, false);
                 }
@@ -99,12 +148,12 @@ namespace ArbBetSystem
                         foreach (Runner r in e.Runners)
                         {
                             r.UpdateOdds(odds.GetRunner(r.No));
-                            foreach (string layField in Runner.WinLayNames.Keys)
+                            foreach (string layField in WinLayNames.Keys)
                             {
                                 double lay = (double)typeof(RunnerOdd).GetProperty(layField).GetValue(r);
                                 if (r.WinPercent != 0 && lay > 0)
                                 {
-                                    foreach (KeyValuePair<string, string> back in Runner.WinBackNames)
+                                    foreach (KeyValuePair<string, string> back in WinBackNames)
                                     {
                                         double val = (double)typeof(RunnerOdd).GetProperty(back.Key).GetValue(r);
                                         if (val > 0 && lay * (1 + r.WinPercent / 100.0) < val && !hasMatched[r][back.Key] && (val < 10 && lay < 10 || !CapOdds))
@@ -125,12 +174,12 @@ namespace ArbBetSystem
                                 }
                             }
 
-                            foreach (string layField in Runner.PlaceLayNames.Keys)
+                            foreach (string layField in PlaceLayNames.Keys)
                             {
                                 double lay = (double)typeof(RunnerOdd).GetProperty(layField).GetValue(r);
                                 if (r.PlacePercent != 0 && lay > 0)
                                 {
-                                    foreach (KeyValuePair<string, string> back in Runner.PlaceBackNames)
+                                    foreach (KeyValuePair<string, string> back in PlaceBackNames)
                                     {
                                         double val = (double)typeof(RunnerOdd).GetProperty(back.Key).GetValue(r);
                                         if (val > 0 && lay * (1 + r.PlacePercent / 100.0) < val && !hasMatched[r][back.Key] && (val < 10 && lay < 10 || !CapOdds))
@@ -259,7 +308,7 @@ namespace ArbBetSystem
                     MessageBoxIcon.Warning);
                 return false;
             }
-            catch (Exception e)
+            catch (System.Exception e)
             {
                 logger.Error("Error updating meetings", e);
                 MessageBox.Show("Error updating meetings:" + Environment.NewLine + e.Message,
@@ -369,10 +418,10 @@ namespace ArbBetSystem
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-
-            PollInterval = Properties.Settings.Default.PollInterval;
-            PreEventCheck = Properties.Settings.Default.PreEventCheck;
-            PostEventCheck = Properties.Settings.Default.PostEventCheck;
+            testBF();
+            PollInterval = Properties.Settings.Default.DynamicOddsPollInterval;
+            PreEventCheck = Properties.Settings.Default.DynamicOddsPreEventCheck;
+            PostEventCheck = Properties.Settings.Default.DynamicOddsPostEventCheck;
 
             LoadCredentials();
             InitDynOdds();
@@ -450,7 +499,7 @@ namespace ArbBetSystem
                 {
                     evt.UpdateOdds(dynOdds.GetRunnerOdds(evt));
                 }
-                catch (Exception ex)
+                catch (System.Exception ex)
                 {
                     MessageBox.Show("Error getting odds:" + Environment.NewLine + ex.Message,
                         "API Error",
@@ -478,6 +527,16 @@ namespace ArbBetSystem
         private void capOddsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CapOdds = capOddsToolStripMenuItem.Checked;
+        }
+
+        private void testBF()
+        {
+            BetFair bfApi = new BetFair("appKey",
+                new Creds("username", "password"),
+                new X509Certificate2(@"p12 cert", "cert pass")
+                );
+            LoginResponse resp = bfApi.doLogin();
+            logger.Info(resp.SessionToken);
         }
     }
 }
