@@ -8,29 +8,32 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ArbBetSystem
+namespace ArbBetSystem.Forms
 {
     public partial class CredentialsForm : Form
     {
-        MainForm mainForm;
-        bool shouldSave;
+        public Creds LoginDetails { get; private set; }
+        private bool canCancel;
 
-        public CredentialsForm(MainForm parent, bool canCancel, bool shouldSave)
+        public CredentialsForm(string title = "", bool canCancel = true)
         {
             InitializeComponent();
-            mainForm = parent;
-            btnCancel.Enabled = canCancel;
-            this.shouldSave = shouldSave;
+            this.canCancel = canCancel;
+            if (!canCancel) this.btnCancel.Text = "Close";
+            this.Text = this.Text + " - " + title;
+            this.DialogResult = DialogResult.Cancel;
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            mainForm.SetCredentials(new Creds(txtUser.Text, txtPass.Text), shouldSave);
+            LoginDetails = new Creds(txtUser.Text, txtPass.Text);
+            this.DialogResult = DialogResult.OK;
             Close();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
+            if (!canCancel) Environment.Exit(1);
             Close();
         }
     }

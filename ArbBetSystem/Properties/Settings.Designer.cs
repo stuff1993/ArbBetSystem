@@ -99,10 +99,48 @@ namespace ArbBetSystem.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://stream-api.betfair.com:443/api")]
-        public string BetFairUrl {
+        [global::System.Configuration.DefaultSettingValueAttribute("https://api.betfair.com/exchange/betting/json-rpc/v1")]
+        public string BetFairApiUrl {
             get {
-                return ((string)(this["BetFairUrl"]));
+                return ((string)(this["BetFairApiUrl"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0mdOdgf9qCNYfqyl")]
+        public string BetFairAppKey {
+            get {
+                return ((string)(this["BetFairAppKey"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("G:\\\\Users\\\\Stuff\\\\Documents\\\\Visual Studio 2015\\\\Projects\\\\ArbBetSystem\\\\client-2" +
+            "048.p12")]
+        public string BetFairCert {
+            get {
+                return ((string)(this["BetFairCert"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("arbbetsystem")]
+        public string BetFairCertPass {
+            get {
+                return ((string)(this["BetFairCertPass"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://identitysso.betfair.com")]
+        public string BetFairAuthUrl {
+            get {
+                return ((string)(this["BetFairAuthUrl"]));
             }
         }
     }

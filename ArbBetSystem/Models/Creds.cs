@@ -19,7 +19,7 @@ namespace ArbBetSystem
 
         public override string ToString()
         {
-            return Username + Environment.NewLine + Password;
+            return Username + Environment.NewLine + Password + Environment.NewLine;
         }
     }
 }

@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 
-namespace ArbBetSystem
-{
-    partial class MainForm
-    {
+namespace ArbBetSystem.Forms {
+    partial class MainForm {
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -13,13 +11,12 @@ namespace ArbBetSystem
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
+        protected override void Dispose(bool disposing) {
+            if (disposing && (components != null)) {
                 components.Dispose();
             }
-            dynOdds.Dispose();
+            if (dynOdds != null)
+                dynOdds.Dispose();
             base.Dispose(disposing);
         }
 
@@ -29,17 +26,19 @@ namespace ArbBetSystem
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent()
-        {
+        private void InitializeComponent() {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.loginToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.changeCredentialsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.forceLoginToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.changeDOLoginToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.changeBFLoginToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.forceDOLoginToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.forceBFLoginToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.startToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.updateMeetingListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.capOddsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.matchUKVenuesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.meetingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.racingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.harnessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -52,13 +51,14 @@ namespace ArbBetSystem
             this.meetCountry = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.meetType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvEvents = new System.Windows.Forms.DataGridView();
+            this.dgvRunners = new System.Windows.Forms.DataGridView();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.evtCheck = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.evtName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.evtStartTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.evtAddDay = new System.Windows.Forms.DataGridViewButtonColumn();
             this.evtSubDay = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.dgvRunners = new System.Windows.Forms.DataGridView();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.evtMatched = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMeetings)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEvents)).BeginInit();
@@ -81,25 +81,41 @@ namespace ArbBetSystem
             // loginToolStripMenuItem
             // 
             this.loginToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.changeCredentialsToolStripMenuItem,
-            this.forceLoginToolStripMenuItem});
+            this.changeDOLoginToolStripMenuItem,
+            this.changeBFLoginToolStripMenuItem,
+            this.forceDOLoginToolStripMenuItem,
+            this.forceBFLoginToolStripMenuItem});
             this.loginToolStripMenuItem.Name = "loginToolStripMenuItem";
             this.loginToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
             this.loginToolStripMenuItem.Text = "Login";
             // 
-            // changeCredentialsToolStripMenuItem
+            // changeDOLoginToolStripMenuItem
             // 
-            this.changeCredentialsToolStripMenuItem.Name = "changeCredentialsToolStripMenuItem";
-            this.changeCredentialsToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
-            this.changeCredentialsToolStripMenuItem.Text = "Change Credentials";
-            this.changeCredentialsToolStripMenuItem.Click += new System.EventHandler(this.changeCredentialsToolStripMenuItem_Click);
+            this.changeDOLoginToolStripMenuItem.Name = "changeDOLoginToolStripMenuItem";
+            this.changeDOLoginToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.changeDOLoginToolStripMenuItem.Text = "Change DO Login";
+            this.changeDOLoginToolStripMenuItem.Click += new System.EventHandler(this.changeDOLoginToolStripMenuItem_Click);
             // 
-            // forceLoginToolStripMenuItem
+            // changeBFLoginToolStripMenuItem
             // 
-            this.forceLoginToolStripMenuItem.Name = "forceLoginToolStripMenuItem";
-            this.forceLoginToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
-            this.forceLoginToolStripMenuItem.Text = "Force Login";
-            this.forceLoginToolStripMenuItem.Click += new System.EventHandler(this.forceLoginToolStripMenuItem_Click);
+            this.changeBFLoginToolStripMenuItem.Name = "changeBFLoginToolStripMenuItem";
+            this.changeBFLoginToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.changeBFLoginToolStripMenuItem.Text = "Change BF Login";
+            this.changeBFLoginToolStripMenuItem.Click += new System.EventHandler(this.changeBFLoginToolStripMenuItem_Click);
+            // 
+            // forceDOLoginToolStripMenuItem
+            // 
+            this.forceDOLoginToolStripMenuItem.Name = "forceDOLoginToolStripMenuItem";
+            this.forceDOLoginToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.forceDOLoginToolStripMenuItem.Text = "Force DO Login";
+            this.forceDOLoginToolStripMenuItem.Click += new System.EventHandler(this.forceDOLoginToolStripMenuItem_Click);
+            // 
+            // forceBFLoginToolStripMenuItem
+            // 
+            this.forceBFLoginToolStripMenuItem.Name = "forceBFLoginToolStripMenuItem";
+            this.forceBFLoginToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.forceBFLoginToolStripMenuItem.Text = "Force BF Login";
+            this.forceBFLoginToolStripMenuItem.Click += new System.EventHandler(this.forceBFLoginToolStripMenuItem_Click);
             // 
             // dataToolStripMenuItem
             // 
@@ -107,7 +123,8 @@ namespace ArbBetSystem
             this.startToolStripMenuItem,
             this.stopToolStripMenuItem,
             this.updateMeetingListToolStripMenuItem,
-            this.capOddsToolStripMenuItem});
+            this.capOddsToolStripMenuItem,
+            this.matchUKVenuesToolStripMenuItem});
             this.dataToolStripMenuItem.Name = "dataToolStripMenuItem";
             this.dataToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.dataToolStripMenuItem.Text = "Data";
@@ -144,6 +161,13 @@ namespace ArbBetSystem
             this.capOddsToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
             this.capOddsToolStripMenuItem.Text = "Cap Odds";
             this.capOddsToolStripMenuItem.Click += new System.EventHandler(this.capOddsToolStripMenuItem_Click);
+            // 
+            // matchUKVenuesToolStripMenuItem
+            // 
+            this.matchUKVenuesToolStripMenuItem.Name = "matchUKVenuesToolStripMenuItem";
+            this.matchUKVenuesToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
+            this.matchUKVenuesToolStripMenuItem.Text = "Match UK Venues";
+            this.matchUKVenuesToolStripMenuItem.Click += new System.EventHandler(this.matchUKVenuesToolStripMenuItem_Click);
             // 
             // meetingsToolStripMenuItem
             // 
@@ -262,7 +286,8 @@ namespace ArbBetSystem
             this.evtName,
             this.evtStartTime,
             this.evtAddDay,
-            this.evtSubDay});
+            this.evtSubDay,
+            this.evtMatched});
             this.dgvEvents.Dock = System.Windows.Forms.DockStyle.Top;
             this.dgvEvents.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dgvEvents.Location = new System.Drawing.Point(0, 177);
@@ -276,6 +301,39 @@ namespace ArbBetSystem
             this.dgvEvents.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvEvents_CellContentClick);
             this.dgvEvents.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellDoubleClick);
             this.dgvEvents.SelectionChanged += new System.EventHandler(this.dgvEvents_SelectionChanged);
+            // 
+            // dgvRunners
+            // 
+            this.dgvRunners.AllowUserToAddRows = false;
+            this.dgvRunners.AllowUserToDeleteRows = false;
+            this.dgvRunners.AllowUserToOrderColumns = true;
+            this.dgvRunners.AllowUserToResizeRows = false;
+            this.dgvRunners.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dgvRunners.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvRunners.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvRunners.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dgvRunners.Location = new System.Drawing.Point(0, 354);
+            this.dgvRunners.MultiSelect = false;
+            this.dgvRunners.Name = "dgvRunners";
+            this.dgvRunners.RowHeadersVisible = false;
+            this.dgvRunners.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.dgvRunners.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvRunners.Size = new System.Drawing.Size(966, 238);
+            this.dgvRunners.TabIndex = 12;
+            this.dgvRunners.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellDoubleClick);
+            // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Controls.Add(this.dgvRunners);
+            this.panel1.Controls.Add(this.dgvEvents);
+            this.panel1.Controls.Add(this.dgvMeetings);
+            this.panel1.Location = new System.Drawing.Point(12, 27);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(966, 592);
+            this.panel1.TabIndex = 13;
             // 
             // evtCheck
             // 
@@ -318,38 +376,13 @@ namespace ArbBetSystem
             this.evtSubDay.Text = "-";
             this.evtSubDay.Width = 54;
             // 
-            // dgvRunners
+            // evtMatched
             // 
-            this.dgvRunners.AllowUserToAddRows = false;
-            this.dgvRunners.AllowUserToDeleteRows = false;
-            this.dgvRunners.AllowUserToOrderColumns = true;
-            this.dgvRunners.AllowUserToResizeRows = false;
-            this.dgvRunners.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.dgvRunners.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvRunners.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvRunners.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.dgvRunners.Location = new System.Drawing.Point(0, 354);
-            this.dgvRunners.MultiSelect = false;
-            this.dgvRunners.Name = "dgvRunners";
-            this.dgvRunners.RowHeadersVisible = false;
-            this.dgvRunners.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            this.dgvRunners.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvRunners.Size = new System.Drawing.Size(966, 238);
-            this.dgvRunners.TabIndex = 12;
-            this.dgvRunners.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellDoubleClick);
-            // 
-            // panel1
-            // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.Controls.Add(this.dgvRunners);
-            this.panel1.Controls.Add(this.dgvEvents);
-            this.panel1.Controls.Add(this.dgvMeetings);
-            this.panel1.Location = new System.Drawing.Point(12, 27);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(966, 592);
-            this.panel1.TabIndex = 13;
+            this.evtMatched.DataPropertyName = "BFMatched";
+            this.evtMatched.HeaderText = "Matched";
+            this.evtMatched.Name = "evtMatched";
+            this.evtMatched.ReadOnly = true;
+            this.evtMatched.Width = 55;
             // 
             // MainForm
             // 
@@ -379,10 +412,10 @@ namespace ArbBetSystem
 
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem loginToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem changeCredentialsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem changeDOLoginToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dataToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem updateMeetingListToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem forceLoginToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem forceDOLoginToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem startToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem stopToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem meetingsToolStripMenuItem;
@@ -399,12 +432,16 @@ namespace ArbBetSystem
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem pickTimeZoneToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem capOddsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem changeBFLoginToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem forceBFLoginToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem matchUKVenuesToolStripMenuItem;
         private System.Windows.Forms.DataGridViewCheckBoxColumn evtCheck;
         private System.Windows.Forms.DataGridViewTextBoxColumn evtName;
         private System.Windows.Forms.DataGridViewTextBoxColumn evtStartTime;
         private System.Windows.Forms.DataGridViewButtonColumn evtAddDay;
         private System.Windows.Forms.DataGridViewButtonColumn evtSubDay;
-        private System.Windows.Forms.ToolStripMenuItem capOddsToolStripMenuItem;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn evtMatched;
     }
 }
 

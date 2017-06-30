@@ -26,8 +26,20 @@
     <Setting Name="BetFairPostEventCheck" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">1</Value>
     </Setting>
-    <Setting Name="BetFairUrl" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">http://stream-api.betfair.com:443/api</Value>
+    <Setting Name="BetFairApiUrl" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">https://api.betfair.com/exchange/betting/json-rpc/v1</Value>
+    </Setting>
+    <Setting Name="BetFairAppKey" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">0mdOdgf9qCNYfqyl</Value>
+    </Setting>
+    <Setting Name="BetFairCert" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">G:\\Users\\Stuff\\Documents\\Visual Studio 2015\\Projects\\ArbBetSystem\\client-2048.p12</Value>
+    </Setting>
+    <Setting Name="BetFairCertPass" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">arbbetsystem</Value>
+    </Setting>
+    <Setting Name="BetFairAuthUrl" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">https://identitysso.betfair.com</Value>
     </Setting>
   </Settings>
 </SettingsFile>

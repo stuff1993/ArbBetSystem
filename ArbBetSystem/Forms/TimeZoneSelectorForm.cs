@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace ArbBetSystem
+namespace ArbBetSystem.Forms
 {
     public partial class TimeZoneSelectorForm : Form
     {

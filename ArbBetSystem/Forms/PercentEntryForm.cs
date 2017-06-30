@@ -3,7 +3,7 @@ using System;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace ArbBetSystem
+namespace ArbBetSystem.Forms
 {
     public partial class PercentEntryForm : Form
     {

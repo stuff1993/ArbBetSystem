@@ -20,7 +20,7 @@ using ArbBetSystem.Json;
 
 namespace ArbBetSystem.Api
 {
-    class BetFair : HttpWebClientProtocol
+    class BetFair : HttpWebClientProtocol, IApi 
     {
         public NameValueCollection CustomHeaders { get; set; }
 
@@ -28,7 +28,7 @@ namespace ArbBetSystem.Api
         private const string DEFAULT_AUTH_BASEURL = "https://identitysso.betfair.com";
 
         private Creds creds;
-        private X509Certificate2 certFile;
+        private X509Certificate2 cert;
 
         public Creds LoginDetails
         {
@@ -38,17 +38,19 @@ namespace ArbBetSystem.Api
 
         public X509Certificate2 Certificate
         {
-            get { return certFile; }
-            set { certFile = value; }
+            get { return cert; }
+            set { cert = value; }
         }
         #endregion
 
         #region API
-        private static string DEFAULT_API_BASEURL = "https://api.betfair.com/exchange/betting/json-rpc/v1";
+        private const string DEFAULT_API_BASEURL = "https://api.betfair.com/exchange/betting/json-rpc/v1";
 
         public const string APPKEY_HEADER = "X-Application";
         public const string SESSION_TOKEN_HEADER = "X-Authentication";
         private static readonly string LIST_EVENT_TYPES_METHOD = "SportsAPING/v1.0/listEventTypes";
+        private static readonly string LIST_EVENTS_METHOD = "SportsAPING/v1.0/listEvents";
+        private static readonly string LIST_VENUES_METHOD = "SportsAPING/v1.0/listVenues";
         private static readonly string LIST_MARKET_TYPES_METHOD = "SportsAPING/v1.0/listMarketTypes";
         private static readonly string LIST_MARKET_CATALOGUE_METHOD = "SportsAPING/v1.0/listMarketCatalogue";
         private static readonly string LIST_MARKET_BOOK_METHOD = "SportsAPING/v1.0/listMarketBook";
@@ -104,45 +106,31 @@ namespace ArbBetSystem.Api
         #endregion
 
         #region Constructor
-        public BetFair(string appKey, Creds credentials, X509Certificate2 cert)
+        public BetFair(string appKey, X509Certificate2 cert, string apiUrl = DEFAULT_API_BASEURL, string authUrl = DEFAULT_AUTH_BASEURL)
         {
-            this.creds = credentials;
-            this.certFile = cert;
+            this.cert = cert;
             CustomHeaders = new NameValueCollection();
             CustomHeaders[APPKEY_HEADER] = appKey;
         }
         #endregion
 
-        #region Auth Public Methods
-        public LoginResponse doLogin()
+        #region ApiLogin Methods
+        public bool doLogin()
         {
-            return doLogin(this.LoginDetails.Username, this.LoginDetails.Password, this.Certificate);
-        }
-
-        public LoginResponse doLogin(string username, string password, string certFilename, string certPassword = "")
-        {
-            return doLogin(username, password, new X509Certificate2(certFilename, certPassword));
-        }
-
-        public LoginResponse doLogin(string username, string password, X509Certificate2 cert)
-        {
-            return doLogin(username, password, initHttpClientInstance(getWebRequestHandlerWithCert(cert)));
-        }
-        #endregion
-
-        #region Auth Private Methods
-        private LoginResponse doLogin(string username, string password, HttpClient client)
-        {
-            HttpResponseMessage result = client.PostAsync("/api/certlogin", getLoginBodyAsContent(username, password)).Result;
+            HttpResponseMessage result = initHttpClientInstance(getWebRequestHandlerWithCert(this.Certificate))
+                .PostAsync("/api/certlogin", getLoginBodyAsContent(this.LoginDetails.Username, this.LoginDetails.Password))
+                .Result;
             result.EnsureSuccessStatusCode();
             DataContractJsonSerializer jsonSerialiser = new DataContractJsonSerializer(typeof(LoginResponse));
             MemoryStream stream = new MemoryStream(result.Content.ReadAsByteArrayAsync().Result);
             LoginResponse resp = (LoginResponse)jsonSerialiser.ReadObject(stream);
             SessionId = resp.SessionToken;
             CustomHeaders[SESSION_TOKEN_HEADER] = SessionId;
-            return resp;
+            return this.SessionId != null;
         }
+        #endregion
 
+        #region Auth Private Methods
         private WebRequestHandler getWebRequestHandlerWithCert(X509Certificate2 cert)
         {
             WebRequestHandler clientHandler = new WebRequestHandler();
@@ -176,6 +164,20 @@ namespace ArbBetSystem.Api
             args[FILTER] = marketFilter;
             args[LOCALE] = locale;
             return Invoke<List<EventTypeResult>>(LIST_EVENT_TYPES_METHOD, args);
+        }
+
+        public IList<EventResult> listEvents(MarketFilter marketFilter, string locale = null) {
+            Dictionary<string, object> args = new Dictionary<string, object>();
+            args[FILTER] = marketFilter;
+            args[LOCALE] = locale;
+            return Invoke<List<EventResult>>(LIST_EVENTS_METHOD, args);
+        }
+
+        public IList<VenueResult> listVenues(MarketFilter marketFilter, string locale = null) {
+            Dictionary<string, object> args = new Dictionary<string, object>();
+            args[FILTER] = marketFilter;
+            args[LOCALE] = locale;
+            return Invoke<List<VenueResult>>(LIST_VENUES_METHOD, args);
         }
 
         public IList<MarketCatalogue> listMarketCatalogue(MarketFilter marketFilter, ISet<MarketProjection> marketProjections, MarketSort marketSort, string maxResult = "1", string locale = null)
@@ -221,40 +223,6 @@ namespace ArbBetSystem.Api
             return Invoke<PlaceExecutionReport>(PLACE_ORDERS_METHOD, args);
         }
 
-        public T Invoke<T>(string method, IDictionary<string, object> args = null)
-        {
-            if (method == null)
-                throw new ArgumentNullException("method");
-            if (method.Length == 0)
-                throw new ArgumentException(null, "method");
-
-            WebRequest request = CreateWebRequest(new Uri(DEFAULT_API_BASEURL));
-
-            using (Stream stream = request.GetRequestStream())
-            using (StreamWriter writer = new StreamWriter(stream, Encoding.UTF8))
-            {
-                JsonRequest call = new JsonRequest { Method = method, Id = 1, Params = args };
-                JsonConvert.Export(call, writer);
-            }
-            Console.WriteLine("\nCalling: " + method + " With args: " + JsonConvert.Serialize<IDictionary<string, object>>(args));
-
-            using (WebResponse response = GetWebResponse(request))
-            using (Stream stream = response.GetResponseStream())
-            using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
-            {
-                JsonResponse<T> jsonResponse = JsonConvert.Import<T>(reader);
-                // Console.WriteLine("\nGot Response: " + JsonConvert.Serialize<JsonResponse<T>>(jsonResponse));
-                if (jsonResponse.HasError)
-                {
-                    throw ReconstituteException(jsonResponse.Error);
-                }
-                else
-                {
-                    return jsonResponse.Result;
-                }
-            }
-        }
-
         public IList<MarketProfitAndLoss> listMarketProfitAndLoss(IList<string> marketIds, bool includeSettledBets = false, bool includeBspBets = false, bool netOfCommission = false)
         {
             Dictionary<string, object> args = new Dictionary<string, object>();
@@ -265,7 +233,7 @@ namespace ArbBetSystem.Api
             return Invoke<List<MarketProfitAndLoss>>(LIST_MARKET_PROFIT_AND_LOST_METHOD, args);
         }
 
-        public CurrentOrderSummaryReport listCurrentOrders(ISet<String> betIds, ISet<String> marketIds, OrderProjection? orderProjection = null, TimeRange placedDateRange = null, OrderBy? orderBy = null, SortDir? sortDir = null, int? fromRecord = null, int? recordCount = null)
+        public CurrentOrderSummaryReport listCurrentOrders(ISet<string> betIds, ISet<string> marketIds, OrderProjection? orderProjection = null, TimeRange placedDateRange = null, OrderBy? orderBy = null, SortDir? sortDir = null, int? fromRecord = null, int? recordCount = null)
         {
             Dictionary<string, object> args = new Dictionary<string, object>();
             args[BET_IDS] = betIds;
@@ -300,7 +268,6 @@ namespace ArbBetSystem.Api
             return Invoke<ClearedOrderSummaryReport>(LIST_CLEARED_ORDERS_METHOD, args);
         }
 
-
         public CancelExecutionReport cancelOrders(string marketId, IList<CancelInstruction> instructions, string customerRef)
         {
             Dictionary<string, object> args = new Dictionary<string, object>();
@@ -311,7 +278,7 @@ namespace ArbBetSystem.Api
             return Invoke<CancelExecutionReport>(CANCEL_ORDERS_METHOD, args);
         }
 
-        public ReplaceExecutionReport replaceOrders(String marketId, IList<ReplaceInstruction> instructions, String customerRef)
+        public ReplaceExecutionReport replaceOrders(string marketId, IList<ReplaceInstruction> instructions, string customerRef)
         {
             Dictionary<string, object> args = new Dictionary<string, object>();
             args[MARKET_ID] = marketId;
@@ -321,7 +288,7 @@ namespace ArbBetSystem.Api
             return Invoke<ReplaceExecutionReport>(REPLACE_ORDERS_METHOD, args);
         }
 
-        public UpdateExecutionReport updateOrders(String marketId, IList<UpdateInstruction> instructions, String customerRef)
+        public UpdateExecutionReport updateOrders(string marketId, IList<UpdateInstruction> instructions, string customerRef)
         {
             Dictionary<string, object> args = new Dictionary<string, object>();
             args[MARKET_ID] = marketId;
@@ -336,6 +303,42 @@ namespace ArbBetSystem.Api
             Dictionary<string, object> args = new Dictionary<string, object>();
             args[WALLET] = wallet;
             return Invoke<AccountFundsResponse>(GET_ACCOUNT_FUNDS_METHOD, args);
+        }
+
+        public T Invoke<T>(string method, IDictionary<string, object> args = null)
+        {
+            if (method == null)
+                throw new ArgumentNullException("method");
+            if (method.Length == 0)
+                throw new ArgumentException(null, "method");
+            if (args.ContainsKey(FILTER))
+                ((MarketFilter)args[FILTER]).MarketStartTime = new TimeRange() { To = DateTime.Now.AddDays(1), From = DateTime.Now.AddDays(-1) };
+
+            WebRequest request = CreateWebRequest(new Uri(DEFAULT_API_BASEURL));
+
+            using (Stream stream = request.GetRequestStream())
+            using (StreamWriter writer = new StreamWriter(stream, Encoding.UTF8))
+            {
+                JsonRequest call = new JsonRequest { Method = method, Id = 1, Params = args };
+                JsonConvert.Export(call, writer);
+            }
+            //Console.WriteLine("\nCalling: " + method + " With args: " + JsonConvert.Serialize<IDictionary<string, object>>(args));
+
+            using (WebResponse response = GetWebResponse(request))
+            using (Stream stream = response.GetResponseStream())
+            using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
+            {
+                JsonResponse<T> jsonResponse = JsonConvert.Import<T>(reader);
+                // Console.WriteLine("\nGot Response: " + JsonConvert.Serialize<JsonResponse<T>>(jsonResponse));
+                if (jsonResponse.HasError)
+                {
+                    throw ReconstituteException(jsonResponse.Error);
+                }
+                else
+                {
+                    return jsonResponse.Result;
+                }
+            }
         }
         #endregion
 

@@ -6,16 +6,29 @@ using System.Xml.Serialization;
 using log4net;
 using System.ComponentModel;
 
-namespace ArbBetSystem
+namespace ArbBetSystem.Api
 {
-    class DynamicOdds : IDisposable
+    class DynamicOdds : IApi, IDisposable
     {
         private static readonly ILog logger = LogManager.GetLogger(typeof(DynamicOdds));
 
         public enum ExoticTypes { QQ, EX };
 
-        private string _sessionId;
+        private Creds creds;
+        private string sessionId;
         private HttpClient _client = new HttpClient();
+
+        public Creds LoginDetails
+        {
+            get { return creds; }
+            set { creds = value; }
+        }
+
+        public string SessionId
+        {
+            get { return sessionId; }
+            set { sessionId = value; }
+        }
 
         // Query string static parameter names
         private static string PARAM_MEETINGID = "MeetingId";
@@ -37,25 +50,20 @@ namespace ArbBetSystem
             logger.Debug("Created with URL " + url);
         }
 
-        public DynamicOdds(HttpClient client)
+        public bool doLogin(string sessionId)
         {
-            _client = client;
-        }
-
-        public bool Login(string sessionId)
-        {
-            _sessionId = sessionId;
+            this.sessionId = sessionId;
             return true;
         }
 
-        public bool Login(Creds creds)
+        public bool doLogin()
         {
-            if (creds == null || creds.Username == null || creds.Password == null) { return false; }
+            if (this.LoginDetails == null || this.LoginDetails.Username == null || this.LoginDetails.Password == null) { return false; }
             DateTime start = DateTime.Now;
             logger.Debug("Login Request");
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post,
-                "/xml/data/Login.asp?UserName=" + creds.Username
-                + "&Password=" + creds.Password);
+                "/xml/data/Login.asp?UserName=" + this.LoginDetails.Username
+                + "&Password=" + this.LoginDetails.Password);
             HttpResponseMessage response = _client.SendAsync(request).Result;
 
             if (response.IsSuccessStatusCode)
@@ -64,15 +72,15 @@ namespace ArbBetSystem
                 doc.LoadXml(response.Content.ReadAsStringAsync().Result);
                 if (doc.DocumentElement.SelectSingleNode("/Login/SessionID").Equals(""))
                 {
-                    _sessionId = null;
+                    sessionId = null;
                     LogErrorAndThrowHttp("Login failed: " + doc.DocumentElement.SelectSingleNode("/Login/Message").InnerText);
                 }
-                _sessionId = doc.DocumentElement.SelectSingleNode("/Login/SessionID").InnerText;
+                sessionId = doc.DocumentElement.SelectSingleNode("/Login/SessionID").InnerText;
 
                 logger.Debug("Login Request Time: " + start.ToLongTimeString() + " Time Elapsed: " + (DateTime.Now - start).TotalSeconds);
                 return true;
             }
-            _sessionId = null;
+            sessionId = null;
             LogErrorAndThrowHttp("Login failed: Unsuccessful response");
             throw new Exception("???");
         }
@@ -105,10 +113,10 @@ namespace ArbBetSystem
             DateTime start = DateTime.Now;
             logger.Debug("GetMeetingsAll Request");
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post,
-                getDataRequest(_sessionId)
+                getDataRequest(sessionId)
                 + addQueryParam(PARAM_METHOD, "GetMeetingsAll")
                 + addQueryParam(PARAM_DATE, date.ToString("yyyy-M-d"))
-                + addQueryParam(PARAM_TYPES, Meeting.getMeetingTypesString(meetingType))
+                + addQueryParam(PARAM_TYPES, Meeting.getDOMeetingTypesString(meetingType))
                 + addQueryParam(PARAM_RUNNERS, runners.ToString().ToLower()));
             HttpResponseMessage response = _client.SendAsync(request).Result;
 
@@ -147,7 +155,7 @@ namespace ArbBetSystem
         {
             CheckSession();
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post,
-                getDataRequest(_sessionId)
+                getDataRequest(sessionId)
                 + addQueryParam(PARAM_METHOD, "GetMeetings")
                 + addQueryParam(PARAM_MEETINGID, meetingId)
                 + addQueryParam(PARAM_RUNNERS, runners.ToString().ToLower()));
@@ -160,7 +168,7 @@ namespace ArbBetSystem
         {
             CheckSession();
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post,
-                getDataRequest(_sessionId)
+                getDataRequest(sessionId)
                 + addQueryParam(PARAM_METHOD, "GetEvent")
                 + addQueryParam(PARAM_EVENTID, eventId)
                 + addQueryParam(PARAM_RUNNERS, runners.ToString().ToLower()));
@@ -173,10 +181,10 @@ namespace ArbBetSystem
         {
             CheckSession();
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post,
-                getDataRequest(_sessionId)
+                getDataRequest(sessionId)
                 + addQueryParam(PARAM_METHOD, "GetEventSchedule")
                 + addQueryParam(PARAM_DATE, date.ToString("yyyy-M-d"))
-                + addQueryParam(PARAM_TYPES, Meeting.getMeetingTypesString(meetingType))
+                + addQueryParam(PARAM_TYPES, Meeting.getDOMeetingTypesString(meetingType))
                 + addQueryParam(PARAM_LIMIT, limit.ToString()));
             HttpResponseMessage response = _client.SendAsync(request).Result;
 
@@ -187,10 +195,10 @@ namespace ArbBetSystem
         {
             CheckSession();
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post,
-                getDataRequest(_sessionId)
+                getDataRequest(sessionId)
                 + addQueryParam(PARAM_METHOD, "GetRunnersAll")
                 + addQueryParam(PARAM_DATE, date.ToString("yyyy-M-d"))
-                + addQueryParam(PARAM_TYPES, Meeting.getMeetingTypesString(meetingType))
+                + addQueryParam(PARAM_TYPES, Meeting.getDOMeetingTypesString(meetingType))
                 + addQueryParam(PARAM_SHOWALL, showAll.ToString().ToLower()));
             HttpResponseMessage response = _client.SendAsync(request).Result;
 
@@ -201,7 +209,7 @@ namespace ArbBetSystem
         {
             CheckSession();
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post,
-                getDataRequest(_sessionId)
+                getDataRequest(sessionId)
                 + addQueryParam(PARAM_METHOD, "GetRunnersMeeting")
                 + addQueryParam(PARAM_MEETINGID, meetingId)
                 + addQueryParam(PARAM_SHOWALL, showAll.ToString().ToLower()));
@@ -214,7 +222,7 @@ namespace ArbBetSystem
         {
             CheckSession();
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post,
-                getDataRequest(_sessionId)
+                getDataRequest(sessionId)
                 + addQueryParam(PARAM_METHOD, "GetRunnersEvent")
                 + addQueryParam(PARAM_EVENTID, eventId)
                 + addQueryParam(PARAM_SHOWALL, showAll.ToString().ToLower()));
@@ -229,7 +237,7 @@ namespace ArbBetSystem
             DateTime start = DateTime.Now;
             logger.Debug("GetRunnerOdds Request: " + eventId);
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post,
-                getDataRequest(_sessionId)
+                getDataRequest(sessionId)
                 + addQueryParam(PARAM_METHOD, "GetRunnerOdds")
                 + addQueryParam(PARAM_EVENTID, eventId));
             HttpResponseMessage response = _client.SendAsync(request).Result;
@@ -261,7 +269,7 @@ namespace ArbBetSystem
             DateTime start = DateTime.Now;
             logger.Debug("GetRunnerOdds Request: " + evt);
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post,
-                getDataRequest(_sessionId)
+                getDataRequest(sessionId)
                 + addQueryParam(PARAM_METHOD, "GetRunnerOdds")
                 + addQueryParam(PARAM_EVENTID, evt.ID));
             HttpResponseMessage response = _client.SendAsync(request).Result;
@@ -291,7 +299,7 @@ namespace ArbBetSystem
         {
             CheckSession();
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post,
-                getDataRequest(_sessionId)
+                getDataRequest(sessionId)
                 + addQueryParam(PARAM_METHOD, "GetEventResults")
                 + addQueryParam(PARAM_EVENTID, eventId));
             HttpResponseMessage response = _client.SendAsync(request).Result;
@@ -303,7 +311,7 @@ namespace ArbBetSystem
         {
             CheckSession();
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post,
-                getDataRequest(_sessionId)
+                getDataRequest(sessionId)
                 + addQueryParam(PARAM_METHOD, "GetExotics")
                 + addQueryParam(PARAM_EVENTID, eventId)
                 + addQueryParam(PARAM_EXOTICTYPE, exoticType.ToString()));
@@ -316,7 +324,7 @@ namespace ArbBetSystem
         {
             CheckSession();
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post,
-                getDataRequest(_sessionId)
+                getDataRequest(sessionId)
                 + addQueryParam(PARAM_METHOD, "GetBookmakerFlucs")
                 + addQueryParam(PARAM_EVENTID, eventId)
                 + addQueryParam(PARAM_BAID, baid));
@@ -329,7 +337,7 @@ namespace ArbBetSystem
         {
             CheckSession();
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post,
-                getDataRequest(_sessionId)
+                getDataRequest(sessionId)
                 + addQueryParam(PARAM_METHOD, "GetBettingAgencies"));
             HttpResponseMessage response = _client.SendAsync(request).Result;
 
@@ -338,7 +346,7 @@ namespace ArbBetSystem
 
         private void CheckSession()
         {
-            if (_sessionId == null)
+            if (sessionId == null)
             {
                 LogErrorAndThrowHttp("Not logged in");
             }
